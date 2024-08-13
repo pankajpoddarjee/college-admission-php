@@ -1,0 +1,12 @@
+# .htaccess file
+RewriteEngine On
+
+
+RewriteRule ^college/([a-zA-Z0-9_-]+)$ college.php?slug=$1 [L]
+
+RewriteRule ^college/([a-zA-Z0-9_-]+)/notice$ notice.php?slug=$1 [L]
+
+RewriteRule ^([a-zA-Z0-9_-]+)$ listing.php?slug=$1 [L]
+RewriteRule ^university/([a-zA-Z0-9_-]+)$ university.php?slug=$1 [L]
+RewriteRule ^notice/([a-zA-Z0-9_-]+)$ notice-detail.php?slug=$1 [L]
+#RewriteRule ^([^\.]+)$ $1.php [NC,L]

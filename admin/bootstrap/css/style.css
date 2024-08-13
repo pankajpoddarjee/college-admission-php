@@ -1,0 +1,18 @@
+html,body,form, select,label,input{font-size:13px !important; font-family:Poppins, Arial, Helvetica, sans-serif !important;}
+.headerBG{background:#0066cc; color:#fff}
+.btn{font-size:13px}
+.heads{background:#6c757d; padding:5px 8px; margin-bottom:12px; color:#fff}
+.input-group>.input-group-prepend {flex: 0 0 20%;}
+.input-group .input-group-text {width: 100%; font-family:Rubik}
+.form-group label {font-family: Viga !important; color: #033; font-size: 14px !important}
+option{font-family:Poppins, Arial, Helvetica, sans-serif !important}
+/*.subject_select_fixed_width{min-width:220px; max-width:100%}*/
+.subject_select_fixed_width{min-width:196px; max-width:100%}
+.marks_input_fixed_width{min-width:55px; max-width:100%}
+.IsLang_width{min-width:60px; max-width:100%}
+input:disabled,button:disabled,select:disabled {cursor:not-allowed;}
+#dvLoading {position: fixed; z-index: 1000; left: 45%; top: 50%; margin: -25px 0 0 -25px}
+.sub_head{font-family:Oswald; font-size:20px}
+.form-control-file{padding:7px 5px; border:1px solid rgba(204,204,204,0.5)}
+
+.select2-container {width:100% !important}

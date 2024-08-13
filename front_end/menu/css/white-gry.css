@@ -1,0 +1,85 @@
+/* Desktop Main Menu Color */
+
+.wsmenu {
+  background-color: rgba(0, 0, 0, 0.11);
+}
+
+.wsdownopener {
+  color: #444;
+}
+
+.wsmenu>.wsmenu-list {
+  background-color: #002d81;
+}
+
+.wsmenu>.wsmenu-list>li>a {
+  color: #fff;
+  border-right: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.wsmenu>.wsmenu-list>li>a .wsarrow:after {
+  border-top-color: #b3b3b3;
+}
+
+.wsmenu>.wsmenu-list>li>a:hover .wsarrow:after {
+  border-top-color: #333;
+}
+
+.wsmenu>.wsmenu-list>li>a.active .wsarrow:after {
+  border-top-color: #333;
+}
+
+.wsmenu>.wsmenu-list>li:hover>a .wsarrow:after {
+  border-top-color: #333;
+}
+
+.wsmenu>.wsmenu-list>li>a>i {
+  color: #ffffff;
+}
+
+.wsmenu>.wsmenu-list>li>a.active i {
+  color: #ffffff;
+}
+
+.wsmenu>.wsmenu-list>li:hover>a>i {
+  color: #424242;
+}
+
+.wsmenu>.wsmenu-list>li>a:hover i {
+  color: #424242;
+}
+
+.wsmenu>.wsmenu-list>li>.wsmegamenu .menu_form input[type="submit"] {
+  background-color: rgba(233, 3, 3, 0.11);
+  color: #424242;
+}
+
+.wsmenu>.wsmenu-list>li>.wsmegamenu .menu_form input[type="button"] {
+  background-color: rgba(0, 0, 0, 0.11);
+  color: #424242;
+}
+
+.wsmenu>.wsmenu-list>li>a.active {
+  background-color: #5e6e04;
+  color: #333;
+}
+
+.wsmenu>.wsmenu-list>li:hover>a {
+  background-color: rgb(94, 110, 4);
+  color: rgb(227, 252, 0);
+}
+
+.wsmenu>.wsmenu-list>li>ul.sub-menu>li:hover>a {
+  background-color: rgba(0, 0, 0, 0.11);
+  color: #333;
+}
+
+.wsmenu>.wsmenu-list>li>ul.sub-menu>li>ul.sub-menu>li:hover>a {
+  background-color: rgba(0, 0, 0, 0.11);
+  color: #333;
+}
+
+.wsmenu>.wsmenu-list>li>ul.sub-menu>li>ul.sub-menu>li>ul.sub-menu>li:hover a {
+  background-color: rgba(0, 0, 0, 0.11);
+  color: #333;
+}

@@ -1,0 +1,1 @@
+<?php $collegeID=7;?>
