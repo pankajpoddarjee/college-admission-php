@@ -2,28 +2,33 @@
 <?php //include("modal.php");?>
 <link href="<?php echo GOOGLE_FONT_1;?>" rel="stylesheet">
 <link href="<?php echo FONT_AWESOME_CSS;?>" rel="stylesheet">
+<script src="<?php echo BASE_URL;?>/bootstrap/js/popper.min.js"></script>
+<script type="text/javascript" src="<?php echo BASE_URL;?>/bootstrap/js/bootstrap.min.js"></script>
 <link href="<?php echo BASE_URL;?>/bootstrap/css/font-awesome-animation.min.css" rel="stylesheet">
 <link href="<?php echo BASE_URL;?>/bootstrap/css/table_style.css" rel="stylesheet">
-<!--<link href="<?php echo BASE_URL;?>/bootstrap/css/multi_select.css" rel="stylesheet">-->
 <script src="<?php echo BASE_URL;?>/bootstrap/js/table_filter.js"></script>
-<!--<script src="<?php echo BASE_URL;?>/bootstrap/js/popper.min.js"></script>-->
-<script type="text/javascript" src="<?php echo BASE_URL;?>/bootstrap/js/bootstrap.min.js"></script>
-<script src="https://kit.fontawesome.com/3b1cd5c4d8.js" crossorigin="anonymous"></script>
-<!--<script>
-$(function () {
-$('[data-toggle="popover"]').popover()
-});
-</script>
-<script>
-$(function () {
-$('[data-toggle="tooltip"]').tooltip()
-});
-</script>-->
 
-<!--<script src="<?php echo BASE_URL;?>/bootstrap/js/multi_select.js"></script>-->
+<script src="https://kit.fontawesome.com/3b1cd5c4d8.js" crossorigin="anonymous"></script>
+
+<link href="<?php echo BASE_URL;?>/bootstrap/toast/toastr.min.css" rel="stylesheet"/>
+<script src="<?php echo BASE_URL;?>/bootstrap/toast/toastr.min.js"></script>
+<?php include("report_problem.php");?>
 <script src="<?php echo BASE_URL;?>/bootstrap/js/scrollreveal.min.js"></script>
+
+<script>
+const dropdownElementList = document.querySelectorAll('.dropdown-toggle')
+const dropdownList = [...dropdownElementList].map(dropdownToggleEl => new bootstrap.Dropdown(dropdownToggleEl))
+</script>
+
 <script>
 window.sr = ScrollReveal();		
+sr.reveal('.social_icon_anime', {
+		duration: 5000,
+		origin: 'bottom',
+		distance: '2000px',
+		rotate: { x: 50, y: 0, z: 0 },
+		mobile: true
+	});
 	sr.reveal('.info1', {
 		duration: 1600,
 		origin: 'top',
@@ -50,7 +55,7 @@ window.sr = ScrollReveal();
 		rotate: { x: 50, y: 0, z: 0 },
 		mobile: true
 	});	
+	sr.reveal('.share_icon_steps', {reset: true, mobile: false}, 150);
 	sr.reveal('.steps_follow_animation', {reset: true, mobile: false}, 40);
 	sr.reveal('.steps_follow_animation2', {reset: true, mobile: false}, 30);
 </script>
-<!--<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-586f910fa7155e0d"></script>-->

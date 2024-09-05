@@ -1,8 +1,9 @@
 <?php
 
-include("../../connection.php");
-include("../../configuration.php");
-session_start();
+include_once("../session.php");
+include_once("../connection.php");
+include_once("../configuration.php");
+//session_start();
 
 
 
@@ -39,12 +40,12 @@ $updated_at   		= date("Y-m-d H:i:s");
 $updated_by   		= isset($_SESSION['userid'])?$_SESSION['userid']:"";
 
 	$user_id = isset($_SESSION['userid'])?$_SESSION['userid']:"";
-	$userQuery = $dbConn->prepare("select * from users WHERE id=$user_id");
+	$userQuery = $dbConn->prepare("select * from users_admin WHERE id=$user_id");
 	$userQuery->execute();
 	$userRecord = $userQuery->fetch(PDO::FETCH_ASSOC);
 	$dbPassword = $userRecord['password']; 
 
-	if($dbPassword  != $old_password){
+	if($dbPassword  != md5($old_password)){
 		$statusarr["status"]=0;
 		$statusarr["msg"]="Your Old password is incorrect.";
 		echo json_encode($statusarr); 
@@ -57,8 +58,8 @@ $updated_by   		= isset($_SESSION['userid'])?$_SESSION['userid']:"";
 		return;
 	}
 
-	
-	$updateQuery = "UPDATE users SET password = '$password',updated_at = '$updated_at  ', updated_by = '$updated_by' WHERE id = $user_id";
+	$update_password = md5($password);
+	$updateQuery = "UPDATE users_admin SET password = '$update_password',updated_at = '$updated_at  ', updated_by = '$updated_by' WHERE id = $user_id";
 	
 	$result =$dbConn->query($updateQuery); 
 	$dbConn= NULL;

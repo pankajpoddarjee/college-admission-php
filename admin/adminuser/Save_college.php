@@ -86,7 +86,7 @@ $record_id = sanitize_string($_POST["record_id"]);
 
 $banner_img = "";
 $logo_img = "";
-$college_name = sanitize_string($_POST["college_name"]);
+$college_name = $_POST["college_name"];
 $short_name = sanitize_string($_POST["short_name"]);
 $college_code = sanitize_string($_POST["college_code"]);
 $other_name = sanitize_string($_POST["other_name"]);
@@ -94,7 +94,7 @@ $eshtablish = sanitize_string($_POST["eshtablish"]);
 $college_type_id = sanitize_string($_POST["college_type_id"]);
 $undertaking_id = sanitize_string($_POST["undertaking_id"]);
 $university_id = sanitize_string($_POST["university_id"]);
-$accreditation = sanitize_string($_POST["accreditation"]);
+$accreditation = $_POST["accreditation"];
 $address = sanitize_string($_POST["address"]);
 $landmark = sanitize_string($_POST["landmark"]);
 $country_id = sanitize_string($_POST["country_id"]);

@@ -44,10 +44,10 @@
             <td class="TD1">Country</td>
             <td class="TD2"><?php echo $record['country_name'];?></td>
         </tr>
-        <tr>
+        <!-- <tr>
             <td class="TD1">Course Type</td>
             <td class="TD2"><?php //echo $courseName;?> (<?php //echo $courseCode;?>)</td>
-        </tr>
+        </tr> -->
         <tr>
             <td class="TD1">Affiliation</td>
             <td class="TD2"><?php echo $record['university_name'];?></td>

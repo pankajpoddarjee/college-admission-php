@@ -76,12 +76,35 @@ $subjectRecords = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 if(count($records)>0){
                                 $i=1;
                                 foreach ($records as $row) {
+                                $course_complete_status_class = "text-danger";
+                                $course_complete_status = "Pending";
+                                if(!empty($row['course_complete_status']) && $row['course_complete_status'] ==1 ){
+                                    $course_complete_status_class = "text-success";
+                                    $course_complete_status = "Assigned";
+                                }
+                                if(!empty($row['course_complete_status']) && $row['course_complete_status'] ==2 ){
+                                    $course_complete_status_class = "text-danger";
+                                    $course_complete_status = "Pending";
+                                }
+                                if(!empty($row['course_complete_status']) && $row['course_complete_status'] ==3 ){
+                                    $course_complete_status_class = "text-warning";
+                                    $course_complete_status = "Partially Assigned";
+                                }
+
                                 ?>
                                         <td class="align-middle text-center"><?php echo $i; ?></td>
                                         <td class="align-middle text-left"><?php echo $row['college_name'];?></td>
-                                        <td class="align-middle text-center text-nowrap" style="font-family:Rubik">                                        	
-                                            <span class="text-success"><i class="fa-regular fa-circle-check"></i> Assigned</span>
-                                            <span class="text-warning"><i class="fa-solid fa-triangle-exclamation"></i> Pending</span>
+                                        <td class="align-middle text-center text-nowrap" style="font-family:Rubik" id="td_course_complete_status<?php echo $row['id'] ?>">  
+                                            <?php if($course_complete_status =='Assigned' ){ ?>
+                                            <span class="text-success"><i class="fa-regular fa-circle-check"></i> <?php echo $course_complete_status; ?></span>
+                                            <?php } ?>
+                                            <?php if($course_complete_status =='Pending' ){ ?>
+                                            <span class="text-danger"><i class="fa-solid fa-triangle-exclamation"></i> <?php echo $course_complete_status; ?></span>
+                                            <?php } ?>
+                                            <?php if($course_complete_status =='Partially Assigned' ){ ?>
+                                            <span class="text-warning"><i class="fa-solid fa-triangle-exclamation"></i> <?php echo $course_complete_status; ?></span>
+                                            <?php } ?>
+
                                         </td>
                                         <td class="align-middle text-center text-nowrap">                                            
                                             <a eid="<?php echo $row['id']; ?>" cname="<?php echo $row['college_name'];?>" class="btn btn-dark btn-sm get-record" href="javascript:void(0)" data-toggle="tooltip" data-placement="top" title="Assign Courses" onclick="getCourseDetail('<?php echo $row['id']; ?>','<?php echo $row['college_name'];?>')"><i class="fa fa-pencil-square-o"></i>
@@ -137,7 +160,7 @@ $subjectRecords = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                                     <div class="col-md-4 mb-3">
                                         <div class="form-group">
-                                            <label for="stream_id">Stream <span class="text-danger">[Selected Course Type Value]</span></label>                                            
+                                            <label for="stream_id">Stream <span class="text-danger" id="selected-course_type_name">[Selected Course Type Value]</span></label>                                            
                                             <select id="stream_id" name="stream_id" class="form-control" onchange="convertToTags();">
                                                 <option value="">Select</option>
                                               
@@ -147,13 +170,29 @@ $subjectRecords = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     
                                     <div class="col-md-4 mb-3">
                                         <div class="form-group">
-                                            <label for="subject_id">Subjcts Offered <span class="text-danger">[Selected Stream Value]</span></label>                                            
+                                            <label for="subject_id">Subjcts Offered 
+                                                <!-- <span class="text-danger">[Selected Stream Value]</span> -->
+                                            </label>                                            
                                             <select id="subject_id" name="subject_id[]" class="form-control" multiple onchange="convertToTags();">
                                                 <?php if($subjectRecords){
                                                     foreach ($subjectRecords as $value) {
                                                 ?>
                                                  <option value="<?php echo $value['id'] ?>"><?php echo $value['subject_name'] ?></option>    
                                                 <?php } } ?>  
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" id="tag-div">
+                                    <div class="col-md-4 mb-3">
+                                        <div class="form-group">
+                                            <label for="course_complete_status">Complete Status</label>
+                                            <select id="course_complete_status" name="course_complete_status" class="form-control" >
+                                                <option value="">Select</option>
+                                                <option value="1">Assigned</option>
+                                                <option value="2">Pending</option>
+                                                <option value="3">Partially Assigned</option>
                                             </select>
                                         </div>
                                     </div>

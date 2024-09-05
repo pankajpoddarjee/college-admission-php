@@ -3,7 +3,14 @@
 .text-gray-400{color:#d1d3e2!important}
 .no-BG:focus{background:inherit}
 </style>
+<?php
+$reportBugRecords = [];
+$strsql="select * from report_problem where is_read=0 order by status desc, created_at desc";
+$stmt = $dbConn->prepare($strsql);
+$stmt->execute();
+$reportBugRecords = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+?>
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark p-2 mb-3 d-print-none">
     <div class="container-fluid">
         <button type="button" id="sidebarCollapse" class="btn btn-secondary">
@@ -13,7 +20,41 @@
         <button class="btn btn-secondary d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <i class="fa fa-user"></i>
         </button>
-        
+        <!-- Open Report Problem Notification -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="nav navbar-nav ml-auto">  
+                  	
+                <li class="nav-item dropdown no-arrow">
+                  
+                    <a class="nav-link dropdown-toggle no-BG" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <span class="badge badge-danger"><?php echo count($reportBugRecords); ?></span>
+                        <span class="d-none d-lg-inline text-white"><i class="fa-solid fa-bug mr-2" aria-hidden="true"></i></span>
+                    </a>
+                    <!-- Dropdown - User Information -->
+                    <div id="navbarSupportedContent" class="dropdown-menu dropdown-menu-right shadow" aria-labelledby="userDropdown">
+                      <?php  if(count($reportBugRecords)>0){  ?>  
+                        <a href="javascript:void(0)" onclick="updateAllReadStatus()">Mark All As Read</a>
+                        <?php foreach ($reportBugRecords as $row) {  ?>
+						            <a class="dropdown-item" href="javascript:void(0)" onclick="updateReadStatus('<?php echo $row['id']; ?>')">
+                            <i class="fa fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                            <?php echo $row['name'];?> &nbsp; 
+                            <span class="badge badge-success"><?php echo timeAgo($row['created_at']);?></span>
+                            
+                        </a>
+                        <?php } ?>
+                       
+                      
+                    </div>
+                    <?php } else{ ?>
+                        <a class="nav-item dropdown no-arrow">
+                          No record found
+                    </a>
+                    <?php } ?>
+                </li>
+              
+            </ul>            
+        </div>
+        <!-- Close Report Problem Notification -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="nav navbar-nav ml-auto">            	
                 <li class="nav-item dropdown no-arrow">
@@ -80,3 +121,57 @@
     </div>
   </div>
 </div>
+
+<script>
+
+
+ function updateReadStatus(bug_id) {
+    $('#dvLoading').show();
+    $.ajax({
+      type: "get",
+      async: false,
+      url: "Save_report_problem.php?bug_id=" + bug_id,
+      dataType: "json",
+        success: function(data) {
+            // alert(JSON.stringify(data))
+            if (data.status == 1) {
+                //alert(data.msg);
+                $('#dvLoading').hide();
+                toastr.success(data.msg);
+                var redirect_url = "<?php echo BASE_URL_ADMIN ?>/adminuser/report_problem.php"
+                window.location.href = redirect_url;
+            } else {
+                $('#dvLoading').hide();
+                toastr.error(data.msg);
+                //alert(data.msg);
+                return false;
+            }
+        }
+    });
+}
+function updateAllReadStatus() {
+    $('#dvLoading').show();
+    var param = "all";
+    $.ajax({
+      type: "get",
+      async: false,
+      url: "Save_report_problem.php?update_all_bug_id=" + param,
+      dataType: "json",
+        success: function(data) {
+            // alert(JSON.stringify(data))
+            if (data.status == 1) {
+                //alert(data.msg);
+                $('#dvLoading').hide();
+                toastr.success(data.msg);
+                var redirect_url = "<?php echo BASE_URL_ADMIN ?>/adminuser/report_problem.php"
+                window.location.href = redirect_url;
+            } else {
+                $('#dvLoading').hide();
+                toastr.error(data.msg);
+                //alert(data.msg);
+                return false;
+            }
+        }
+    });
+}
+</script>

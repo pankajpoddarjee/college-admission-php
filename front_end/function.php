@@ -70,4 +70,21 @@ function getCountryNameById($country_id){
     $records = $stmt->fetch(PDO::FETCH_ASSOC);
     return $country_name = !empty($records['country_name'])?$records['country_name']:"";      
 }
+
+function getSubjectNameById($subject_id){
+    $records = [];
+    $subjectArr = [];
+    global $dbConn;
+    $sql = "select subject_name from subjects WHERE id IN ($subject_id)";
+    $stmt = $dbConn->prepare($sql);
+    //$stmt->bindParam(":id", $subject_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if(count($records)>0){
+        foreach ($records as  $value) {
+            $subjectArr[] =  $value['subject_name'];
+        }
+    }
+    return $subject_name = (count($subjectArr)>0)?implode(", ",$subjectArr):"N/A";     
+}
 ?>

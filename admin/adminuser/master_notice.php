@@ -9,7 +9,6 @@ include_once("../connection.php");
 include_once("../configuration.php");
 
 
-
 //GET ALL UNIVERSITY
 $universityRecords = [];
 $activeStatus = 1;
@@ -38,7 +37,7 @@ $examRecords = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 //GET ALL NOTICE
 $records = [];
-$strsql="select * from notices  order by created_at desc";
+$strsql="select * from notices  order by notice_date desc, id desc";
 $stmt = $dbConn->prepare($strsql);
 $stmt->execute();
 $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -59,6 +58,7 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php include("../header.php");?>
         <?php include("headermenu_top.php");?>
             <input type="hidden" value="<?php echo BASE_URL ?>" id="base_url">
+            <input type="hidden" value="<?php echo BASE_URL_UPLOADS ?>" id="base_url_upload">
         	<div class="pl-3 pr-3 pt-0">
                 <div class="row">
                     <div class="col-md-12 mb-2">
@@ -82,7 +82,10 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <thead class="bg-light text-center font-weight-bold">
                                     <tr>
                                         <td class="align-middle">Srl</td>
+                                        <td class="align-middle">Notice For</td>
+                                        <td class="align-middle">Notice Date</td>
                                         <td class="align-middle">Notice Title</td>
+                                        <td class="align-middle">Published For</td>
                                         <td class="align-middle">Status</td>
                                         <td class="align-middle">Action</td>
                                     </tr>
@@ -92,27 +95,56 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     if(count($records)>0){
                                     $i=1;
                                     foreach ($records as $row) {
-                                        // $uniqueSlug = generateSlug($row['college_name']);
-                                        // $slug = "college/".$uniqueSlug;
-                                        // if(!empty($row['short_name']) && $row['short_name']!="" && isset($row['short_name'])){
-                                        //     $slug= $slug."-".generateSlug($row['short_name']);
-                                        // }
-                                        // // if(!empty($city_name) && $city_name!=""){
-                                        // //     $slug= $slug."-".generateSlug($city_name);
-                                        // // }
-                                        // $slug= $slug."-".$row['id'];
 
-                                        // //$slug = "college/".$row['college_name'];
-                                        // $id = $row['id'];
-                                        // $sql = "UPDATE colleges SET slug = :slug WHERE id = :id";
-                                        // $stmt = $dbConn->prepare($sql);
-                                        // $stmt->bindParam(":slug", $slug, PDO::PARAM_STR);
-                                        // $stmt->bindParam(":id", $id, PDO::PARAM_INT);
-                                        // $stmt->execute();
+                                        $custom_link = "";
+                                        $target = "";
+                                        if($row['notice_type'] == 'page'){
+                                            $custom_link = BASE_URL."/".$row['slug'];
+                                            $target = "_self";
+                                        }
+                                        if($row['notice_type'] == 'url'){
+                                            $custom_link = $row['url_link']; 
+                                            $target = "_blank";
+                                        }
+
+                                        $notice_for = '';
+                                        $name = '';
+
+                                        switch ($row['notice_for']) {
+                                            case '1':
+                                                $name = getCollegeNameById($row['college_id']);
+                                                $notice_for = "College";
+                                                break;
+                                            
+                                            case '2':
+                                                $name = getUniversityNameById($row['university_id']);
+                                                $notice_for = "University";
+                                                break;
+                                            
+                                            case '3':
+                                                $notice_for = "Exam";
+                                                break;
+                                            
+                                            default:
+                                                $notice_for = "NA";
+                                                break;
+                                        }
+                                        
+
+                                        $publishDate = date('d M Y', strtotime($row['notice_date']));
+
                                     ?>
                                     <tr>
                                         <td class="align-middle text-center"><?php echo $i; ?></td>
-                                        <td class="align-middle text-left"><?php echo $row['notice_title'];?></td>
+                                        <td class="align-middle text-left"><?php echo $notice_for;?></td>
+                                        <td class="align-middle text-left"><?php echo $publishDate;?></td>
+                                        <td class="align-middle text-left">
+                                            <?php echo $row['notice_title'];?>
+                                            <?php if($row['is_new']==1){ ?>
+                                                <span class="new_tag badge badge-danger fa-fade">New</span>
+                                            <?php } ?>
+                                        </td>
+                                        <td class="align-middle text-left"><?php echo $name;?></td>
                                         <td class="align-middle text-center text-nowrap" style="font-family:Rubik">
                                         	<?php if($row['is_active'] == 1){ ?>
                                             <span class="text-success"><i class="fa-regular fa-circle-check"></i> Active</span>
@@ -121,13 +153,17 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             <?php } ?>
                                         </td>
                                         <td class="align-middle text-center text-nowrap">
+                                            <a class="btn btn-info btn-sm" href="<?php echo $custom_link?>" target="_blank" data-toggle="tooltip" data-placement="top" title="Notice Link">
+                                                <i class="fa-solid fa-up-right-from-square"></i>
+                                            </a>
+                                        
                                             <?php if($row['is_active'] == 1){ ?>
                                             <a status="<?php echo $row['is_active']; ?>" rid="
-                                            <?php echo $row['id']; ?>" class="btn btn-success btn-sm status-change" href="javascript:void(0)" data-toggle="tooltip" data-placement="top" title="Record is Active."><i class="fa fa-check-square-o"></i>
+                                            <?php echo $row['id']; ?>" class="btn btn-success btn-sm status-change" href="javascript:void(0)" data-toggle="tooltip" data-placement="top" title="Record is Active"><i class="fa fa-check-square-o"></i>
                                             </a>
                                             <?php } else{ ?>
                                             <a status="<?php echo $row['is_active']; ?>" rid="
-                                            <?php echo $row['id']; ?>" class="btn btn-warning btn-sm status-change" href="javascript:void(0)" data-toggle="tooltip" data-placement="top" title="Record is Inacctive."><i class="fa fa-exclamation-triangle"></i>
+                                            <?php echo $row['id']; ?>" class="btn btn-warning btn-sm status-change" href="javascript:void(0)" data-toggle="tooltip" data-placement="top" title="Record is Inacctive"><i class="fa fa-exclamation-triangle"></i>
                                             </a>
                                             <?php } ?>
                                             
@@ -170,6 +206,26 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                                 <option value="2">University</option>
                                                 <option value="3">Exam</option>
                                                 
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <div class="form-group">
+                                            <label for="is_meritlist">Is Meritlist</label>                                            
+                                            <select id="is_meritlist" name="is_meritlist" class="form-control" >
+                                                <option value="">Select</option>
+                                                <option value="1">Yes</option>
+                                                <option value="0">No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <div class="form-group">
+                                            <label for="notice_type">Notice Type</label>                                            
+                                            <select id="notice_type" name="notice_type" class="form-control" onchange="showHideAsPerNoticeType()">
+                                                <option value="">Select</option>
+                                                <option value="page">Page</option>
+                                                <option value="url">External URL</option>
                                             </select>
                                         </div>
                                     </div>
@@ -224,7 +280,23 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             </select>
                                         </div>
                                     </div>
-                                    
+
+                                    <div class="col-md-4 mb-3" id="notice_url_div" style="display:none">
+                                        <div class="form-group">
+                                            <label for="url_link">Notice URL</label>
+                                            <input type="text" class="form-control" id="url_link" name="url_link"  >
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 mb-3" id="notice_page_div" style="display:none">
+                                        <div class="form-group">
+                                            <label for="page_link">Notice Page</label>
+                                            <input type="file" accept=".html, .htm" class="form-control-file rounded" id="page_link" name="page_link">
+                                            <a id="page_link_path" target="_blank" style="display:none">View</a>
+                                            <a id="page_link_path_download" target="_blank" style="display:none">Download</a>
+                                        </div>
+                                    </div>
+
                                     <div class="col-md-4 mb-3">
                                         <div class="form-group">
                                             <label for="notice_date">Notice Date</label>
@@ -232,7 +304,7 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4 mb-3">
+                                    <div class="col-md-4 mb-3"  >
                                         <div class="form-group">
                                             <label for="folder_name">URL Slug</label>
                                             <input type="text" class="form-control" id="slug" name="slug" placeholder="slug" autocomplete="off" >
@@ -249,21 +321,24 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-4 mb-3">
+
+                                    <div class="col-md-12 mb-3">
                                         <div class="form-group">
                                             <label for="description">Description</label>                                            
                                             <textarea name="description" id="description" class="form-control"></textarea>
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="col-md-12 mb-3">
                                     <div class="form-group">
                                         <label for="tags">Tags</label>
-                                        <input type="text" class="form-control" id="tags" name="tags" value="" data-role="tagsinput" autocomplete="off" >
-                                        <a href="javascript:void(0)"  onclick="clearTag()">Clear</a>
+                                        <input type="text" class="form-control" id="tags" name="tags" value="" data-role="tagsinput" autocomplete="off">
+                                        <a class="btn btn-outline-danger btn-sm mt-2 float-right" href="javascript:void(0)" onclick="clearTag()"><i class="fa-regular fa-circle-xmark"></i> Clear Tags</a>
                                     </div>
                                 </div>
-                            
+
+                                <div class="clearfix"></div>
 
                                 <div class="row">
                                     <div class="col-md-12 text-center">

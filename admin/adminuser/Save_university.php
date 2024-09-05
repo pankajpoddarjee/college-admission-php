@@ -86,15 +86,11 @@ $record_id = sanitize_string($_POST["record_id"]);
 
 $banner_img = "";
 $logo_img = "";
-$university_name = sanitize_string($_POST["university_name"]);
+$university_name = $_POST["university_name"];
 $short_name = sanitize_string($_POST["short_name"]);
-$college_code = sanitize_string($_POST["college_code"]);
 $other_name = sanitize_string($_POST["other_name"]);
-$eshtablish = sanitize_string($_POST["eshtablish"]);
-$college_type_id = sanitize_string($_POST["college_type_id"]);
-$undertaking_id = sanitize_string($_POST["undertaking_id"]);
-$university_id = sanitize_string($_POST["university_id"]);
-$accreditation = sanitize_string($_POST["accreditation"]);
+$discription = sanitize_string($_POST["discription"]);
+$university_type_id = sanitize_string($_POST["university_type_id"]);
 $address = sanitize_string($_POST["address"]);
 $landmark = sanitize_string($_POST["landmark"]);
 $country_id = sanitize_string($_POST["country_id"]);
@@ -106,21 +102,30 @@ $email2 = sanitize_string($_POST["email2"]);
 $phone = sanitize_string($_POST["phone"]);
 $website_url = sanitize_string($_POST["website_url"]);
 $website_display = sanitize_string($_POST["website_display"]);
-$folder_name = sanitize_string($_POST["folder_name"]);
-$file_name = sanitize_string($_POST["file_name"]);
+$tags = sanitize_string($_POST["tags"]);
+$slug = sanitize_string($_POST["slug"]);
+//$slug = "college/".$slug;
 
-
-$course_type_id = implode(",",$_POST["course_type_id"]);
-
-
-
-$course_id = implode(",",$_POST["course_id"]);
-
+$city_name = "";
+if(!empty($city_id)){
+    $sql = "select city_name from cities WHERE id=:city_id";
+    $stmt = $dbConn->prepare($sql);
+    $stmt->bindParam(":city_id", $city_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $qryresult = $stmt->fetch(PDO::FETCH_ASSOC);
+    if($qryresult){
+        $city_name = $qryresult['city_name'];
+    }
+}
 
 $created_at = date("Y-m-d H:i:s");
 $created_by = isset($_SESSION["userid"]) ? $_SESSION["userid"] : "";
 $updated_at = date("Y-m-d H:i:s");
 $updated_by = isset($_SESSION["userid"]) ? $_SESSION["userid"] : "";
+
+
+
+//print_r($_FILES);
 
 if ($action == "edit" && !empty($record_id) && isset($record_id)) {
     $existQuery = $dbConn->prepare(
@@ -153,18 +158,23 @@ if ($action == "edit" && !empty($record_id) && isset($record_id)) {
             $errors = validateBannerImage($_FILES['banner_img']);
 
             if (empty($errors)) {
+                $slugWithCollege = $slug;
+                $slugWithoutCollege = str_replace("college/", "", $slugWithCollege);
+
 				$ext = pathinfo($_FILES['banner_img']['name'], PATHINFO_EXTENSION);
-                $uniqueSlug = generateSlug($university_name);
+                //$uniqueSlug = generateSlug($university_name);
                 $tmpFilePath = $_FILES['banner_img']['tmp_name'];
-                $banner_file_name = $uniqueSlug."-".$record_id.'.'.$ext;
-                $newFilePath = "../../uploads/college/banner_image/" .$banner_file_name;
+                $banner_file_name = $slugWithoutCollege.'.'.$ext;
+                $newFilePath = "../../uploads/university/banner_image/" .$banner_file_name;
+
+                if($collegeRec && !empty($collegeRec['banner_img']) && isset($collegeRec['banner_img']) && $collegeRec['banner_img'] !=''){
+                    if (file_exists("../../uploads/university/banner_image/".$collegeRec['banner_img'])) {
+                        unlink("../../uploads/university/banner_image/".$collegeRec['banner_img']);
+                    }
+                }
                 if(move_uploaded_file($tmpFilePath, $newFilePath)) {
                     $banner_img = $banner_file_name;
-                    if($collegeRec && !empty($collegeRec['banner_img']) && isset($collegeRec['banner_img']) && $collegeRec['banner_img'] !=''){
-                        if (file_exists("../../uploads/college/banner_image/".$collegeRec['banner_img'])) {
-                            unlink("../../uploads/college/banner_image/".$collegeRec['banner_img']);
-                        }
-                    }
+                    
                 }  
             } else {
 
@@ -180,17 +190,25 @@ if ($action == "edit" && !empty($record_id) && isset($record_id)) {
         if(isset($_FILES['logo_img']['name']) && !empty($_FILES['logo_img']['name'])){
             $errors = validateLogoImage($_FILES['logo_img']);
             if (empty($errors)) {
+
+                $slugWithCollege = $slug;
+                $slugWithoutCollege = str_replace("college/", "", $slugWithCollege);
+
 				$ext = pathinfo($_FILES['logo_img']['name'], PATHINFO_EXTENSION);
-                $uniqueSlug = generateSlug($university_name);
+                //echo "oankaj".$ext;
+                //$uniqueSlug = generateSlug($university_name);
                 $tmpFilePath = $_FILES['logo_img']['tmp_name'];
-                $logo_file_name = $uniqueSlug."-".$record_id.'-logo.'.$ext;
-                $newFilePath = "../../uploads/college/logo_image/" .$logo_file_name;
+                $logo_file_name = $slugWithoutCollege.'-logo.'.$ext;
+               // echo $logo_file_name;
+                $newFilePath = "../../uploads/university/logo_image/" .$logo_file_name;
+
+                if(!empty($collegeRec['logo_img']) && isset($collegeRec['logo_img']) && $collegeRec['logo_img'] !=''){
+                    if (file_exists("../../uploads/university/logo_image/". $collegeRec['logo_img'])) {unlink("../../uploads/university/logo_image/". $collegeRec['logo_img']);}
+                }
                 if(move_uploaded_file($tmpFilePath, $newFilePath)) {
                 $logo_img = $logo_file_name;
-                    if(!empty($collegeRec['logo_img']) && isset($collegeRec['logo_img']) && $collegeRec['logo_img'] !=''){
-                        if (file_exists("../../uploads/college/logo_image/". $collegeRec['logo_img'])) {unlink("../../uploads/college/logo_image/". $collegeRec['logo_img']);}
-                    }
-                }           
+                    
+                }          
             } else {
 
                 $statusarr["status"] = 0;
@@ -199,23 +217,16 @@ if ($action == "edit" && !empty($record_id) && isset($record_id)) {
                 return;
             }
         }
-
-
-
         $sql =
-            "UPDATE universities SET banner_img = :banner_img,logo_img = :logo_img,university_name = :university_name, short_name = :short_name, college_code = :college_code,other_name = :other_name, eshtablish = :eshtablish, college_type_id = :college_type_id,undertaking_id = :undertaking_id, university_id = :university_id, accreditation = :accreditation, address = :address, landmark = :landmark,country_id = :country_id, state_id = :state_id, city_id = :city_id,district_id = :district_id, email = :email, email2 = :email2,phone = :phone, website_url = :website_url, website_display = :website_display,course_type_id = :course_type_id, course_id = :course_id, folder_name = :folder_name, file_name = :file_name, updated_at = :updated_at,updated_by = :updated_by WHERE id = :id";
+            "UPDATE universities SET banner_img = :banner_img,logo_img = :logo_img,university_name = :university_name, short_name = :short_name, other_name = :other_name, university_type_id = :university_type_id,discription = :discription, address = :address, landmark = :landmark,country_id = :country_id, state_id = :state_id, city_id = :city_id,district_id = :district_id, email = :email, email2 = :email2,phone = :phone, website_url = :website_url, website_display = :website_display,tags = :tags, updated_at = :updated_at,updated_by = :updated_by WHERE id = :id";
         $stmt = $dbConn->prepare($sql);
         $stmt->bindParam(":banner_img", $banner_img, PDO::PARAM_STR);
         $stmt->bindParam(":logo_img", $logo_img, PDO::PARAM_STR);
         $stmt->bindParam(":university_name", $university_name, PDO::PARAM_STR);
         $stmt->bindParam(":short_name", $short_name, PDO::PARAM_STR);
-        $stmt->bindParam(":college_code", $college_code, PDO::PARAM_STR);
-        $stmt->bindParam(":other_name", $other_name, PDO::PARAM_STR);
-        $stmt->bindParam(":eshtablish", $eshtablish, PDO::PARAM_INT);
-        $stmt->bindParam(":college_type_id", $college_type_id, PDO::PARAM_INT);
-        $stmt->bindParam(":undertaking_id", $undertaking_id, PDO::PARAM_INT);
-        $stmt->bindParam(":university_id", $university_id, PDO::PARAM_INT);
-        $stmt->bindParam(":accreditation", $accreditation, PDO::PARAM_STR);
+        $stmt->bindParam(":other_name", $other_name, PDO::PARAM_STR);        
+        $stmt->bindParam(":university_type_id", $university_type_id, PDO::PARAM_INT);
+        $stmt->bindParam(":discription", $discription, PDO::PARAM_STR);
         $stmt->bindParam(":address", $address, PDO::PARAM_STR);
         $stmt->bindParam(":landmark", $landmark, PDO::PARAM_STR);
         $stmt->bindParam(":country_id", $country_id, PDO::PARAM_INT);
@@ -227,10 +238,9 @@ if ($action == "edit" && !empty($record_id) && isset($record_id)) {
         $stmt->bindParam(":phone", $phone, PDO::PARAM_STR);
         $stmt->bindParam(":website_url", $website_url, PDO::PARAM_STR);
         $stmt->bindParam(":website_display", $website_display, PDO::PARAM_STR);
-        $stmt->bindParam(":course_type_id", $course_type_id, PDO::PARAM_INT);
-        $stmt->bindParam(":course_id", $course_id, PDO::PARAM_INT);
-        $stmt->bindParam(":folder_name", $folder_name, PDO::PARAM_STR);
-        $stmt->bindParam(":file_name", $file_name, PDO::PARAM_STR);
+        $stmt->bindParam(":tags", $tags, PDO::PARAM_STR);
+        //$stmt->bindParam(":slug", $slug, PDO::PARAM_STR);
+        // $stmt->bindParam(":file_name", $file_name, PDO::PARAM_STR);
         $stmt->bindParam(":updated_at", $updated_at, PDO::PARAM_STR);
         $stmt->bindParam(":updated_by", $updated_by, PDO::PARAM_STR);
         $stmt->bindParam(":id", $record_id, PDO::PARAM_INT);
@@ -267,19 +277,15 @@ if ($action == "edit" && !empty($record_id) && isset($record_id)) {
         
         $active_status = 1;
         $sql =
-            "INSERT INTO universities (university_name,short_name,college_code,other_name,eshtablish,college_type_id,undertaking_id,university_id,accreditation,address,landmark,country_id,state_id,city_id,district_id,email,email2,phone,website_url,website_display,course_type_id,course_id, created_at, created_by, is_active) VALUES (:university_name, :short_name, :college_code,:other_name, :eshtablish, :college_type_id,:undertaking_id, :university_id, :accreditation,:address, :landmark,:country_id, :state_id, :city_id,:district_id,:email,:email2,:phone,:website_url,:website_display,:course_type_id,:folder_name,:file_name,:course_id, :created_at,:created_by, :is_active)";
+            "INSERT INTO universities (university_name,short_name,other_name,university_type_id,discription,address,landmark,country_id,state_id,city_id,district_id,email,email2,phone,website_url,website_display,tags,created_at, created_by, is_active) VALUES (:university_name, :short_name,:other_name,  :university_type_id,:discription,:address, :landmark,:country_id, :state_id, :city_id,:district_id,:email,:email2,:phone,:website_url,:website_display,:tags,:created_at,:created_by, :is_active)";
         $stmt = $dbConn->prepare($sql);
         // $stmt->bindParam(":banner_img", $banner_img, PDO::PARAM_STR);
         // $stmt->bindParam(":logo_img", $logo_img, PDO::PARAM_STR);
         $stmt->bindParam(":university_name", $university_name, PDO::PARAM_STR);
         $stmt->bindParam(":short_name", $short_name, PDO::PARAM_STR);
-        $stmt->bindParam(":college_code", $college_code, PDO::PARAM_STR);
         $stmt->bindParam(":other_name", $other_name, PDO::PARAM_STR);
-        $stmt->bindParam(":eshtablish", $eshtablish, PDO::PARAM_INT);
-        $stmt->bindParam(":college_type_id", $college_type_id, PDO::PARAM_INT);
-        $stmt->bindParam(":undertaking_id", $undertaking_id, PDO::PARAM_INT);
-        $stmt->bindParam(":university_id", $university_id, PDO::PARAM_INT);
-        $stmt->bindParam(":accreditation", $accreditation, PDO::PARAM_STR);
+        $stmt->bindParam(":university_type_id", $university_type_id, PDO::PARAM_INT);
+        $stmt->bindParam(":discription", $discription, PDO::PARAM_STR);
         $stmt->bindParam(":address", $address, PDO::PARAM_STR);
         $stmt->bindParam(":landmark", $landmark, PDO::PARAM_STR);
         $stmt->bindParam(":country_id", $country_id, PDO::PARAM_INT);
@@ -291,10 +297,7 @@ if ($action == "edit" && !empty($record_id) && isset($record_id)) {
         $stmt->bindParam(":phone", $phone, PDO::PARAM_STR);
         $stmt->bindParam(":website_url", $website_url, PDO::PARAM_STR);
         $stmt->bindParam(":website_display", $website_display, PDO::PARAM_STR);
-        $stmt->bindParam(":course_type_id", $course_type_id, PDO::PARAM_INT);
-        $stmt->bindParam(":course_id", $course_id, PDO::PARAM_INT);
-        $stmt->bindParam(":folder_name", $folder_name, PDO::PARAM_STR);
-        $stmt->bindParam(":file_name", $file_name, PDO::PARAM_STR);
+        $stmt->bindParam(":tags", $tags, PDO::PARAM_STR);
 
         $stmt->bindParam(":created_at", $created_at, PDO::PARAM_STR);
         $stmt->bindParam(":created_by", $created_by, PDO::PARAM_STR);
@@ -303,16 +306,16 @@ if ($action == "edit" && !empty($record_id) && isset($record_id)) {
         if ($stmt->execute()) {
             $id = $dbConn->lastInsertId();
 
-            if(isset($_FILES['banner_img']['name'])){
+            if(isset($_FILES['banner_img']['name']) && !empty($_FILES['banner_img']['name'])){
 
                 $errors = validateBannerImage($_FILES['banner_img']);
 
                 if (empty($errors)) {
                     $ext = pathinfo($_FILES['banner_img']['name'], PATHINFO_EXTENSION);
-					$uniqueSlug = generateSlug($university_name);
+					//$uniqueSlug = generateSlug($university_name);
                     $tmpFilePath = $_FILES['banner_img']['tmp_name'];
-                    $banner_file_name = $uniqueSlug."-".$id.'.'.$ext;
-					$newFilePath = "../../uploads/college/banner_image/" .$uniqueSlug."-".$id.'-'.$_FILES['banner_img']['name'];
+                    $banner_file_name = $slug."-".$id.'.'.$ext;
+					$newFilePath = "../../uploads/university/banner_image/" .$banner_file_name;
                     if(move_uploaded_file($tmpFilePath, $newFilePath)) {
                        $banner_img = $banner_file_name;
                     } 
@@ -331,10 +334,10 @@ if ($action == "edit" && !empty($record_id) && isset($record_id)) {
                 $errors = validateLogoImage($_FILES['logo_img']);
                 if (empty($errors)) {
                     $ext = pathinfo($_FILES['logo_img']['name'], PATHINFO_EXTENSION);
-					$uniqueSlug = generateSlug($university_name);
+					//$uniqueSlug = generateSlug($university_name);
                     $tmpFilePath = $_FILES['logo_img']['tmp_name'];
-                    $logo_file_name = $uniqueSlug."-".$id.'-logo.'.$ext;
-					$newFilePath = "../../uploads/college/logo_image/" .$uniqueSlug."-".$id.'-'.$_FILES['logo_img']['name'];
+                    $logo_file_name = $slug."-".$id.'-logo.'.$ext;
+					$newFilePath = "../../uploads/university/logo_image/" .$logo_file_name;
                     if(move_uploaded_file($tmpFilePath, $newFilePath)) {
                     $logo_img = $logo_file_name;              
                     }           
@@ -345,7 +348,15 @@ if ($action == "edit" && !empty($record_id) && isset($record_id)) {
                     return;
                 }
             }
-            $slug= "i-am-slug".$id;
+            $slug = "university/".$slug;
+            if(!empty($short_name) && $short_name!="" && isset($short_name)){
+                $slug= $slug."-".generateSlug($short_name);
+            }
+            if(!empty($city_name) && $city_name!=""){
+                $slug= $slug."-".generateSlug($city_name);
+            }
+            $slug= $slug."-".$id;
+            
             $sql = "UPDATE universities SET banner_img = :banner_img,logo_img = :logo_img,slug = :slug WHERE id = :id";           
             $stmt = $dbConn->prepare($sql);
             $stmt->bindParam(":banner_img", $banner_img, PDO::PARAM_STR);

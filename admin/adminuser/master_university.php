@@ -7,6 +7,33 @@ include_once("../session.php");
 include_once("../function.php");
 include_once("../connection.php");
 include_once("../configuration.php");
+
+//GET ALL UNDERTAKING
+$undertakingRecords = [];
+$activeStatus = 1;
+$strsql="select id,undertaking_name from undertakings where is_active = :is_active order by undertaking_name";
+$stmt = $dbConn->prepare($strsql);
+$stmt->bindParam(':is_active',$activeStatus);
+$stmt->execute();
+$undertakingRecords = $stmt->fetchAll(PDO::FETCH_ASSOC);
+//GET ALL UNIVERSITY TYPE
+$universityTypeRecords = [];
+$activeStatus = 1;
+$strsql="select id,university_type_name from university_types where is_active = :is_active order by university_type_name";
+$stmt = $dbConn->prepare($strsql);
+$stmt->bindParam(':is_active',$activeStatus);
+$stmt->execute();
+$universityTypeRecords = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+//GET ALL COUNTRY
+$countryRecords = [];
+$activeStatus = 1;
+$strsql="select id,country_name from countries where is_active = :is_active order by country_name";
+$stmt = $dbConn->prepare($strsql);
+$stmt->bindParam(':is_active',$activeStatus);
+$stmt->execute();
+$countryRecords = $stmt->fetchAll(PDO::FETCH_ASSOC);
+//GET ALL UNIVERSITY
 $records = [];
 $strsql="select * from universities  order by university_name";
 $stmt = $dbConn->prepare($strsql);
@@ -27,7 +54,8 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
         <?php include("../header.php");?>
         <?php include("headermenu_top.php");?>
-        
+            <input type="hidden" value="<?php echo BASE_URL ?>" id="base_url">
+            <input type="hidden" value="<?php echo BASE_URL_UPLOADS ?>" id="base_url_upload">
         	<div class="pl-3 pr-3 pt-0">
                 <div class="row">
                     <div class="col-md-12 mb-2">
@@ -47,7 +75,7 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     
                     <div class="col-md-12">
                         <div class="table-responsive">
-                            <table id="master-table" class="table table-bordered order-table" style="font-family:Rubik">
+                        <table id="master-table" class="table table-bordered order-table" style="font-family:Rubik">
                                 <thead class="bg-light text-center font-weight-bold">
                                     <tr>
                                         <td class="align-middle">Srl</td>
@@ -120,58 +148,57 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <div class="col-md-4 mb-3">
                                         <div class="form-group">
                                             <label for="university_name">University Name <span class="required">*</span></label>
-                                            <input type="text" class="form-control" id="university_name" name="university_name" placeholder="Enter University Name" autocomplete="off" maxlength="75">
+                                            <input type="text" class="form-control" id="university_name" name="university_name" placeholder="Enter University Name" autocomplete="off" maxlength="75" onload="convertToSlug();" onkeyup="convertToSlug();" onblur="convertToTags();">
                                         </div>
                                     </div>
                                     
                                     <div class="col-md-4 mb-3">
                                         <div class="form-group">
                                             <label for="short_name">University Short Name</label>
-                                            <input type="text" class="form-control" id="short_name" name="short_name" placeholder="Enter University Short Name" autocomplete="off" maxlength="75">
+                                            <input type="text" class="form-control" id="short_name" name="short_name" placeholder="Enter University Short Name" autocomplete="off" maxlength="75" onblur="convertToTags();">
                                         </div>
                                     </div>
                                     
-                                    <div class="col-md-4 mb-3">
-                                        <div class="form-group">
-                                            <label for="university_code">University Code</label>
-                                            <input type="text" class="form-control" id="university_code" name="university_code" placeholder="Enter University Code" autocomplete="off" maxlength="75">
-                                        </div>
-                                    </div>
+                                   
                                     
                                     <div class="col-md-4 mb-3">
                                         <div class="form-group">
                                             <label for="other_name">Other / Former Name</label>
-                                            <input type="text" class="form-control" id="other_name" name="other_name" placeholder="Enter Other Name" autocomplete="off" maxlength="75">
+                                            <input type="text" class="form-control" id="other_name" name="other_name" placeholder="Enter Other Name" autocomplete="off" maxlength="75" onblur="convertToTags();">
                                         </div>
                                     </div>
                                     
                                     <div class="col-md-4 mb-3">
                                         <div class="form-group">
                                             <label for="eshtablish">Estd.</label>
-                                            <input type="text" class="form-control" id="eshtablish" name="eshtablish" placeholder="Enter City Name" autocomplete="off" maxlength="75">
+                                            <input type="text" class="form-control" id="eshtablish" name="eshtablish" placeholder="Eg: 1989" autocomplete="off" maxlength="75">
                                         </div>
                                     </div>
                                     
                                     <div class="col-md-4 mb-3">
                                         <div class="form-group">
-                                            <label for="undertaking_id">Undertaking</label>                                            
-                                            <select id="undertaking_id" name="undertaking_id" class="form-control" >
+                                            <label for="discription">Discription</label>
+                                            <input type="text" class="form-control" id="discription" name="discription" placeholder="Discription" autocomplete="off" maxlength="75">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-4 mb-3">
+                                        <div class="form-group">
+                                            <label for="university_type_id">University Type</label>                                            
+                                            <select id="university_type_id" name="university_type_id" class="form-control" onchange="convertToTags();">
                                                 <option value="">Select</option>
-                                                <?php if($undertakingRecords){ 
-                                                    foreach ($undertakingRecords as $value) { 
+                                                <?php if($universityTypeRecords){ 
+                                                    foreach ($universityTypeRecords as $value) { 
                                                 ?>
-                                                <option value="<?php echo $value['id'] ?>"><?php echo $value['undertaking_name'] ?></option>
+                                                <option value="<?php echo $value['id'] ?>"><?php echo $value['university_type_name'] ?></option>
                                                 <?php }} ?>
                                             </select>
                                         </div>
                                     </div>
                                     
-                                    <div class="col-md-4 mb-3">
-                                        <div class="form-group">
-                                            <label for="accreditation">Accreditation </label>
-                                            <input type="text" class="form-control" id="accreditation" name="accreditation" placeholder="Eg: NAAC, AICTE" autocomplete="off" maxlength="75">
-                                        </div>
-                                    </div>
+                                    
+                                    
+                                   
                                 </div>
                                 
                                 <div class="row">    
@@ -198,7 +225,7 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <div class="col-md-4 mb-3">
                                         <div class="form-group">
                                             <label for="country_id">Country Name</label>                                            
-                                            <select id="country_id" name="country_id" class="form-control select-2-dropdown" onChange="getState(this.value);">
+                                            <select id="country_id" name="country_id" class="form-control select-2-dropdown" onchange="convertToTags();">
                                                 <option value="">Select</option>
                                                 <?php if($countryRecords){ 
                                                     foreach ($countryRecords as $value) { 
@@ -212,7 +239,7 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <div class="col-md-4 mb-3">
                                         <div class="form-group">
                                             <label for="state_id">State Name</label>                                            
-                                            <select id="state_id" name="state_id" class="form-control select-2-dropdown" onchange="getCity(this.value);getDistrict(this.value);">
+                                            <select id="state_id" name="state_id" class="form-control select-2-dropdown" onchange="convertToTags();">
                                                 <option value="">Select</option>                                                
                                             </select>
                                         </div>
@@ -221,7 +248,7 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <div class="col-md-4 mb-3">
                                         <div class="form-group">
                                             <label for="city_id">City Name</label>
-                                            <select id="city_id" name="city_id" class="form-control select-2-dropdown">
+                                            <select id="city_id" name="city_id" class="form-control select-2-dropdown" onchange="convertToTags();">
                                                 <option value="">Select</option>                                                
                                             </select>
                                         </div>
@@ -230,7 +257,7 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <div class="col-md-4 mb-3">
                                         <div class="form-group">
                                             <label for="district_id">District Name</label>
-                                            <select id="district_id" name="district_id" class="form-control select-2-dropdown">
+                                            <select id="district_id" name="district_id" class="form-control select-2-dropdown" onchange="convertToTags();">
                                                 <option value="">Select</option>                                                
                                             </select>
                                         </div>
@@ -247,21 +274,21 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <div class="col-md-4 mb-3">
                                         <div class="form-group">
                                             <label for="email">E-mail Id 1 <span class="required">*</span></label>
-                                            <input type="text" class="form-control" id="email" name="email" placeholder="Enter University Name" autocomplete="off" maxlength="75">
+                                            <input type="text" class="form-control" id="email" name="email" placeholder="Enter College Name" autocomplete="off" maxlength="75">
                                         </div>
                                     </div>
                                     
                                     <div class="col-md-4 mb-3">
                                         <div class="form-group">
                                             <label for="email2">E-mail Id 2</label>
-                                            <input type="text" class="form-control" id="email2" name="email2" placeholder="Enter University Short Name" autocomplete="off" maxlength="75">
+                                            <input type="text" class="form-control" id="email2" name="email2" placeholder="Enter College Short Name" autocomplete="off" maxlength="75">
                                         </div>
                                     </div>
                                     
                                     <div class="col-md-4 mb-3">
                                         <div class="form-group">
                                             <label for="phone">Phone</label>
-                                            <input type="text" class="form-control" id="phone" name="phone" placeholder="Enter University Code" autocomplete="off" maxlength="75">
+                                            <input type="text" class="form-control" id="phone" name="phone" placeholder="Enter College Code" autocomplete="off" maxlength="75">
                                         </div>
                                     </div>
                                     
@@ -280,83 +307,62 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     </div>
                                 </div>
                                 
-                                <div class="row">    
-                                	<div class="col-md-12 mb-1">
-                                        <h4 class="alert alert-secondary" style="font-family:Oswald">
-                                            <i class="fa-solid fa-book"></i> Course Info
-                                        </h4>
-                                    </div>
-    
-                                    <div class="col-md-4 mb-3">
-                                        <div class="form-group">
-                                            <label for="course_type_id">Coutse Type</label>                                            
-                                            <select id="course_type_id" name="course_type_id[]" class="form-control" multiple>
-                                                <option value="">Select</option>
-                                                <?php if($courseTypeRecords){ 
-                                                    foreach ($courseTypeRecords as $value) { 
-                                                ?>
-                                                <option value="<?php echo $value['id'] ?>"><?php echo $value['course_type_name'] ?></option>
-                                                <?php }} ?>
-                                            </select>
-                                        </div>
-                                    </div>
-    
-                                    <div class="col-md-4 mb-3">
-                                        <div class="form-group">
-                                            <label for="course_id">Course </label>                                            
-                                            <select id="course_id" name="course_id[]" class="form-control" multiple>
-                                                <option value="">Select</option>
-                                                <?php if($courseRecords){ 
-                                                    foreach ($courseRecords as $value) { 
-                                                ?>
-                                                <option value="<?php echo $value['id'] ?>"><?php echo $value['course_name'] ?></option>
-                                                <?php }} ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
+                               
                                 
                                 <div class="row">
                                 	<div class="col-md-12 mb-1">
                                         <h4 class="alert alert-secondary" style="font-family:Oswald">
-                                            <i class="fa-solid fa-file-image"></i> Image &amp; Path Info
+                                            <i class="fa-solid fa-file-image"></i> Path &amp; Image Info
                                         </h4>
                                     </div>
                                     
-                                	<div class="col-md-4 mb-3">
+                                	<!-- <div class="col-md-4 mb-3">
                                         <div class="form-group">
                                             <label for="folder_name">Folder Name</label>
                                             <input type="text" class="form-control" id="folder_name" name="folder_name" placeholder="Eg: asutosh-college" autocomplete="off" maxlength="200" oninput="populateFolderName();">
                                         </div>
-                                    </div>
-                                    
+                                    </div> -->
                                     <div class="col-md-4 mb-3">
+                                        <div class="form-group">
+                                            <label for="folder_name">URL Slug</label>
+                                            <input type="text" class="form-control" id="slug" name="slug" placeholder="slug" autocomplete="off" >
+                                        </div>
+                                    </div>
+                                    <!-- <div class="col-md-4 mb-3">
                                         <div class="form-group">
                                             <label for="file_name">File Name</label>
                                             <input type="text" class="form-control" id="file_name" name="file_name"placeholder="Eg: auutosh-college.php" autocomplete="off" maxlength="200">
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                                 
                                 <div class="row">
-                                    
-                                    <div class="col-md-4 mb-3">
-                                        <div class="form-group">
-                                            <label for="banner_img">Banner Image</label>
-                                            <input type="file" class="form-control-file rounded" id="banner_img" name="banner_img">
-                                            <img id="banner_img_path" alt="Banner Image" width="60" height="60">
-                                        </div>
-                                    </div>
                                     
                                     <div class="col-md-4 mb-3">
                                         <div class="form-group">
                                             <label for="logo_img">Logo Image</label>
                                             <input type="file" class="form-control-file" id="logo_img" name="logo_img">
-                                            <img id="logo_img_path" alt="Logo Image" width="60" height="60">
+                                            <img id="logo_img_path" alt="Logo Image" width="70" height="70" class="img-fluid img-thumbnail mt-2">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-4 mb-3">
+                                        <div class="form-group">
+                                            <label for="banner_img">Banner Image</label>
+                                            <input type="file" class="form-control-file rounded" id="banner_img" name="banner_img">
+                                            <img id="banner_img_path" alt="Banner Image" width="120" height="60" class="img-fluid img-thumbnail mt-2">
                                         </div>
                                     </div>
                                 </div>
                                 
+                                <div class="col-md-12 mb-3">
+                                    <div class="form-group">
+                                        <label for="tags">Tags</label>
+                                        <input type="text" class="form-control" id="tags" name="tags" value="" data-role="tagsinput" autocomplete="off" >
+                                        <a href="javascript:void(0)"  onclick="clearTag()">Clear</a>
+                                    </div>
+                                </div>
+
                                 <div class="row">
                                     <div class="col-md-12 text-center">
                                         <button class="btn btn-danger btn-sm align-middle" id="save-university-button" name="submit">Save Data</button>
@@ -375,6 +381,7 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
           <?php include("../footer.php");?>
         </div> 
         <?php include("../footer_includes.php");?> 
+        
         <script src="<?php echo BASE_URL_ADMIN;?>/adminuser/js/university.js"></script>
     </body>
 </html>

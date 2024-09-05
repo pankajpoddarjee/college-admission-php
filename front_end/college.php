@@ -35,18 +35,17 @@ include("QRY_CAcollegeMainPage.php");
                 <div class="col-md-12 text-center">
 					<?php include("google_ads_horizontal.php");?>
                 </div>
-                <?php include("college_page_social_share_button.php");?>
             </div>
         </div>
     </section>
     
     <section class="mt-4">
-        <div class="container-fluid">
+        <div class="container-xxl">
             <div class="row">
                 <div class="col-md-9">
                 	<div class="row">
                     	<div class="col-md-12">
-                            <h4 class="alert alert-info" title="<?php echo $college_name;?>, <?php echo $city_name;?>" style="font-family:Oswald"><i class="fas fa-building"></i> College Info</h4>
+                            <h4 class="alert alert-info" style="font-family:Oswald"><i class="fas fa-building"></i> College Info</h4>
                         </div>
                     </div>
                 	<div class="row">

@@ -132,6 +132,7 @@
                 }
 
                 $('#dvLoading').show();
+                $('#save-notice-button').attr('disabled', 'disabled');
 
                 var formData = new FormData(document.getElementById("frm1"));
                 $('#dvLoading').show();
@@ -149,10 +150,12 @@
                             alert(data.msg);
                             resetdata();
                             $('#dvLoading').hide();
+                            $('#save-notice-button').attr('disabled', '');
                             toastr.success(data.msg);
                             location.reload();
                         } else {
                             $('#dvLoading').hide();
+                            $('#save-notice-button').attr('disabled', '');
                             toastr.error(data.msg);
                             //alert(data.msg);
                             return false;
@@ -162,17 +165,28 @@
             });
 
             function verifyInput() {
-                if ($.trim($("#notice_title").val()) == "") {
-                    toastr.error("Enter Notice Title");
-                    $("#notice_title").focus();
-                    return false;
-                }                
-
                 if ($.trim($("#notice_for").val()) == "") {
                     toastr.error("Enter Notice For");
                     $("#notice_for").focus();
                     return false;
                 }
+                if ($.trim($("#is_meritlist").val()) == "") {
+                    toastr.error("Select is Meritlist");
+                    $("#is_meritlist").focus();
+                    return false;
+                }
+
+                if ($.trim($("#notice_type").val()) == "") {
+                    toastr.error("Select Notice Type");
+                    $("#notice_type").focus();
+                    return false;
+                }
+
+                if ($.trim($("#notice_title").val()) == "") {
+                    toastr.error("Enter Notice Title");
+                    $("#notice_title").focus();
+                    return false;
+                }              
                 
                 if ($.trim($("#notice_for").val()) == 1) {
                     if ($.trim($("#college_id").val()) == "") {
@@ -181,6 +195,21 @@
                         return false;
                     }
                 }
+
+                if ($.trim($("#notice_type").val()) == 'page' && $("#action").val() !='edit') {
+                    if ($("#page_link").val() === "") {
+                        toastr.error("Upload Notice Page");
+                        $("#page_link").focus();
+                        return false;
+                    }
+                }
+                if ($.trim($("#notice_type").val()) == 'url') {
+                    if ($.trim($("#url_link").val()) == "") {
+                        toastr.error("Enter Notice URL");
+                        $("#url_link").focus();
+                        return false;
+                    }
+                }  
                 if ($.trim($("#notice_for").val()) == 2) {
                     if ($.trim($("#university_id").val()) == "") {
                         toastr.error("Select University");
@@ -196,18 +225,19 @@
                     }
                 }
 
+
                 if ($.trim($("#notice_date").val()) == "") {
                     toastr.error("Notice Date is Required");
                     $("#notice_date").focus();
                     return false;
                 }
-
-                if ($.trim($("#slug").val()) == "") {
-                    toastr.error("Slug is Required");
-                    $("#slug").focus();
-                    return false;
+                if ($.trim($("#notice_type").val()) == 'page') {
+                    if ($.trim($("#slug").val()) == "") {
+                        toastr.error("Slug is Required");
+                        $("#slug").focus();
+                        return false;
+                    }
                 }
-
                 
                 return true;
             }
@@ -236,15 +266,15 @@
                 });
             });
             
-            $('#notice_title').on('keypress', function(event) {
-                var regex = new RegExp("^[a-zA-Z () .]+$");
-                var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+            // $('#notice_title').on('keypress', function(event) {
+            //     var regex = new RegExp("^[a-zA-Z () .]+$");
+            //     var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
                
-                if (!regex.test(key)) {
-                    event.preventDefault();
-                    return false;
-                }
-            });
+            //     if (!regex.test(key)) {
+            //         event.preventDefault();
+            //         return false;
+            //     }
+            // });
 
 
             //GET SINGLE RECORD
@@ -263,6 +293,43 @@
                           
                             $('#notice_title').val(data.record.notice_title);
                             $('#notice_for').val(data.record.notice_for);
+                            $('#is_meritlist').val(data.record.is_meritlist);
+                            $('#notice_type').val(data.record.notice_type);
+
+                          
+
+                            if(data.record.notice_type=='page'){
+
+                                var base_url_upload = $('#base_url_upload').val();
+                                var base_url = $('#base_url').val();
+                                $('#notice_url_div').hide();
+                                $('#notice_page_div').show();
+                               // $('#slug_div').show();
+
+                                if(data.record.notice_type=="page"){
+                                    var path  = base_url+"/"+data.record.slug;
+
+                                    var download_path  = base_url_upload+"/notices/"+data.record.page_link;
+                                    $("#page_link_path").show();
+                                    $("#page_link_path_download").show();
+
+                                    $("#page_link_path").attr("href",path);
+
+                                    $("#page_link_path_download").attr("href",download_path);
+                                    $("#page_link_path_download").attr("download",download_path);
+                                }
+                                
+                            }
+
+                            if(data.record.notice_type=='url'){
+                                $('#notice_page_div').hide();
+                                $('#notice_url_div').show(); 
+                               // $('#slug_div').hide();    
+                               // $('#slug').val("");   
+                                $('#url_link').val(data.record.url_link);             
+                            }
+
+
                             $('#notice_date').val(data.record.notice_date);
 
                             $('#college_id').val(data.record.college_id);
@@ -289,7 +356,7 @@
                             $('#action').val("edit");
                             $('#dvLoading').hide();
                             $("#add_edit_form").modal();
-
+                            showHideInput('edit');
                             
                         } else {
                             alert(data.msg);
@@ -304,7 +371,7 @@
                 $("#notice_title").val("");
                 $("#notice_for").val("");
                 $("#notice_date").val("");
-
+                $("#is_meritlist").val("");
                 $("#is_new").val("1");
                 $("#description").val("");
 
@@ -326,6 +393,8 @@
                 $('#tags').tagsinput('destroy'); // Destroy the tagsinput
                 $('#tags').val(''); // Clear the value
                 $('#tags').tagsinput();
+                $("#page_link_path").hide();
+                $("#page_link_path_download").hide();
 				
                 
             }
@@ -365,30 +434,62 @@
                 $('#tags').tagsinput('');
             }
 
-            function showHideInput(){
+            function showHideInput(come = ""){
                 var id =  $('#notice_for').val();
-                $('#university_id').val('');
-                $('#college_id').val('');
-                $('#exam_id').val('');
+                // $('#university_id').val('');
+                // $('#college_id').val('');
+                // $('#exam_id').val('');
                 if(id==1){
                     
                     $('#exam_id_div').hide();
                     $('#university_id_div').hide();
+                    if(come== 'edit'){
 
-                    $("#college_id").val("");
-                    $('#college_id').select2({
-                        tags: true
-                    }).val("");
+                    }else{
+                        $("#college_id").val("");
+                        $('#college_id').select2().val("");
+                    }
+                    
                     $('#college_id_div').show();
                 }
                 if(id==2){
                     $('#exam_id_div').hide();
                     $('#university_id_div').show();
                     $('#college_id_div').hide();
+                    if(come== 'edit'){
+
+                    }else{
+                        $("#university_id").val("");
+                        $('#university_id').select2().val("");
+                    }
                 }
                 if(id==3){
                     $('#exam_id_div').show();
                     $('#university_id_div').hide();
                     $('#college_id_div').hide();
+                    if(come== 'edit'){
+
+                    }else{
+                        $("#exam_id").val("");
+                        $('#exam_id').select2().val("");
+                    }
+                }
+            }
+
+            function showHideAsPerNoticeType(){
+                var notice_type =  $('#notice_type').val();
+                $('#url_link').val('');
+                $('#page_link').val('');
+                if(notice_type=='page'){
+                    
+                    $('#notice_url_div').hide();
+                    $('#notice_page_div').show();
+                   // $('#slug_div').show();
+                }
+                if(notice_type=='url'){
+                    $('#notice_page_div').hide();
+                    $('#notice_url_div').show(); 
+                   // $('#slug_div').hide();    
+                    //$('#slug').val("");                
                 }
             }

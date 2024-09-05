@@ -77,41 +77,63 @@
             width: 100%;
         }
 </style>
+<style>
+        .search-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 30px 10px 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .clear-icon {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            cursor: pointer;
+            visibility: hidden;
+            font-size: 18px;
+        }
+
+        .search-input:not(:placeholder-shown) + .clear-icon {
+            visibility: visible;
+        }
+    </style>
 </head>
 <body>
-
-
-
       
 	<?php include("header.php");?>
     <?php include("menu.php");?>
  
     <section>
         <div class="container pt-5 pb-5">
+            
             <div class="row">
                 <div class="col-md-12">
-                	<h4 class="text-dark">SEARCH: COLLEGES, EXAM, RESULTS, MERIT LIST, ETC.</h4>
+                	<h4 class="text-dark" style="font-family:Oswald">SEARCH: COLLEGES, EXAM, RESULTS, MERIT LIST, ETC.</h4>
                 </div>
                 <div class="col-md-12">
-                    <div class="input-group mb-1">
-                        <input type="text" class="form-control p-3 bg-secondary bg-opacity-10" id="searchQuery" name="search_query" placeholder="Search for colleges, universities, courses, notices..." style="font-family:Viga">                        
-                        <!--<div class="input-group-append">
-                            <span class="input-group-text" id="srhCollege">
-                            	<a class="btn btn-primary btn-sm btn-block" href="javascript:void(0)">
-                                	Go <i class="fa fa-arrow-right"></i>
-                                </a>
-                            </span>
-                        </div>-->
+                    <div class="input-group mb-1 search-container">
+                        <input type="text" class="search-input rounded p-3 bg-secondary bg-opacity-10 border border-dark-subtle" id="searchQuery" name="search_query" placeholder="Search for colleges, universities, courses, notices..." style="font-family:Oswald">
+                        <span class="clear-icon" onclick="clearSearch()">&#10006;</span>
                     </div>
                 </div>
                 <div class="col-md-12">
-                    <!-- <div id="resultsContainer">
-                        <div id="loadingOverlay">
-                            <img src="<?php echo BASE_URL?>/images/loading.gif" alt="Loading..."> 
-                        </div>
-                        <div id="suggestions"></div>
-                    </div> -->
-                    <!-- <img id="loadingGif" src="<?php echo BASE_URL?>/images/loading.gif" style="width:150px" alt="Loading..."> -->
+                    <script>
+                        function clearSearch() {
+                        const input = document.getElementById('searchQuery');
+                        input.value = '';
+                        input.focus();
+                        }
+                    </script>
+                </div>
+                <div class="col-md-12">
                     <div class="shadow" id="loadingGif">
                         <div class="row align-items-center m-0 p-2">
                             <div class="shimmer shimmer-img rounded-circle col-md-2"></div><div class="shimmer shimmer-title col-md-9"></div>
@@ -199,6 +221,7 @@
     </section>
     
 	<?php include("footer.php");?>
+    <?php include("report_problem.php");?>
     <?php include("footer_includes.php");?>
     <?php $dbConn =NULL; ?>
 
@@ -278,7 +301,8 @@ $('#searchQuery').on('input', debounce(function() {
 
 $(document).on('click', '.suggestion-item', function() {
             $('.list-type').text("");
-            $('#searchQuery').val($(this).text());
+            //$('#searchQuery').val($(this).text());
+            $('#searchQuery').val('');
             $('#suggestions').empty();
         });
     </script>

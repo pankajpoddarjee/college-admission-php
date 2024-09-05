@@ -1,11 +1,11 @@
 <?php 
 
-$records = [];
+$notice_record = [];
 if(isset($college_id)){ 
     $fetchallqry = "SELECT * FROM notices WHERE college_id=$college_id order by notice_date desc" ;
     $stmt = $dbConn->prepare($fetchallqry);
     $stmt->execute();
-    $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $notice_record = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 }
 ?>
@@ -33,11 +33,22 @@ if(isset($college_id)){
                         <ul class="cPageAdmNotice">
 							<?php 
                                 $i=0;
-                              if(count($records)>0){
-                                    foreach ($records as  $rec) { 
-                                $i=$i+1;
+                              if(count($notice_record)>0){
+                                    foreach ($notice_record as  $rec) { 
+                                    $i=$i+1;
+
+                                        $custom_link = "";
+                                        $target = "";
+                                        if($rec['notice_type'] == 'page'){
+                                            $custom_link = BASE_URL."/".$rec['slug'];
+                                            $target = "_self";
+                                        }
+                                        if($rec['notice_type'] == 'url'){
+                                            $custom_link = $rec['url_link']; 
+                                            $target = "_blank";
+                                        }
                             ?>
-                            <a href="<?php echo BASE_URL;?>/<?php echo $rec["slug"];?>" title="<?php echo $college_name;?> - <?php echo $rec["notice_title"];?>">
+                            <a  target="<?php echo $target; ?>" href="<?php echo $custom_link ?>" title="<?php echo $college_name;?> - <?php echo $rec["notice_title"];?>">
                                 <li>
                                     <span class="title">
                                     <i class="fa fa-hand-o-right"></i> <?php echo $rec["notice_title"];?>                                    

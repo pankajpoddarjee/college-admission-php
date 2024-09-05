@@ -215,6 +215,8 @@
                 
                 // replace space with dash/hyphen
                 str = str.replace(/\s+/g, ',');   
+
+                str = str.replace(/'/g, '');  
                 //document.getElementById("slug-text").innerHTML = str;
                 //return str;
 
@@ -391,16 +393,17 @@
                            // $('#dvLoading').hide();
                            // $('#banner_img').val(data.record.banner_img);
                            // $('#logo_img').val(data.record.logo_img);
-                           var base_url = $('#base_url').val();
+                           //var base_url = $('#base_url').val();
+						   var base_url_upload = $('#base_url_upload').val();
                             if(data.record.banner_img){
                                 $("#banner_img_path").show();
-                                $("#banner_img_path").attr("src",base_url+'/uploads/college/banner_image/'+data.record.banner_img);
+                                $("#banner_img_path").attr("src",base_url_upload+'/college/banner_image/'+data.record.banner_img);
                             }else{
                                 $("#banner_img_path").hide();  
                             }
                             if(data.record.logo_img){
                                 $("#logo_img_path").show();
-                                $("#logo_img_path").attr("src",base_url+'/uploads/college/logo_image/'+data.record.logo_img);
+                                $("#logo_img_path").attr("src",base_url_upload+'/college/logo_image/'+data.record.logo_img);
                             }else{
                                 $("#logo_img_path").hide();  
                             }

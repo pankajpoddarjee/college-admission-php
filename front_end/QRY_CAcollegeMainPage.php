@@ -84,27 +84,6 @@ $collegeSlug = $record["collegeSlug"];
 $logo_img = !empty($record["logo_img"])?$record["logo_img"]:"";
 $banner_img = !empty($record["banner_img"])?$record["banner_img"]:"";
 
-/*$streamqry="SELECT s.streamName 
-FROM collegeStreamMapping csm
-JOIN college c ON csm.collegeID=c.ID 
-JOIN stream s ON csm.streamID=s.ID 
-WHERE csm.collegeID='".$collegeID."' AND c.verified=1;";
-$streamresult = $dbConn->query($streamqry);if($streamresult) {	while($streamrow=$qryresult->fetch(PDO::FETCH_ASSOC)) {$streamrecord[] = $streamrow;}}
-
-$courseqry="SELECT ISNULL(courseName,'--') AS courseName, ISNULL(courseAbbreviation,'--') AS courseAbbreviation, ISNULL(duration,'--') AS duration,ISNULL(timeType,'--') AS timeType,ISNULL(campusType,'--') AS campusType  from course WHERE ID in (
-SELECT DISTINCT cou.ID
-FROM collegeCourseTypeDetailMapping cctdm
-JOIN courseTypeDetailMaster ctdm ON cctdm.courseTypeDetailMasterID=ctdm.ID 
-JOIN courseType ct ON ctdm.courseTypeID=ct.ID 
-JOIN course cou ON ct.courseID=cou.ID 
-JOIN college c ON cctdm.collegeID=c.ID
-WHERE cctdm.collegeID='".$collegeID."' AND c.verified=1)";
-$courseresult = $dbConn->query($courseqry);if($courseresult) {	while($courserow=$qryresult->fetch(PDO::FETCH_ASSOC)) {$courserecord[] = $courserow;}}
-
-$facilityqry="SELECT f.facilityName, f.facilityImage, f.facilityImageAlttag 
-FROM collegeFacilityMapping cfm
-JOIN facility f ON cfm.facilityId=f.id 
-JOIN college c ON cfm.collegeID=c.ID 
-WHERE cfm.collegeID='".$collegeID."' AND c.verified=1;";
-$facilityresult = $dbConn->query($facilityqry);if($facilityresult) { while($facilityrow=$qryresult->fetch(PDO::FETCH_ASSOC)) {$facilityrecord[] = $facilityrow;}}*/
+$logoImgPath = BASE_URL_UPLOADS.'/college/logo_image/'.$record['logo_img'];
+$bannerImgPath = BASE_URL_UPLOADS.'/college/banner_image/'.$record['banner_img'];
 ?>

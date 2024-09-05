@@ -6,6 +6,7 @@ $stmt = $dbConn->prepare("SELECT * FROM slug_master WHERE slug= :slug_url ");
 $stmt->execute(['slug_url' => $slug_url]);
 $masterSlugRecord = $stmt->fetch(PDO::FETCH_ASSOC);
 $response_from = $masterSlugRecord['response_from'];
+// echo "<pre>"; print_r($masterSlugRecord);
 
 ?>
 <!doctype html>
@@ -134,7 +135,11 @@ $response_from = $masterSlugRecord['response_from'];
 
     <?php if($response_from=='colleges'){ ?>
         <?php include("college_listing.php");?>
-	<?php } ?>
+	  <?php } ?>
+
+    <?php if($response_from=='universities'){ ?>
+        <?php include("university_listing.php");?>
+	  <?php } ?>
 
 
     <?php include("footer_includes.php");?>
@@ -142,6 +147,9 @@ $response_from = $masterSlugRecord['response_from'];
 
     <?php if($response_from=='colleges'){ ?>
         <script src="<?php echo BASE_URL;?>/js/collegeListing.js"></script>
+    <?php } ?>
+    <?php if($response_from=='universities'){ ?>
+        <script src="<?php echo BASE_URL;?>/js/universityListing.js"></script>
     <?php } ?>
      
     <?php $dbConn =NULL; ?>

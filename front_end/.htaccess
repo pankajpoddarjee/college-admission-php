@@ -5,8 +5,22 @@ RewriteEngine On
 RewriteRule ^college/([a-zA-Z0-9_-]+)$ college.php?slug=$1 [L]
 
 RewriteRule ^college/([a-zA-Z0-9_-]+)/notice$ notice.php?slug=$1 [L]
+RewriteRule ^college/([a-zA-Z0-9_-]+)/meritlist$ college_meritlist.php?slug=$1 [L]
+
+RewriteRule ^college/([a-zA-Z0-9_-]+)/courses$ courses.php?slug=$1 [L]
+
+RewriteRule ^college/([a-zA-Z0-9_-]+)/contact$ college_contact.php?slug=$1 [L]
+
+RewriteRule ^university/([a-zA-Z0-9_-]+)/contact$ university_contact.php?slug=$1 [L]
+
+RewriteRule ^university/([a-zA-Z0-9_-]+)/notice$ notice_university.php?slug=$1 [L]
+
+RewriteRule ^exams/([a-zA-Z0-9_-]+)/notice$ notice_exam.php?slug=$1 [L]
 
 RewriteRule ^([a-zA-Z0-9_-]+)$ listing.php?slug=$1 [L]
 RewriteRule ^university/([a-zA-Z0-9_-]+)$ university.php?slug=$1 [L]
+RewriteRule ^exams/([a-zA-Z0-9_-]+)$ exams.php?slug=$1 [L]
+
 RewriteRule ^notice/([a-zA-Z0-9_-]+)$ notice-detail.php?slug=$1 [L]
+RewriteRule ^course/([a-zA-Z0-9_-]+)$ course-detail.php?slug=$1 [L]
 #RewriteRule ^([^\.]+)$ $1.php [NC,L]

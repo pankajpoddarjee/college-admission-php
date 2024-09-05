@@ -9,13 +9,14 @@ error_reporting(E_ALL);
 define("BASE_TIME_ZONE","Asia/Calcutta");
 define("VIEWPORT","width=device-width, initial-scale=1.0, user-scalable=0");//width=device-width, initial-scale=1, shrink-to-fit=no (bootstrap 4)
 
-define("BASE_URL","http://office-5/college-admission/front_end");// local
-define("BASE_URL_UPLOADS","http://office-5/college-admission/uploads");// local
+/*define("BASE_URL","http://office-5/college-admission/front_end");// local
+define("BASE_URL_UPLOADS","http://office-5/college-admission/uploads");// local*/
 
-/*define("BASE_URL","http://192.168.1.3/college-admission/front_end");// IPV4
-define("BASE_URL_UPLOADS","http://192.168.1.3/college-admission/uploads");// IPV4*/
+define("BASE_URL","http://office-5/college-admission/front_end");// IPV4
+define("BASE_URL_UPLOADS","http://office-5/college-admission/uploads");// IPV4
+define("BASE_URL_ROOT","/college-admission/front_end");
 
-define("GOOGLE_FONT_1","https://fonts.googleapis.com/css?family=Poppins|Roboto|Rubik|Viga|Oswald|Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+define("GOOGLE_FONT_1","https://fonts.googleapis.com/css?family=Poppins|Roboto|Archivo|Sarabun|Rubik|Viga|Oswald|Nunito|Montserrat");
 define("FONT_AWESOME_CSS","https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css");
 
 define("CURRENT_YEAR","2024");

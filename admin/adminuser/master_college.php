@@ -78,6 +78,7 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php include("../header.php");?>
         <?php include("headermenu_top.php");?>
             <input type="hidden" value="<?php echo BASE_URL ?>" id="base_url">
+            <input type="hidden" value="<?php echo BASE_URL_UPLOADS ?>" id="base_url_upload">
         	<div class="pl-3 pr-3 pt-0">
                 <div class="row">
                     <div class="col-md-12 mb-2">

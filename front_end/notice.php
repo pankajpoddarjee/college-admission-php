@@ -12,7 +12,8 @@ if(count($collegeRecord)>0){
     $college_id = $collegeRecord['id'];
     $college_name = $collegeRecord['college_name'];
     $records = [];
-    $fetchallqry = "SELECT * FROM notices WHERE college_id=$college_id AND is_active=1 order by notice_date desc" ;
+    $current_year = CURRENT_YEAR_DISPLAY_C_PAGE;
+    $fetchallqry = "SELECT * FROM notices WHERE college_id=$college_id AND notice_year = $current_year AND is_active=1 order by notice_date desc, id desc" ;
     $stmt = $dbConn->prepare($fetchallqry);
     $stmt->execute();
     $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -24,7 +25,7 @@ if(count($collegeRecord)>0){
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="<?php echo VIEWPORT;?>">
-<title><?php echo $record['college_name'];?> Notice <?php echo CURRENT_YEAR_DISPLAY_C_PAGE;?>, Admission <?php echo CURRENT_YEAR_DISPLAY_C_PAGE;?>, Merit List <?php echo CURRENT_YEAR_DISPLAY_C_PAGE;?> | <?php echo SITE_NAME;?></title>
+<title ><?php echo $record['college_name'];?> Notice <?php echo CURRENT_YEAR_DISPLAY_C_PAGE;?>, Admission <?php echo CURRENT_YEAR_DISPLAY_C_PAGE;?>, Merit List <?php echo CURRENT_YEAR_DISPLAY_C_PAGE;?> | <?php echo SITE_NAME;?></title>
 <meta name="keywords" content="<?php echo $college_name;?> admission <?php echo CURRENT_YEAR_DISPLAY_C_PAGE;?>, <?php echo $college_name;?> merit list <?php echo CURRENT_YEAR_DISPLAY_C_PAGE;?>, <?php echo $college_name;?> contact">
 <meta name="description" content="<?php echo $college_name;?> Admission <?php echo CURRENT_YEAR_DISPLAY_C_PAGE;?>, Merit List <?php echo CURRENT_YEAR_DISPLAY_C_PAGE;?>, Online Counselling <?php echo CURRENT_YEAR_DISPLAY_C_PAGE;?>">
 <meta property="og:title" content="<?php echo $record['college_name'];?> Notice <?php echo CURRENT_YEAR_DISPLAY_C_PAGE;?>, Admission <?php echo CURRENT_YEAR_DISPLAY_C_PAGE;?>, Merit List <?php echo CURRENT_YEAR_DISPLAY_C_PAGE;?> | <?php echo SITE_NAME;?>">
@@ -36,11 +37,13 @@ if(count($collegeRecord)>0){
 <?php echo OTHER_META_TAGS;?>
 <?php include("head_includes.php");?>
 
-<style>
+<style type="text/css">
     .notice_list{list-style-type:none; padding:0 0 0 15px; margin:0}
-    .notice_list li{font-family:Rubik; font-size:14px; font-weight:bold; border-bottom:1px dashed #d2d2d2; padding:7px 2px;}
-    .notice_list li a{color:#C00}
-    .notice_list li .p_date{font-family:Montserrat; font-size:12px; font-weight:600; color:#333}
+    .notice_list li{font-family:Nunito; font-size:14px; font-weight:bold; border-bottom:1px dashed #d2d2d2; padding:7px 2px;}
+    .notice_list li a{color:#004ecc}
+    .notice_list li a img{width:45px}
+    .notice_list li .p_date{font-family:Montserrat; font-size:12px; font-weight:600; color:#444}
+    .notice_list li .new_tag{font-size:9px; vertical-align:top}
 </style>
 
 </head>
@@ -51,7 +54,7 @@ if(count($collegeRecord)>0){
     <?php include("college_page_header.php");?>
     <?php include("college_page_menu.php");?>
     <style type="text/css">
-	.active_overview{color:#FC0 !important;}
+	.active_notice{color:#FC0 !important;}
 	</style>
     <section class="mt-4">
         <div class="container-fluid">
@@ -59,36 +62,80 @@ if(count($collegeRecord)>0){
                 <div class="col-md-12 text-center">
 					<?php include("google_ads_horizontal.php");?>
                 </div>
-                <?php include("college_page_social_share_button.php");?>
             </div>
         </div>
     </section>
-    
+
     <section class="mt-4">
-        <div class="container-fluid">
+        <div class="container-xxl">
             <div class="row">
                 <div class="col-md-9">
                 	<div class="row">
                     	<div class="col-md-12">
-                            <h4 class="alert alert-info" title="<?php echo strtolower($college_name);?> admission <?php echo CURRENT_YEAR_DISPLAY_C_PAGE;?>" style="font-family:Oswald"><i class="fa-solid fa-bullhorn"></i> Notices <?php echo CURRENT_YEAR_DISPLAY_C_PAGE;?></h4>
+                            <h4 class="alert alert-info" title="<?php echo strtolower($college_name);?> admission <?php echo CURRENT_YEAR_DISPLAY_C_PAGE;?>" style="font-family:Oswald"><i class="fa-solid fa-bullhorn"></i> Notices <strong id="notice-archived-year"><?php echo CURRENT_YEAR_DISPLAY_C_PAGE;?><strong></h4>
+
                         </div>
                     </div>
                 	<div class="row">
+
+                        <?php 
+                                $sql = "select distinct notice_year from notices where college_id = $college_id AND is_active=1 order by notice_year desc";
+                                $stmt = $dbConn->prepare($sql);
+                                $stmt->execute();
+                                $qryresult = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                if($qryresult) {
+                        ?>
+                        <div class="col-md-4 float-end">
+                            <form action="../">
+
+                                
+                                <select class="custom-select" onchange="showArchiveData(this.value)" style="padding:3px; width:100%" id="archived-year">
+                                    <?php if(count($qryresult)==1){ ?>
+                                    <option value="">Select</option>
+                                    <?php } ?>
+                                    <?php 
+                                            foreach ($qryresult as $row) {
+                                    ?>
+                                    <option value="<?php echo $row['notice_year']; ?>"><?php echo $row['notice_year']; ?></option>
+                                    <?php }  ?>
+                                </select>
+                            </form>
+                        </div>
+                        <?php }  ?>
+
                         <div class="col-md-12 mt-2">
-                        <ul class="notice_list">
-                        <?php if(count($records)>0){
-                            foreach ($records as  $record) { ?>
-                            <li>
-                                <a href="<?php echo BASE_URL;?>/<?php echo $record['slug']; ?>" title="<?php echo strtolower($college_name); ?> <?php echo strtolower($record['notice_title']); ?>">
-                                    <?php echo $record['notice_title']; ?><br>
-                                    <span class="p_date">
-                                        <?php echo date('d M Y', strtotime($record['notice_date'])); ?>
-                                    </span>
-                                </a>
-                            </li>
-                        <?php    }
-                        } ?>
-                        </ul>
+                            <ul class="notice_list"  id="college-notice-list">
+                                <?php if(count($records)>0){
+                                    foreach ($records as  $record) { 
+                                        $custom_link = "";
+                                        $target = "";
+                                        if($record['notice_type'] == 'page'){
+                                            $custom_link = BASE_URL."/".$record['slug'];
+                                            $target = "_self";
+                                        }
+                                        if($record['notice_type'] == 'url'){
+                                            $custom_link = $record['url_link']; 
+                                            $target = "_blank";
+                                        }
+                                        
+                                        ?>
+                                    <li>
+                                        <a target="<?php echo $target; ?>" href="<?php echo $custom_link ?>" title="<?php echo strtolower($college_name); ?> <?php echo strtolower($record['notice_title']); ?>">
+                                            <img src="<?php echo BASE_URL;?>/<?php echo SITE_LOGO;?>" alt="" class="float-start me-2 rounded-circle">
+                                            <?php echo $record['notice_title']; ?>
+                                            <?php if($record['is_new']==1){ ?>
+                                                <span class="new_tag badge text-bg-danger fa-fade">New</span>
+                                            <?php } ?>
+
+                                            <br>
+                                            <span class="p_date">
+                                                <i class="fa-solid fa-calendar-days"></i> <?php echo date('d M Y', strtotime($record['notice_date'])); ?>
+                                            </span>
+                                        </a>
+                                    </li>
+                                <?php    }
+                                } ?>
+                            </ul>
                         </div>
                     </div>
                     
@@ -111,5 +158,24 @@ if(count($collegeRecord)>0){
     <?php include("footer_includes.php");?>
     
     <?php $dbConn =NULL; ?>
+
+    <script>
+        function showArchiveData(year){
+            $('#dvLoading').show();
+            //$url = "http://localhost/main.php?email=$email_address&event_id=$event_id";
+            $.ajax({
+                    type: "get",
+                   // async: false,
+                    url: "<?php echo BASE_URL;?>/Get_archived_notice.php?year=" + year +'&type=college&college_id='+ '<?php echo $college_id?>',
+                    success: function(data) {
+                            console.log(data);
+
+                                $('#college-notice-list').html(data);
+                                $('#notice-archived-year').text(year);
+                        
+                    }
+                });
+        }
+    </script>
 </body>
 </html>

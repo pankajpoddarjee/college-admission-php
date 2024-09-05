@@ -22,7 +22,15 @@ $stmt->bindParam(':is_active',$activeStatus);
 $stmt->execute();
 $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $output="";
+$adFrequency = 2;
 if(count($records) > 0){
+
+    if (($page + 1) % $adFrequency == 0) {
+        // Display the ad
+        $output .= '<div class="text-center page_headerIcon" data-sr-id="2" style="; visibility: visible;  -webkit-transform: translateX(0) scale(1) rotateX(0); opacity: 1;transform: translateX(0) scale(1) rotateX(0); opacity: 1;-webkit-transition: all, -webkit-transform 1s cubic-bezier(0.6, 0.2, 0.1, 1) 0s, opacity 1s cubic-bezier(0.6, 0.2, 0.1, 1) 0s; transition: all, transform 1s cubic-bezier(0.6, 0.2, 0.1, 1) 0s, opacity 1s cubic-bezier(0.6, 0.2, 0.1, 1) 0s; ">
+        <img class="img-fluid" src="http://192.168.1.5/college-admission/front_end/images/google_AD_2.jpg" alt="">
+        </div>';
+    }
     
     foreach ($records as  $rec) {
         $college_url = BASE_URL.'/'.$rec["slug"];

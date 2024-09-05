@@ -1,9 +1,188 @@
 
-            // function submitdata() {
-            //     event.preventDefault();
-            //     if (!verifyInput()) return false;
-            //     saveData();
-            // }
+            /* Encode string to slug */
+            function convertToSlug() {
+                var str = $('#university_name').val();
+                //replace all special characters | symbols with a space
+                str = str.replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, ' ')
+                        .toLowerCase();
+                
+                // trim spaces at start and end of string
+                str = str.replace(/^\s+|\s+$/gm,'');
+                
+                // replace space with dash/hyphen
+                str = str.replace(/\s+/g, '-');   
+                //document.getElementById("slug-text").innerHTML = str;
+                //return str;
+
+                $('#slug').val(str);
+            }
+            function tags_with_space(){
+                var university_name = $('#university_name').val();
+                university_name = university_name.toLowerCase();
+                $('#tags').tagsinput('add', university_name);
+
+                var other_name = $('#other_name').val();
+                other_name = other_name.toLowerCase();
+                $('#tags').tagsinput('add', other_name);
+
+               
+                var university_type_name = $('#university_type_id option:selected').text().trim();
+                if(university_type_name && university_type_name!='Select' && university_type_name!='select'){
+                    university_type_name = university_type_name.toLowerCase();
+                    $('#tags').tagsinput('add', university_type_name);
+                }
+
+                var country_name = $('#country_id option:selected').text().trim();
+                if(country_name && country_name!='Select' && country_name!='select'){
+                    country_name = country_name.toLowerCase();
+                    $('#tags').tagsinput('add', country_name);
+                }
+
+                var state_name = $('#state_id option:selected').text().trim();
+                if(state_name && state_name!='Select' && state_name!='select'){
+                    state_name = state_name.toLowerCase();
+                    $('#tags').tagsinput('add', state_name);
+                }
+
+                var city_name = $('#city_id option:selected').text().trim();
+                if(city_name && city_name!='Select' && city_name!='select'){
+                    city_name = city_name.toLowerCase();
+                    $('#tags').tagsinput('add', city_name);
+                }
+
+                var district_name = $('#district_id option:selected').text().trim();
+                if(district_name && district_name!='Select' && district_name!='select'){
+                    district_name = district_name.toLowerCase();
+                    $('#tags').tagsinput('add', district_name);
+                }
+            }
+            function tags_with_hyphen(){
+
+                var university_name = $('#university_name').val();
+
+                university_name = university_name.replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, ' ')
+                        .toLowerCase();
+                university_name = university_name.replace(/^\s+|\s+$/gm,'');
+
+                university_name = university_name.replace(/\s+/g, '-'); 
+
+                $('#tags').tagsinput('add', university_name);
+
+                var other_name = $('#other_name').val();
+
+                other_name = other_name.replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, ' ')
+                        .toLowerCase();
+                other_name = other_name.replace(/^\s+|\s+$/gm,'');
+
+                other_name = other_name.replace(/\s+/g, '-'); 
+
+                $('#tags').tagsinput('add', other_name);
+
+                var university_type_name = $('#university_type_id option:selected').text().trim();
+                if(university_type_name && university_type_name!='Select' && university_type_name!='select'){
+                    university_type_name = university_type_name.replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, ' ')
+                        .toLowerCase();
+                    university_type_name = university_type_name.replace(/^\s+|\s+$/gm,'');
+
+                    university_type_name = university_type_name.replace(/\s+/g, '-');
+                    $('#tags').tagsinput('add', university_type_name);
+                }
+
+                var country_name = $('#country_id option:selected').text().trim();
+                if(country_name && country_name!='Select' && country_name!='select'){
+                    country_name = country_name.replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, ' ')
+                    .toLowerCase();
+                    country_name = country_name.replace(/^\s+|\s+$/gm,'');
+
+                    country_name = country_name.replace(/\s+/g, '-');
+                    $('#tags').tagsinput('add', country_name);
+                }
+
+                var state_name = $('#state_id option:selected').text().trim();
+                if(state_name && state_name!='Select' && state_name!='select'){
+                    state_name = state_name.replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, ' ')
+                    .toLowerCase();
+                    state_name = state_name.replace(/^\s+|\s+$/gm,'');
+
+                    state_name = state_name.replace(/\s+/g, '-');
+                    $('#tags').tagsinput('add', state_name);
+                }
+
+                var city_name = $('#city_id option:selected').text().trim();
+                if(city_name && city_name!='Select' && city_name!='select'){
+                    city_name = city_name.replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, ' ')
+                    .toLowerCase();
+                    city_name = city_name.replace(/^\s+|\s+$/gm,'');
+
+                    city_name = city_name.replace(/\s+/g, '-');
+                    $('#tags').tagsinput('add', city_name);
+                }
+
+                var district_name = $('#district_id option:selected').text().trim();
+                if(district_name && district_name!='Select' && district_name!='select'){
+                    district_name = district_name.replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, ' ')
+                    .toLowerCase();
+                    district_name = district_name.replace(/^\s+|\s+$/gm,'');
+
+                    district_name = district_name.replace(/\s+/g, '-');
+                    $('#tags').tagsinput('add', district_name);
+                }
+            }
+            function convertToTags() { 
+
+                tags_with_space();
+                tags_with_hyphen();
+                var str ='';
+                var university_name = $('#university_name').val();
+                var short_name = $('#short_name').val();
+                var other_name = $('#other_name').val();
+                var country_name = $('#country_id option:selected').text().trim();
+                var state_name = $('#state_id option:selected').text().trim();
+                var city_name = $('#city_id option:selected').text().trim();
+                var district_name = $('#district_id option:selected').text().trim();
+                var university_type_name = $('#university_type_id option:selected').text().trim();
+                
+                if(university_name){
+                    str += university_name;
+                }
+                if(short_name){
+                    str += " "+short_name;
+                }
+                if(other_name){
+                    str += " "+other_name;
+                }
+                if(country_name && country_name!='Select' && country_name!='select'){
+                    str += " "+country_name;
+                }
+                if(state_name && state_name!='Select' && state_name!='select'){
+                    str += " "+state_name;
+                }
+                if(city_name && city_name!='Select' && city_name!='select'){
+                    str += " "+city_name;
+                }
+                if(district_name && district_name!='Select' && district_name!='select'){
+                    str += " "+district_name;
+                }
+                if(university_type_name && university_type_name!='Select' && university_type_name!='select'){
+                    str += " "+university_type_name;
+                }
+                //var str = $('#university_name').val();
+                //replace all special characters | symbols with a space
+                str = str.replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, ' ')
+                        .toLowerCase();
+                
+                // trim spaces at start and end of string
+                str = str.replace(/^\s+|\s+$/gm,'');
+                
+                // replace space with dash/hyphen
+                str = str.replace(/\s+/g, ',');   
+
+                str = str.replace(/'/g, '');  
+                //document.getElementById("slug-text").innerHTML = str;
+                //return str;
+
+                $('#tags').tagsinput('add', str);
+            }
 
             $('body').on('click', '#save-university-button', function (event) {
                 event.preventDefault();
@@ -48,12 +227,6 @@
                     return false;
                 }
 
-                if ($.trim($("#university_id").val()) == "") {
-                    toastr.error("Select University");
-                    $("#university_id").focus();
-                    return false;
-                }
-
                 if ($.trim($("#address").val()) == "") {
                     toastr.error("Enter Address");
                     $("#address").focus();
@@ -87,17 +260,13 @@
                     return false;
                 }
 
-                if ($.trim($("#folder_name").val()) == "") {
-                    toastr.error("Enter Folder Name");
-                    $("#folder_name").focus();
+                if ($.trim($("#slug").val()) == "") {
+                    toastr.error("Slug is Required");
+                    $("#slug").focus();
                     return false;
                 }
 
-                if ($.trim($("#file_name").val()) == "") {
-                    toastr.error("Enter File Name");
-                    $("#email").focus();
-                    return false;
-                }
+                
                 return true;
             }
 
@@ -153,7 +322,7 @@
             });
             
             $('#university_name').on('keypress', function(event) {
-                var regex = new RegExp("^[a-zA-Z ]+$");
+                var regex = new RegExp("^[a-zA-Z () .]+$");
                 var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
                
                 if (!regex.test(key)) {
@@ -179,16 +348,17 @@
                            // $('#dvLoading').hide();
                            // $('#banner_img').val(data.record.banner_img);
                            // $('#logo_img').val(data.record.logo_img);
-                           var base_url = $('#base_url').val();
+                           //var base_url = $('#base_url').val();
+						   var base_url_upload = $('#base_url_upload').val();
                             if(data.record.banner_img){
                                 $("#banner_img_path").show();
-                                $("#banner_img_path").attr("src",base_url+'/uploads/university/banner_image/'+data.record.banner_img);
+                                $("#banner_img_path").attr("src",base_url_upload+'/university/banner_image/'+data.record.banner_img);
                             }else{
                                 $("#banner_img_path").hide();  
                             }
                             if(data.record.logo_img){
                                 $("#logo_img_path").show();
-                                $("#logo_img_path").attr("src",base_url+'/uploads/university/logo_image/'+data.record.logo_img);
+                                $("#logo_img_path").attr("src",base_url_upload+'/university/logo_image/'+data.record.logo_img);
                             }else{
                                 $("#logo_img_path").hide();  
                             }
@@ -196,53 +366,41 @@
                             
                             $('#university_name').val(data.record.university_name);
                             $('#short_name').val(data.record.short_name);
-                            $('#university_code').val(data.record.university_code);
                             $('#other_name').val(data.record.other_name);
-                            $('#eshtablish').val(data.record.eshtablish);
-                            $('#undertaking_id').val(data.record.undertaking_id);
-                            $('#accreditation').val(data.record.accreditation);
+                            $('#discription').val(data.record.discription);
+                            $('#university_type_id').val(data.record.university_type_id);
                             $('#address').val(data.record.address);
                             $('#landmark').val(data.record.landmark);
 
                             getCity(data.record.state_id);
                             getDistrict(data.record.state_id);
                             $('#city_id').val(data.record.city_id);
-                            $('#city_id').select2().val(data.record.city_id)
+                            $('#city_id').select2({tags: true}).val(data.record.city_id)
                             $('#district_id').val(data.record.district_id);
-                            $('#district_id').select2().val(data.record.district_id)
+                            $('#district_id').select2({tags: true}).val(data.record.district_id)
 
                             getState(data.record.country_id)
 
                             $('#state_id').val(data.record.state_id);
-                            $('#state_id').select2().val(data.record.state_id)
+                            $('#state_id').select2({tags: true}).val(data.record.state_id)
                             $('#country_id').val(data.record.country_id);
-                            $('#country_id').select2().val(data.record.country_id)
+                            $('#country_id').select2({tags: true}).val(data.record.country_id)
                             $('#email').val(data.record.email);
                             $('#email2').val(data.record.email2);
                             $('#phone').val(data.record.phone);
                             $('#website_url').val(data.record.website_url);
                             $('#website_display').val(data.record.website_display);
 
-                            var str_course_type =  data.record.course_type_id;
-                            var course_type_arr = str_course_type.split(',');
-
-                            $('#course_type_id').val(course_type_arr);
-                            $("#course_type_id").multiselect('reload');
-
-                            var str_course =  data.record.course_id;
-                            var course_arr = str_course.split(',');
-
-
-                            $('#course_id').val(course_arr);
-                            $("#course_id").multiselect('reload');
-							
-							$('#folder_name').val(data.record.folder_name);
-							$('#file_name').val(data.record.file_name);
+                            $('#tags').tagsinput('destroy'); // Destroy the tagsinput
+                            $('#tags').val(data.record.tags); // Clear the value
+                            $('#tags').tagsinput('add', data.record.tags)
+                            
+                            $('#slug').val(data.record.slug);
 
                             $('#record_id').val(data.record.id);
                             $('#action').val("edit");
                             $('#dvLoading').hide();
-                           $("#add_edit_form").modal();
+                            $("#add_edit_form").modal();
 
                             
                         } else {
@@ -254,40 +412,50 @@
             });
 
             function resetdata() {
+                
                 $("#banner_img").val("");
+                $("#banner_img_path").css("display","none");
                 $("#logo_img").val("");
+                $("#logo_img_path").css("display","none");
                 $("#university_name").val("");
                 $("#short_name").val("");
-                $("#university_code").val("");
                 $("#other_name").val("");
-                $("#eshtablish").val("");
-                $("#undertaking_id").val("");
-                $("#accreditation").val("");
+                $("#university_type_id").val("");
                 $("#address").val("");
                 $("#landmark").val("");
                 $("#country_id").val("");
-                $('#country_id').select2().val("");
+                $('#country_id').select2({
+                    tags: true
+                  }).val("");
                 $("#state_id").val("");
                 $("#state_id").html('<option value="""> Select </option>');
-                $('#state_id').select2().val("");
+                $('#state_id').select2({
+                    tags: true
+                  }).val("");
                 $("#city_id").val("");
                 $("#city_id").html('<option value="""> Select </option>');
-                $('#city_id').select2().val("");
+                $('#city_id').select2({
+                    tags: true
+                  }).val("");
                 $("#district_id").val("");
                 $("#district_id").html('<option value="""> Select </option>');
-                $('#district_id').select2().val("");
+                $('#district_id').select2({
+                    tags: true
+                  }).val("");
                 $("#email").val("");
                 $("#email2").val("");
                 $("#phone").val("");
                 $("#website_url").val("");
                 $("#website_display").val("");
                 $("#course_type_id").val("");
-                $("#course_id").val("");
-				$("#folder_name").val("");
-				$("#file_name").val("");
-                
-                $("#course_type_id").multiselect('reset');
-                $("#course_id").multiselect('reset');
+                $("#stream_id").val("");
+                $("#slug").val("");
+                //$("#tags").tagsinput('add',"");
+
+                $('#tags').tagsinput('destroy'); // Destroy the tagsinput
+                $('#tags').val(''); // Clear the value
+                $('#tags').tagsinput();
+				
                 
             }
 
@@ -410,19 +578,242 @@
 				}
 			}
 			
-			function populateFolderName() 
-			{
-				var input_folderName = document.getElementsByName('folder_name')[0].value;
-				var input_fileName = document.getElementsByName('file_name')[0];
-				var var_fileName = concatenate(input_folderName, '.php');
-				input_fileName.value = var_fileName;
-			}			
+						
 			
 
-            $("#course_type_id").multiselect();
-            $("#course_id").multiselect();
+            $("#course_type_id").multiselect(
+                {
+                    reload : true,
+                    columns: 1,
+                    texts: {
+                        placeholder: 'Select Course',
+                        search     : 'Type here to search'
+                    },
+                    search: true,
+                    selectAll: true
+                }
+            );
+            $("#stream_id").multiselect(
+                {
+                    reload : true,
+                    columns: 1,
+                    texts: {
+                        placeholder: 'Select Stream',
+                        search     : 'Type here to search'
+                    },
+                    search: true,
+                    selectAll: true
+                }
+            );
+
+            // $(document).ready(function() {
+            //     $('.select-2-dropdown').select2({
+            //         tags: true
+            //       });
+            // });
+
+            //Add New University
+            $(document).ready(function(){
+
+                $('#university_id').select2({
+                  placeholder:'Select University',
+                  theme:'bootstrap4',
+                  tags:true,
+                }).on('select2:close', function(){
+                  var element = $(this);
+                  var new_university = $.trim(element.val());
+              
+
+              
+                  if(new_university != '' && typeof new_university === 'string')
+                  {
+                    $.ajax({
+                      type: "get",
+                      async: false,
+                      url: "get_location.php?newUniversity=" + new_university,
+                      dataType: "json",
+                      success:function(data)
+                      {
+                        if(data.status == 1)
+                        {
+                          element.append('<option value="'+data.insert_id+'">'+new_university+'</option>').val(data.insert_id);
+                        }
+                      }
+                    })
+                  }
+              
+                });
+              
+              });
+            
+            //Add New Country
+            $(document).ready(function(){
+                $('#country_id').select2({
+                  placeholder:'Select Country',
+                  theme:'bootstrap4',
+                  tags:true,
+                }).on('select2:close', function(){
+                  var element = $(this);
+                  var new_country = $.trim(element.val());
+                  if(new_country != '' && typeof new_country === 'string')
+                  {
+                    $.ajax({
+                      type: "get",
+                      async: false,
+                      url: "get_location.php?addCountry=" + new_country,
+                      dataType: "json",
+                      success:function(data)
+                      {
+                        if(data.status == 1)
+                        {
+                          element.append('<option value="'+data.insert_id+'">'+new_country+'</option>').val(data.insert_id);
+                          getState(data.insert_id);
+                          
+                        }else{
+                            getState(new_country);
+                        }
+                      }
+                    })
+                  }
+              
+                });
+              
+              });
+
+              //Add New State
+            $(document).ready(function(){
+                $('#state_id').select2({
+                  placeholder:'Select Country',
+                  theme:'bootstrap4',
+                  tags:true,
+                }).on('select2:close', function(){
+                    var country_id = $('#country_id').val();
+                if(country_id=='' || country_id==null || country_id=="undefined"){
+                    alert("Please select country");
+                    return false;
+                }
+                  var element = $(this);
+                  var new_state = $.trim(element.val());
+                  if(new_state != '' && typeof new_state === 'string')
+                  {
+                    $.ajax({
+                      type: "get",
+                      async: false,
+                      url: "get_location.php?addState=" + new_state + "&country_id=" + country_id,
+                      dataType: "json",
+                      success:function(data)
+                      {
+                        if(data.status == 1)
+                        {
+                          element.append('<option value="'+data.insert_id+'">'+new_state+'</option>').val(data.insert_id);
+                          getCity(data.insert_id);
+                          getDistrict(data.insert_id);
+                        }else{
+                            getCity(new_state);
+                            getDistrict(new_state);
+                        }
+                      }
+                    })
+                  }
+              
+                });
+              
+            });
+
+            //Add New City
+            $(document).ready(function(){
+                $('#city_id').select2({
+                  placeholder:'Select Country',
+                  theme:'bootstrap4',
+                  tags:true,
+                }).on('select2:close', function(){
+                    var country_id = $('#country_id').val();
+                    if(country_id=='' || country_id==null || country_id=="undefined"){
+                        alert("Please select country");
+                        return false;
+                    }
+                    var state_id = $('#state_id').val();
+                    if(state_id=='' || state_id==null || state_id=="undefined"){
+                        alert("Please select state");
+                        return false;
+                    }
+                  var element = $(this);
+                  var new_city = $.trim(element.val());
+                  if(new_city != '' && typeof new_city === 'string')
+                  {
+                    $.ajax({
+                      type: "get",
+                      async: false,
+                      url: "get_location.php?addCity=" + new_city + "&country_id=" + country_id+ "&state_id=" + state_id,
+                      dataType: "json",
+                      success:function(data)
+                      {
+                        if(data.status == 1)
+                        {
+                          element.append('<option value="'+data.insert_id+'">'+new_city+'</option>').val(data.insert_id);
+                          
+                        }
+                      }
+                    })
+                  }
+              
+                });
+              
+            });
+
+            //Add New District
+            $(document).ready(function(){
+                $('#district_id').select2({
+                  placeholder:'Select Country',
+                  theme:'bootstrap4',
+                  tags:true,
+                }).on('select2:close', function(){
+                    var country_id = $('#country_id').val();
+                    if(country_id=='' || country_id==null || country_id=="undefined"){
+                        alert("Please select country");
+                        return false;
+                    }
+                    var state_id = $('#state_id').val();
+                    if(state_id=='' || state_id==null || state_id=="undefined"){
+                        alert("Please select state");
+                        return false;
+                    }
+                  var element = $(this);
+                  var new_district = $.trim(element.val());
+                  if(new_district != '' && typeof new_district === 'string')
+                  {
+                    $.ajax({
+                      type: "get",
+                      async: false,
+                      url: "get_location.php?addDistrict=" + new_district + "&country_id=" + country_id+ "&state_id=" + state_id,
+                      dataType: "json",
+                      success:function(data)
+                      {
+                        if(data.status == 1)
+                        {
+                          element.append('<option value="'+data.insert_id+'">'+new_district+'</option>').val(data.insert_id);
+                          
+                        }
+                      }
+                    })
+                  }
+              
+                });
+              
+            });
 
             $(document).ready(function() {
-                $('.select-2-dropdown').select2();
+                $('#tags').tagsinput({
+                    maxTags: 10,
+                    placeholder: 'Add a tag'
+                });
+            
+                // Adding a tag programmatically
+                // $('#tags-input').tagsinput('add', 'Example Tag');
             });
-        
+
+            function clearTag() { 
+                $('#tags').tagsinput('destroy'); // Destroy the tagsinput
+                $('#tags').val(''); // Clear the value
+                $('#tags').tagsinput('');
+            }

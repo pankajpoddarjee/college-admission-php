@@ -136,7 +136,6 @@ WHERE colleges.is_active = 1
                 <div class="col-md-12 text-center">
 					<?php include("google_ads_horizontal.php");?>
                 </div>
-                <?php include("college_page_social_share_button.php");?>
             </div>
         </div>
     </section>

@@ -28,11 +28,26 @@
                         // alert(JSON.stringify(data))
                         if (data.status == 1) {
                             alert(data.msg);
+
+                            var course_complete_status_html = "";
+                            var course_complete_status = $('#course_complete_status').val();
+                            if(course_complete_status == 1){
+                                course_complete_status_html = '<span class="text-success"><i class="fa-regular fa-circle-check"></i> Assigned </span>';
+                            }else if(course_complete_status == 2){
+                                course_complete_status_html = '<span class="text-danger"><i class="fa-solid fa-triangle-exclamation"></i></i>Pending</span>';
+                            }else if(course_complete_status == 3){
+                                course_complete_status_html = '<span class="text-warning"><i class="fa-solid fa-triangle-exclamation"></i> Partially Assigned </span>';
+                            }
+                            
+                            $('#td_course_complete_status'+college_id).html(course_complete_status_html);
+
                             resetdata();
                             $('#dvLoading').hide();
                             toastr.success(data.msg);
                             //location.reload();
                             getCourseDetail(college_id);
+                            
+
                         } else {
                             $('#dvLoading').hide();
                             toastr.error(data.msg);
@@ -59,6 +74,12 @@
                 if ($.trim($("#subject_id").val()) == "") {
                     toastr.error("Select Subject");
                     $("#subject_id").focus();
+                    return false;
+                }
+
+                if ($.trim($("#course_complete_status").val()) == "") {
+                    toastr.error("Select Complete Status");
+                    $("#course_complete_status").focus();
                     return false;
                 }
 
@@ -89,6 +110,7 @@
             //     });
             // });
             function getCourseDetail(college_id,college_name){
+                $("#selected-course_type_name").text("")
                 $("#edit-college-name").text(college_name)
                 $('#dvLoading').show();
               
@@ -127,6 +149,7 @@
                 $("#course_type_id").val("");
                 $("#stream_id").val("");
                 $("#subject_id").val("");
+                $("#course_complete_status").val("");
                 $("#action").val("add");
                 $("#subject_id").multiselect('reset');
             }
@@ -140,36 +163,38 @@
 
 
             function getStream(course_type_id) {
+                var selectedText = $('#course_type_id option:selected').text();
+                $('#selected-course_type_name').text('['+selectedText+']');
                 $('#dvLoading').show();	
 				          $.ajax({
-                    type: "get",
-                    async: false,
-                    url: "Save_assign_courses.php?getStream=" + course_type_id,
-                    dataType: "json",
-                    success: function(data) {
-                        $('#dvLoading').hide();	
-                        if (data.status == 1) {
-                            $('#stream_id').html("");
-                                var html = '';
-                                if (data.record.length > 0) {
-                                    html += '<option value="">Select</option>';
-                                    for (let i = 0; i < data.record.length; i++) {
-                                        html += '<option value="' + data.record[i].id + '">' + data.record[i].stream_name + '</option>';
+                                type: "get",
+                                async: false,
+                                url: "Save_assign_courses.php?getStream=" + course_type_id,
+                                dataType: "json",
+                                success: function(data) {
+                                    $('#dvLoading').hide();	
+                                    if (data.status == 1) {
+                                        $('#stream_id').html("");
+                                            var html = '';
+                                            if (data.record.length > 0) {
+                                                html += '<option value="">Select</option>';
+                                                for (let i = 0; i < data.record.length; i++) {
+                                                    html += '<option value="' + data.record[i].id + '">' + data.record[i].stream_name + '</option>';
+                                                }
+
+                                                $('#stream_id').html(html);
+                                            }
+                                            else {
+                                                html += '<option value="">Select</option>';
+                                                $('#stream_id').html(html);
+
+                                            }
+                                    } else {
+                                        alert(data.msg);
+                                        return false;
                                     }
-
-                                    $('#stream_id').html(html);
                                 }
-                                else {
-                                    html += '<option value="">Select</option>';
-                                    $('#stream_id').html(html);
-
-                                }
-                        } else {
-                            alert(data.msg);
-                            return false;
-                        }
-                    }
-                });
+                            });
             }
 
             function getSingleCourseDetail(college_course_detail_id){
@@ -188,6 +213,7 @@
                     $("#course_type_id").val(data.record.course_type_id);
                     getStream(data.record.course_type_id);
                     $("#stream_id").val(data.record.stream_id);
+                    $("#course_complete_status").val(data.record.course_complete_status);
                     var subject_value_string = data.record.subject_id;
                     var subjectArr = subject_value_string.split(',');
                     $("#subject_id").val(subjectArr);
@@ -197,6 +223,29 @@
                 }
               });
             }
+
+            function removeSingleCourseDetail(college_course_detail_id){
+
+                if(!confirm('Are you sure ?')){
+                    //e.preventDefault();
+                    return false;
+                }
+
+                $('#dvLoading').show();
+                
+  
+                $.ajax({
+                  url: "Save_assign_courses.php?removeSingleCourseDetail=" + college_course_detail_id,
+                  type: 'GET',
+                  dataType: "json",
+                  success: function(data) { 
+                       toastr.success(data.msg);
+                       getCourseDetail(data.college_id,data.college_name);
+                       
+                      $('#dvLoading').hide();
+                  }
+                });
+              }
  
             $("#subject_id").multiselect(
                 {
