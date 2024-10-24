@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $record=[] ;
         //$strsql="select id,name,designation,department,mobile,email,password,usertype,is_active from users where email='".$_POST["username"]."'  and password='" .$_POST["password"]."'  and is_active=1 ";
         $userPassword =    md5($_POST["password"]); 
-        $strsql='select id,name,designation,mobile,email,password,usertype,is_active from users_admin where email=:username  and password=:password  and is_active=1' ;
+        $strsql='select * from clients where email=:username  and password=:password  and is_active=1' ;
 
         $stmt = $dbConn->prepare($strsql);
         $stmt->bindParam(':username', $_POST["username"], PDO::PARAM_STR);
@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['user'] = $record["name"];
             //$_SESSION['department_id'] = $record["department"];
             //$_SESSION['usertypeid'] = $record[0]["typeid"];
-            $_SESSION['usertype'] = $record["usertype"];
+            $_SESSION['usertype'] = 'client';
         
         }
         else{
@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $finalarr["status"]=$status;
         $finalarr["msg"]=$msg;
-        $finalarr["actionurl"]= "adminuser/dashboard.php";
+        $finalarr["actionurl"]= "clientuser/dashboard.php";
         unset($_SESSION['csrf_token']);
         echo json_encode($finalarr);
     } else {
