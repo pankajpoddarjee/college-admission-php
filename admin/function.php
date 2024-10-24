@@ -71,6 +71,31 @@ function validateLogoImage($file) {
     return $errors;
 }
 
+function validateAdImage($file) {
+    $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    $maxFileSize = 2 * 1024 * 1024; // 2MB
+    $errors = [];
+
+    // Check if the file was uploaded
+    if (!isset($file) || $file['error'] != UPLOAD_ERR_OK) {
+        $errors[] = 'File upload error.';
+        return $errors;
+    }
+
+    if ($file['size'] > $maxFileSize) {
+        $errors[] = 'File size should be less than 2MB';
+        return $errors;
+    }
+
+    // Validate file type
+    $fileType = mime_content_type($file['tmp_name']);
+    if (!in_array($fileType, $allowedTypes)) {
+        $errors[] = 'Invalid file type. Only images are allowed.';
+    }
+
+    return $errors;
+}
+
 function getCourseTypeNameById($course_type_id){
     global $dbConn;
     $sql = "select course_type_name from course_types WHERE id=:id";
@@ -190,5 +215,7 @@ function timeAgo($datetime, $full = false) {
     if (!$full) $string = array_slice($string, 0, 1);
     return $string ? implode(', ', $string) . ' ago' : 'just now';
 }
+
+
 ?>
 

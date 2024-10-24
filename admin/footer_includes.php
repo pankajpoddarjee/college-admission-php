@@ -5,7 +5,7 @@
 
 <link href="<?php echo BASE_URL_ADMIN;?>/bootstrap/toast/toastr.min.css" rel="stylesheet">
 <script src="<?php echo BASE_URL_ADMIN;?>/bootstrap/toast/toastr.min.js"></script>
-
+<script src="<?php echo BASE_URL_ADMIN;?>/bootstrap/js/table_filter.js"></script>
 <link href="<?php echo BASE_URL_ADMIN;?>/bootstrap/css/table_style.css" rel="stylesheet">
 <link href="<?php echo BASE_URL_ADMIN;?>/bootstrap/css/multi_select.css" rel="stylesheet">
 <link href="<?php echo BASE_URL_ADMIN;?>/bootstrap/css/select2.min.css" rel="stylesheet">
@@ -167,3 +167,4 @@ window.sr = ScrollReveal();
     <div class="text-white" style="padding:5px; border-radius:5px;height:100px;width:100px; position:absolute; top:50%; left:50%;margin-left:-50px; margin-top:30px; display:block;">Please wait...</div>
 </div>
 <!-- LOADER ENDS-->
+

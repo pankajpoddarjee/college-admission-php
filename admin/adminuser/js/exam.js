@@ -25,6 +25,23 @@
                 short_name = short_name.toLowerCase();
                 $('#tags').tagsinput('add', short_name);
 
+                var country_name = $('#country_name option:selected').text().trim();
+                if(country_name && country_name!='Select' && country_name!='select'){
+                    country_name = country_name.toLowerCase();
+                    $('#tags').tagsinput('add', country_name);
+                }
+
+                var state_name = $('#state_name option:selected').text().trim();
+                if(state_name && state_name!='Select' && state_name!='select'){
+                    state_name = state_name.toLowerCase();
+                    $('#tags').tagsinput('add', state_name);
+                }
+
+                var exam_level = $('#exam_level option:selected').text().trim();
+                if(exam_level && exam_level!='Select' && exam_level!='select'){
+                    exam_level = exam_level.toLowerCase();
+                    $('#tags').tagsinput('add', exam_level);
+                }
                
             }
             function tags_with_hyphen(){
@@ -49,6 +66,57 @@
 
                 $('#tags').tagsinput('add', short_name);
 
+                
+                var exam_type_name = $('#exam_type_name option:selected').text().trim();
+                if(exam_type_name && exam_type_name!='Select' && exam_type_name!='select'){
+                    exam_type_name = exam_type_name.replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, ' ')
+                    .toLowerCase();
+                    exam_type_name = exam_type_name.replace(/^\s+|\s+$/gm,'');
+
+                    exam_type_name = exam_type_name.replace(/\s+/g, '-');
+                    $('#tags').tagsinput('add', exam_type_name);
+                }
+
+                var exam_category_name = $('#exam_category_name option:selected').text().trim();
+                if(exam_category_name && exam_category_name!='Select' && exam_category_name!='select'){
+                    exam_category_name = exam_category_name.replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, ' ')
+                    .toLowerCase();
+                    exam_category_name = exam_category_name.replace(/^\s+|\s+$/gm,'');
+
+                    exam_category_name = exam_category_name.replace(/\s+/g, '-');
+                    $('#tags').tagsinput('add', exam_category_name);
+                }
+
+                var country_name = $('#country_name option:selected').text().trim();
+                if(country_name && country_name!='Select' && country_name!='select'){
+                    country_name = country_name.replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, ' ')
+                    .toLowerCase();
+                    country_name = country_name.replace(/^\s+|\s+$/gm,'');
+
+                    country_name = country_name.replace(/\s+/g, '-');
+                    $('#tags').tagsinput('add', country_name);
+                }
+
+                var state_name = $('#state_name option:selected').text().trim();
+                if(state_name && state_name!='Select' && state_name!='select'){
+                    state_name = state_name.replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, ' ')
+                    .toLowerCase();
+                    state_name = state_name.replace(/^\s+|\s+$/gm,'');
+
+                    state_name = state_name.replace(/\s+/g, '-');
+                    $('#tags').tagsinput('add', state_name);
+                }
+
+                var exam_level = $('#exam_level option:selected').text().trim();
+                if(exam_level && exam_level!='Select' && exam_level!='select'){
+                    exam_level = exam_level.replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, ' ')
+                    .toLowerCase();
+                    exam_level = exam_level.replace(/^\s+|\s+$/gm,'');
+
+                    exam_level = exam_level.replace(/\s+/g, '-');
+                    $('#tags').tagsinput('add', exam_level);
+                }
+
 
                 
             }
@@ -59,12 +127,33 @@
                 var str ='';
                 var exam_name = $('#exam_name').val();
                 var short_name = $('#short_name').val();
+                var exam_type_name = $('#exam_type_name option:selected').text().trim();
+                var exam_category_name = $('#exam_category_name option:selected').text().trim();
+                var country_name = $('#country_name option:selected').text().trim();
+                var state_name = $('#state_name option:selected').text().trim();
+                var exam_level = $('#exam_level option:selected').text().trim();
+                
                 
                 if(exam_name){
                     str += exam_name;
                 }
                 if(short_name){
                     str += " "+short_name;
+                }
+                if(exam_type_name && exam_type_name!='Select' && exam_type_name!='select'){
+                    str += " "+exam_type_name;
+                }
+                if(exam_category_name && exam_category_name!='Select' && exam_category_name!='select'){
+                    str += " "+exam_category_name;
+                }
+                if(country_name && country_name!='Select' && country_name!='select'){
+                    str += " "+country_name;
+                }
+                if(state_name && state_name!='Select' && state_name!='select'){
+                    str += " "+state_name;
+                }
+                if(exam_level && exam_level!='Select' && exam_level!='select'){
+                    str += " "+exam_level;
                 }
                 //var str = $('#exam_name').val();
                 //replace all special characters | symbols with a space
@@ -182,7 +271,7 @@
                     dataType: "json",
                     success: function(data) {
                         if (data.status == 1) {
-
+                            var base_url = $('#base_url').val();
                             var base_url_upload = $('#base_url_upload').val();
                             if(data.record.banner_img){
                                 $("#banner_img_path").show();
@@ -192,11 +281,44 @@
                             }
                             if(data.record.logo_img){
                                 $("#logo_img_path").show();
+                                
                                 $("#logo_img_path").attr("src",base_url_upload+'/exam/logo_image/'+data.record.logo_img);
+                                
                             }else{
                                 $("#logo_img_path").hide();  
+                                
                             }
+                            if(data.record.html_page){ 
+
+                                var path = base_url + "/" + data.record.slug;
+
+                                var download_path = base_url_upload + "/exam/html_page/" + data.record.html_page;
+                                $("#html_page_path").show();
+                                $("#html_page_path_download").show();
+
+                                $("#html_page_path").attr("href", path);
+
+                                $("#html_page_path_download").attr("href", download_path);
+                                $("#html_page_path_download").attr("download", download_path);
+
+
+                               
+                            }else{
+                                $("#html_page_path").hide();  
+                                $("#html_page_path_download").show();
+                            }
+
+
+                            
+                            
+                            $('#exam_level').val(data.record.exam_level);
+                            $('#exam_type_name').val(data.record.exam_type_name);
+                            $('#exam_category_name').val(data.record.exam_category_name);
+                            $('#country_name').val(data.record.country_name);
+                            getState(data.record.country_name)
+                            $('#state_name').val(data.record.state_name);
                             $('#exam_name').val(data.record.exam_name);
+                            $('#about_exam').val(data.record.about_exam);
                             $('#short_name').val(data.record.short_name);
                             $('#slug').val(data.record.slug);
                             $('#record_id').val(data.record.id);
@@ -216,7 +338,13 @@
             });
 
             function resetdata() {
+                $('#exam_level').val("");
+                $('#exam_type_name').val("");
+                $('#exam_category_name').val("");
+                $('#country_name').val("");
+                $('#state_name').val("");
                 $("#exam_name").val("");
+                $("#about_exam").val("");
                 $("#banner_img").val("");
                 $("#banner_img_path").css("display","none");
                 $("#logo_img").val("");
@@ -238,4 +366,44 @@
                 $('#tags').tagsinput('destroy'); // Destroy the tagsinput
                 $('#tags').val(''); // Clear the value
                 $('#tags').tagsinput('');
+            }
+
+            function getState(cname) {  
+                $('#dvLoading').show();	
+                console.log(cname);
+                if(cname != ''){
+                    $.ajax({
+                        type: "get",
+                        async: false,
+                        url: "get_location.php?getStateByCountryName=" + cname,
+                        dataType: "json",
+                        success: function(data) {
+                            $('#dvLoading').hide();	
+                            if (data.status == 1) {
+                                $('#state_name').html("");
+                                    var html = '';
+                                    if (data.record.length > 0) {
+                                        html += '<option value="">Select </option>';
+                                        for (let i = 0; i < data.record.length; i++) {
+                                            html += '<option value="' + data.record[i].state_name + '">' + data.record[i].state_name + '</option>';
+                                        }
+
+                                        $('#state_name').html(html);
+                                    }
+                                    else {
+                                        html += '<option value="">Select</option>';
+                                        $('#state_name').html(html);
+
+                                    }
+                            } else {
+                                alert(data.msg);
+                                return false;
+                            }
+                        }
+                    });
+                }else{
+                    $('#dvLoading').hide();
+                    html = '<option value="">Select</option>';
+                    $('#state_name').html(html);
+                }
             }

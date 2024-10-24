@@ -362,6 +362,26 @@
                             }else{
                                 $("#logo_img_path").hide();  
                             }
+                            
+                            if(data.record.html_page){ 
+
+                                var path = base_url + "/" + data.record.slug;
+
+                                var download_path = base_url_upload + "/university/html_page/" + data.record.html_page;
+                                $("#html_page_path").show();
+                                $("#html_page_path_download").show();
+
+                                $("#html_page_path").attr("href", path);
+
+                                $("#html_page_path_download").attr("href", download_path);
+                                $("#html_page_path_download").attr("download", download_path);
+
+
+                               
+                            }else{
+                                $("#html_page_path").hide();  
+                                $("#html_page_path_download").show();
+                            }
                            
                             
                             $('#university_name').val(data.record.university_name);

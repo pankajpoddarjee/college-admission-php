@@ -86,6 +86,8 @@ $record_id = sanitize_string($_POST["record_id"]);
 
 $banner_img = "";
 $logo_img = "";
+$html_page ="";
+
 $university_name = $_POST["university_name"];
 $short_name = sanitize_string($_POST["short_name"]);
 $other_name = sanitize_string($_POST["other_name"]);
@@ -104,7 +106,7 @@ $website_url = sanitize_string($_POST["website_url"]);
 $website_display = sanitize_string($_POST["website_display"]);
 $tags = sanitize_string($_POST["tags"]);
 $slug = sanitize_string($_POST["slug"]);
-//$slug = "college/".$slug;
+//$slug = "university/".$slug;
 
 $city_name = "";
 if(!empty($city_id)){
@@ -138,7 +140,7 @@ if ($action == "edit" && !empty($record_id) && isset($record_id)) {
     $existRecord = $existQuery->fetch(PDO::FETCH_ASSOC);
     if ($existRecord) {
         $statusarr["status"] = 0;
-        $statusarr["msg"] = "This college already exist";
+        $statusarr["msg"] = "This university already exist";
         echo json_encode($statusarr);
         return;
     } else {
@@ -148,9 +150,9 @@ if ($action == "edit" && !empty($record_id) && isset($record_id)) {
         $stmt->bindParam(":id", $record_id, PDO::PARAM_INT);
         $stmt->execute();
 
-        $collegeRec = $stmt->fetch(PDO::FETCH_ASSOC);
+        $universityRec = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $banner_img = $collegeRec['banner_img'];
+        $banner_img = $universityRec['banner_img'];
         
         if(isset($_FILES['banner_img']['name']) && !empty($_FILES['banner_img']['name'])){
 
@@ -158,18 +160,18 @@ if ($action == "edit" && !empty($record_id) && isset($record_id)) {
             $errors = validateBannerImage($_FILES['banner_img']);
 
             if (empty($errors)) {
-                $slugWithCollege = $slug;
-                $slugWithoutCollege = str_replace("college/", "", $slugWithCollege);
+                $slugWithUniversity = $slug;
+                $slugWithoutUniversity = str_replace("university/", "", $slugWithUniversity);
 
 				$ext = pathinfo($_FILES['banner_img']['name'], PATHINFO_EXTENSION);
                 //$uniqueSlug = generateSlug($university_name);
                 $tmpFilePath = $_FILES['banner_img']['tmp_name'];
-                $banner_file_name = $slugWithoutCollege.'.'.$ext;
+                $banner_file_name = $slugWithoutUniversity.'.'.$ext;
                 $newFilePath = "../../uploads/university/banner_image/" .$banner_file_name;
 
-                if($collegeRec && !empty($collegeRec['banner_img']) && isset($collegeRec['banner_img']) && $collegeRec['banner_img'] !=''){
-                    if (file_exists("../../uploads/university/banner_image/".$collegeRec['banner_img'])) {
-                        unlink("../../uploads/university/banner_image/".$collegeRec['banner_img']);
+                if($universityRec && !empty($universityRec['banner_img']) && isset($universityRec['banner_img']) && $universityRec['banner_img'] !=''){
+                    if (file_exists("../../uploads/university/banner_image/".$universityRec['banner_img'])) {
+                        unlink("../../uploads/university/banner_image/".$universityRec['banner_img']);
                     }
                 }
                 if(move_uploaded_file($tmpFilePath, $newFilePath)) {
@@ -185,25 +187,25 @@ if ($action == "edit" && !empty($record_id) && isset($record_id)) {
             }
             
         }
-        $logo_img = $collegeRec['logo_img'];
+        $logo_img = $universityRec['logo_img'];
 
         if(isset($_FILES['logo_img']['name']) && !empty($_FILES['logo_img']['name'])){
             $errors = validateLogoImage($_FILES['logo_img']);
             if (empty($errors)) {
 
-                $slugWithCollege = $slug;
-                $slugWithoutCollege = str_replace("college/", "", $slugWithCollege);
+                $slugWithUniversity = $slug;
+                $slugWithoutUniversity = str_replace("university/", "", $slugWithUniversity);
 
 				$ext = pathinfo($_FILES['logo_img']['name'], PATHINFO_EXTENSION);
                 //echo "oankaj".$ext;
                 //$uniqueSlug = generateSlug($university_name);
                 $tmpFilePath = $_FILES['logo_img']['tmp_name'];
-                $logo_file_name = $slugWithoutCollege.'-logo.'.$ext;
+                $logo_file_name = $slugWithoutUniversity.'-logo.'.$ext;
                // echo $logo_file_name;
                 $newFilePath = "../../uploads/university/logo_image/" .$logo_file_name;
 
-                if(!empty($collegeRec['logo_img']) && isset($collegeRec['logo_img']) && $collegeRec['logo_img'] !=''){
-                    if (file_exists("../../uploads/university/logo_image/". $collegeRec['logo_img'])) {unlink("../../uploads/university/logo_image/". $collegeRec['logo_img']);}
+                if(!empty($universityRec['logo_img']) && isset($universityRec['logo_img']) && $universityRec['logo_img'] !=''){
+                    if (file_exists("../../uploads/university/logo_image/". $universityRec['logo_img'])) {unlink("../../uploads/university/logo_image/". $universityRec['logo_img']);}
                 }
                 if(move_uploaded_file($tmpFilePath, $newFilePath)) {
                 $logo_img = $logo_file_name;
@@ -217,11 +219,43 @@ if ($action == "edit" && !empty($record_id) && isset($record_id)) {
                 return;
             }
         }
+        $html_page = $universityRec['html_page'];
+        if(isset($_FILES['html_page']['name']) && !empty($_FILES['html_page']['name'])){
+            $errors = validateNoticePage($_FILES['html_page']);
+            if (empty($errors)) {
+
+                $slugWithCollege = $slug;
+                $slugWithoutCollege = str_replace("university/", "", $slugWithCollege);
+
+				$ext = pathinfo($_FILES['html_page']['name'], PATHINFO_EXTENSION);
+                //echo "hello".$ext;
+                //$uniqueSlug = generateSlug($college_name);
+                $tmpFilePath = $_FILES['html_page']['tmp_name'];
+                $page_file_name = $slugWithoutCollege.'-page.'.$ext;
+               // echo $page_file_name;
+                $newFilePath = "../../uploads/university/html_page/" .$page_file_name;
+
+                if(!empty($universityRec['html_page']) && isset($universityRec['html_page']) && $universityRec['html_page'] !=''){
+                    if (file_exists("../../uploads/university/html_page/". $universityRec['html_page'])) {unlink("../../uploads/university/html_page/". $universityRec['html_page']);}
+                }
+                if(move_uploaded_file($tmpFilePath, $newFilePath)) {
+                $html_page = $page_file_name;
+                    
+                }          
+            } else {
+
+                $statusarr["status"] = 0;
+                $statusarr["msg"] = implode($errors);
+                echo json_encode($statusarr);
+                return;
+            }
+        }
         $sql =
-            "UPDATE universities SET banner_img = :banner_img,logo_img = :logo_img,university_name = :university_name, short_name = :short_name, other_name = :other_name, university_type_id = :university_type_id,discription = :discription, address = :address, landmark = :landmark,country_id = :country_id, state_id = :state_id, city_id = :city_id,district_id = :district_id, email = :email, email2 = :email2,phone = :phone, website_url = :website_url, website_display = :website_display,tags = :tags, updated_at = :updated_at,updated_by = :updated_by WHERE id = :id";
+            "UPDATE universities SET banner_img = :banner_img,logo_img = :logo_img,html_page = :html_page,university_name = :university_name, short_name = :short_name, other_name = :other_name, university_type_id = :university_type_id,discription = :discription, address = :address, landmark = :landmark,country_id = :country_id, state_id = :state_id, city_id = :city_id,district_id = :district_id, email = :email, email2 = :email2,phone = :phone, website_url = :website_url, website_display = :website_display,tags = :tags, updated_at = :updated_at,updated_by = :updated_by WHERE id = :id";
         $stmt = $dbConn->prepare($sql);
         $stmt->bindParam(":banner_img", $banner_img, PDO::PARAM_STR);
         $stmt->bindParam(":logo_img", $logo_img, PDO::PARAM_STR);
+        $stmt->bindParam(":html_page", $html_page, PDO::PARAM_STR);
         $stmt->bindParam(":university_name", $university_name, PDO::PARAM_STR);
         $stmt->bindParam(":short_name", $short_name, PDO::PARAM_STR);
         $stmt->bindParam(":other_name", $other_name, PDO::PARAM_STR);        
@@ -248,7 +282,7 @@ if ($action == "edit" && !empty($record_id) && isset($record_id)) {
 
         if ($stmt->execute()) {
             $statusarr["status"] = 1;
-            $statusarr["msg"] = "Record updated successfully  ";
+            $statusarr["msg"] = "Record updated successfully";
             echo json_encode($statusarr);
         } else {
             $statusarr["status"] = 0;
@@ -268,7 +302,7 @@ if ($action == "edit" && !empty($record_id) && isset($record_id)) {
     $existRecord = $existQuery->fetch(PDO::FETCH_ASSOC);
     if ($existRecord) {
         $statusarr["status"] = 0;
-        $statusarr["msg"] = "This college already exist";
+        $statusarr["msg"] = "This university already exist";
         echo json_encode($statusarr);
         return;
     } else {  
@@ -347,7 +381,28 @@ if ($action == "edit" && !empty($record_id) && isset($record_id)) {
                     echo json_encode($statusarr);
                     return;
                 }
+            }            
+
+            if(isset($_FILES['html_page']['name']) && !empty($_FILES['html_page']['name'])){
+                $errors = validateNoticePage($_FILES['html_page']);
+                if (empty($errors)) {
+                    $ext = pathinfo($_FILES['html_page']['name'], PATHINFO_EXTENSION);
+					//$uniqueSlug = generateSlug($college_name);
+                    $tmpFilePath = $_FILES['html_page']['tmp_name'];
+                    $page_file_name = $slug."-".$id.'-page.'.$ext;
+					$newFilePath = "../../uploads/university/html_page/" .$page_file_name;
+                    if(move_uploaded_file($tmpFilePath, $newFilePath)) {
+                    $html_page = $page_file_name;              
+                    }           
+                } else {
+                    $statusarr["status"] = 0;
+                    $statusarr["msg"] = implode($errors);
+                    echo json_encode($statusarr);
+                    return;
+                }
             }
+
+
             $slug = "university/".$slug;
             if(!empty($short_name) && $short_name!="" && isset($short_name)){
                 $slug= $slug."-".generateSlug($short_name);
@@ -357,10 +412,11 @@ if ($action == "edit" && !empty($record_id) && isset($record_id)) {
             }
             $slug= $slug."-".$id;
             
-            $sql = "UPDATE universities SET banner_img = :banner_img,logo_img = :logo_img,slug = :slug WHERE id = :id";           
+            $sql = "UPDATE universities SET banner_img = :banner_img,logo_img = :logo_img,html_page = :html_page,slug = :slug WHERE id = :id";           
             $stmt = $dbConn->prepare($sql);
             $stmt->bindParam(":banner_img", $banner_img, PDO::PARAM_STR);
             $stmt->bindParam(":logo_img", $logo_img, PDO::PARAM_STR);
+            $stmt->bindParam(":html_page", $html_page, PDO::PARAM_STR);
             $stmt->bindParam(":slug", $slug, PDO::PARAM_STR);
             $stmt->bindParam(":id", $id, PDO::PARAM_INT);
             $stmt->execute();

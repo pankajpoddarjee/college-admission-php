@@ -353,6 +353,16 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             <img id="banner_img_path" alt="Banner Image" width="120" height="60" class="img-fluid img-thumbnail mt-2">
                                         </div>
                                     </div>
+
+                                    <div class="col-md-4 mb-3">
+                                        <div class="form-group">
+                                            <label for="html_page">HTML Page</label>
+                                            <input type="file" accept=".html, .htm" class="form-control-file rounded" id="html_page" name="html_page">
+                                            <a id="html_page_path" target="_blank" style="display:none">View</a>
+                                            <a id="html_page_path_download" target="_blank" style="display:none">Download</a>
+                                        </div>
+                                    </div>
+
                                 </div>
                                 
                                 <div class="col-md-12 mb-3">

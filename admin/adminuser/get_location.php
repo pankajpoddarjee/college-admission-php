@@ -292,6 +292,39 @@ if (isset($_GET["getState"])) {
     return;
 }
 
+if (isset($_GET["getStateByCountryName"])) {
+    $qryresult = [];
+    $country_name = $_GET["getStateByCountryName"];
+
+    $sql = "select id from countries WHERE country_name=:country_name";
+    $stmt = $dbConn->prepare($sql);
+    $stmt->bindParam(":country_name", $country_name, PDO::PARAM_STR);
+    $stmt->execute();
+
+    $countryResult = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    $country_id = $countryResult['id'];
+	$is_active = 1;
+    $sql = "select id,state_name from states WHERE country_id=:country_id AND is_active=:is_active";
+    $stmt = $dbConn->prepare($sql);
+    $stmt->bindParam(":country_id", $country_id, PDO::PARAM_INT);
+    $stmt->bindParam(":is_active", $is_active, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $qryresult = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    //if ($qryresult) {
+        $statusarr["status"] = 1;
+        $statusarr["record"] = $qryresult;
+    // } else {
+    //     $statusarr["status"] = 0;
+    //     $statusarr["msg"] = "There is some problem with the data. Please Try again";
+    // }
+    $dbConn= NULL;
+    echo json_encode($statusarr);
+    return;
+}
+
 
 //GET CITIES BY STATE ID
 

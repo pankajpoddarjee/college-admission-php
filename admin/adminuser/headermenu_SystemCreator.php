@@ -53,6 +53,15 @@
                         <a href="master_subject.php"><i class="fa fa-angle-right mr-2"></i>Subject Master</a>
                     </li>
                     <li>
+                        <a href="master_exam_level.php"><i class="fa fa-angle-right mr-2"></i>Exam Level Master</a>
+                    </li>
+                    <li>
+                        <a href="master_exam_type.php"><i class="fa fa-angle-right mr-2"></i>Exam Type Master</a>
+                    </li>
+                    <li>
+                        <a href="master_exam_category.php"><i class="fa fa-angle-right mr-2"></i>Exam Category Master</a>
+                    </li>                   
+                    <li>
                         <a href="master_slug.php"><i class="fa fa-angle-right mr-2"></i>Slug Master</a>
                     </li>
                 </ul>
@@ -93,9 +102,54 @@
                     <li>
                         <a href="master_notice.php"><i class="fa fa-angle-right mr-2"></i>Add / Modify Notice</a>
                     </li>
+                    <li>
+                        <a href="master_notice_college.php"><i class="fa fa-angle-right mr-2"></i>Add / Modify College Notice</a>
+                    </li>
+                    <li>
+                        <a href="master_notice_university.php"><i class="fa fa-angle-right mr-2"></i>Add / Modify University Notice</a>
+                    </li>
+
+                    <li>
+                        <a href="master_notice_exam.php"><i class="fa fa-angle-right mr-2"></i>Add / Modify Exam Notice</a>
+                    </li>
                     
                 </ul>
             </li>
+
+            <li>
+                <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa-solid fa-building-columns mr-2"></i>Page Master</a>
+                <ul class="collapse list-unstyled" id="pageSubmenu">
+                    <li>
+                        <a href="master_college_page.php"><i class="fa fa-angle-right mr-2"></i>Add / Modify College Page</a>
+                    </li>
+                    <li>
+                        <a href="master_universitye_page.php"><i class="fa fa-angle-right mr-2"></i>Add / Modify University Page</a>
+                    </li>
+                    <li>
+                        <a href="master_exam_page.php"><i class="fa fa-angle-right mr-2"></i>Add / Modify Exam Page</a>
+                    </li>
+                </ul>
+            </li>
+            
+
+            <!-- <li>
+                <a href="#adSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa-solid fa-building-columns mr-2"></i>Ad Master</a>
+                <ul class="collapse list-unstyled" id="adSubmenu">
+                    <li>
+                        <a href="master_ad.php"><i class="fa fa-angle-right mr-2"></i>Add / Modify Ad</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#clientSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa-solid fa-building-columns mr-2"></i>Client Master</a>
+                <ul class="collapse list-unstyled" id="clientSubmenu">
+                    <li>
+                        <a href="master_client.php"><i class="fa fa-angle-right mr-2"></i>Add / Modify Client</a>
+                    </li>
+                </ul>
+            </li> -->
+
             <li>
                 <a href="report_problem.php"><i class="fa-solid fa-bug mr-2"></i>Bug Reporting</a>
             </li>

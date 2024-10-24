@@ -170,9 +170,14 @@
                     $("#notice_for").focus();
                     return false;
                 }
-                if ($.trim($("#is_meritlist").val()) == "") {
-                    toastr.error("Select is Meritlist");
-                    $("#is_meritlist").focus();
+                if ($.trim($("#course_for").val()) == "") {
+                    toastr.error("Select Course For");
+                    $("#course_for").focus();
+                    return false;
+                }
+                if ($.trim($("#notice_category").val()) == "") {
+                    toastr.error("Select Notice Category");
+                    $("#notice_category").focus();
                     return false;
                 }
 
@@ -293,7 +298,8 @@
                           
                             $('#notice_title').val(data.record.notice_title);
                             $('#notice_for').val(data.record.notice_for);
-                            $('#is_meritlist').val(data.record.is_meritlist);
+                            $('#course_for').val(data.record.course_for);
+                            $('#notice_category').val(data.record.notice_category);
                             $('#notice_type').val(data.record.notice_type);
 
                           
@@ -371,7 +377,8 @@
                 $("#notice_title").val("");
                 $("#notice_for").val("");
                 $("#notice_date").val("");
-                $("#is_meritlist").val("");
+                $('#course_for').val("");
+                $('#notice_category').val("");
                 $("#is_new").val("1");
                 $("#description").val("");
 

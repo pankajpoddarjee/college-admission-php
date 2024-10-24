@@ -63,7 +63,8 @@ $action = sanitize_string($_POST["action"]);
 $record_id = sanitize_string($_POST["record_id"]);
 
 $notice_for = sanitize_string($_POST["notice_for"]);
-$is_meritlist = sanitize_string($_POST["is_meritlist"]);
+$course_for = sanitize_string($_POST["course_for"]);
+$notice_category = sanitize_string($_POST["notice_category"]);
 $notice_title = sanitize_string($_POST["notice_title"]);
 $college_id = !empty($_POST["college_id"])?$_POST["college_id"]:0;
 $university_id = !empty($_POST["university_id"])?$_POST["university_id"]:0;;
@@ -222,10 +223,11 @@ if ($action == "edit" && !empty($record_id) && isset($record_id)) {
         
        
         $sql = 
-            "UPDATE notices SET notice_for = :notice_for, is_meritlist = :is_meritlist, notice_title = :notice_title, college_id = :college_id,university_id = :university_id, exam_id = :exam_id, notice_type = :notice_type,page_link = :page_link, url_link = :url_link, notice_date = :notice_date,is_new = :is_new, description = :description, tags = :tags,  notice_year = :notice_year, updated_at = :updated_at,updated_by = :updated_by WHERE id = :id";
+            "UPDATE notices SET notice_for = :notice_for, course_for = :course_for, notice_category = :notice_category, notice_title = :notice_title, college_id = :college_id,university_id = :university_id, exam_id = :exam_id, notice_type = :notice_type,page_link = :page_link, url_link = :url_link, notice_date = :notice_date,is_new = :is_new, description = :description, tags = :tags,  notice_year = :notice_year, updated_at = :updated_at,updated_by = :updated_by WHERE id = :id";
         $stmt = $dbConn->prepare($sql);
         $stmt->bindParam(":notice_for", $notice_for, PDO::PARAM_INT);
-        $stmt->bindParam(":is_meritlist", $is_meritlist, PDO::PARAM_INT);
+        $stmt->bindParam(":course_for", $course_for, PDO::PARAM_STR);
+        $stmt->bindParam(":notice_category", $notice_category, PDO::PARAM_STR);
         $stmt->bindParam(":notice_title", $notice_title, PDO::PARAM_STR);       
         $stmt->bindParam(":college_id", $college_id, PDO::PARAM_INT);
         $stmt->bindParam(":university_id", $university_id, PDO::PARAM_INT);
@@ -277,12 +279,13 @@ if ($action == "edit" && !empty($record_id) && isset($record_id)) {
         
         $active_status = 1;
         $sql =
-            "INSERT INTO notices (notice_for,is_meritlist,notice_title,college_id,university_id,exam_id,notice_type,url_link, notice_date,is_new, description, tags,notice_year,created_at, created_by, is_active) VALUES (:notice_for, :is_meritlist, :notice_title, :college_id, :university_id, :exam_id, :notice_type, :url_link,:notice_date,:is_new, :description, :tags,:notice_year,:created_at,:created_by, :is_active)";
+            "INSERT INTO notices (notice_for,course_for,notice_category,notice_title,college_id,university_id,exam_id,notice_type,url_link, notice_date,is_new, description, tags,notice_year,created_at, created_by, is_active) VALUES (:notice_for, :course_for,:notice_category, :notice_title, :college_id, :university_id, :exam_id, :notice_type, :url_link,:notice_date,:is_new, :description, :tags,:notice_year,:created_at,:created_by, :is_active)";
         $stmt = $dbConn->prepare($sql);
         // $stmt->bindParam(":banner_img", $banner_img, PDO::PARAM_STR);
         // $stmt->bindParam(":logo_img", $logo_img, PDO::PARAM_STR);
         $stmt->bindParam(":notice_for", $notice_for, PDO::PARAM_INT);
-        $stmt->bindParam(":is_meritlist", $is_meritlist, PDO::PARAM_INT);
+        $stmt->bindParam(":course_for", $course_for, PDO::PARAM_STR);
+        $stmt->bindParam(":notice_category", $notice_category, PDO::PARAM_STR);
         $stmt->bindParam(":notice_title", $notice_title, PDO::PARAM_STR);       
         $stmt->bindParam(":college_id", $college_id, PDO::PARAM_INT);
         $stmt->bindParam(":university_id", $university_id, PDO::PARAM_INT);
@@ -432,13 +435,9 @@ if ($action == "edit" && !empty($record_id) && isset($record_id)) {
 
                   
             }
-
-           // if($notice_type == 'page'){
-                $slug = "notice/".$slug;
-                $slug= $slug."-".$id;
-            //}else{
-             //   $slug= "";
-           // }
+            $slug = "notice/".$slug;
+            $slug= $slug."-".$id;
+           
             
             
             $sql = "UPDATE notices SET slug = :slug, page_link = :page_link, url_link = :url_link WHERE id = :id";           
@@ -448,6 +447,51 @@ if ($action == "edit" && !empty($record_id) && isset($record_id)) {
             $stmt->bindParam(":url_link", $url_link, PDO::PARAM_STR);
             $stmt->bindParam(":id", $id, PDO::PARAM_INT);
             $stmt->execute();
+
+            //Attachments
+            if (isset($_FILES['attachments']['name']) && !empty($_FILES['attachments']['name'][0])) {
+                if($notice_for == 1){
+                    $parentDirectory = '../../uploads/notices/college'; // Specify the path to the parent folder
+                    $newDirectoryName = str_replace(' ', '_', strtolower(getCollegeNameById($college_id)." ".$college_id));                    
+                    $uploadDir = $parentDirectory . '/' . $newDirectoryName;
+
+                    if (!is_dir($uploadDir)) {
+                        // Attempt to create the directory
+                        if (mkdir($uploadDir, 0755, true)) {
+                            //echo "Directory created successfully.";
+                        } else {
+                            
+                            $statusarr["status"] = 0;
+                            $statusarr["msg"] = "Failed to create directory.";
+                            echo json_encode($statusarr);
+                            return;
+                        }
+                    } 
+
+                    foreach ($_FILES['attachments']['name'] as $key => $fileName) {
+                        // Define the path to store the uploaded file
+                        $targetFilePath = $uploadDir.'/'. basename($fileName);
+                
+                        // Check if the file is a valid PDF
+                        $fileType = strtolower(pathinfo($targetFilePath, PATHINFO_EXTENSION));
+                        if ($fileType === 'pdf') {
+                            // Check for any errors during the upload process
+                            if ($_FILES['attachments']['error'][$key] === 0) {
+                                // Move the file to the server's directory
+                                if (move_uploaded_file($_FILES['attachments']['tmp_name'][$key], $targetFilePath)) {
+                                    //echo "File {$fileName} has been uploaded successfully.<br>";
+                                } else {
+                                    echo "Error uploading file {$fileName}.<br>";
+                                }
+                            } else {
+                                echo "Error occurred with file {$fileName}. Error code: {$_FILES['attachments']['error'][$key]}<br>";
+                            }
+                        } else {
+                            echo "{$fileName} is not a valid PDF file.<br>";
+                        }
+                    }
+                }
+            }
 
 
             $statusarr["status"] = 1;

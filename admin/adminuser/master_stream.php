@@ -247,12 +247,13 @@ $courseTypeRecords = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
             //GET SINGLE RECORD
-            $(".get-record").click(function() {
+            $('body').on('click', '.get-record', function (event) {
+                event.preventDefault();
                 $('#dvLoading').show();
                 var eid = $(this).attr("eid");
                 $.ajax({
                     type: "get",
-                    async: false,
+                    //async: false,
                     url: "Save_stream.php?eid=" + eid,
                     dataType: "json",
                     success: function(data) {

@@ -35,6 +35,12 @@ $stmt->bindParam(':is_active',$activeStatus);
 $stmt->execute();
 $examRecords = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+$courseTypeRecords = [];
+$strsql="select id,course_type_name,course_code,is_active from course_types  order by course_type_name";
+$stmt = $dbConn->prepare($strsql);
+$stmt->execute();
+$courseTypeRecords = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 //GET ALL NOTICE
 $records = [];
 $strsql="select * from notices  order by notice_date desc, id desc";
@@ -211,11 +217,23 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <div class="form-group">
-                                            <label for="is_meritlist">Is Meritlist</label>                                            
-                                            <select id="is_meritlist" name="is_meritlist" class="form-control" >
+                                            <label for="course_for">Course For</label>                                            
+                                            <select id="course_for" name="course_for" class="form-control" >
                                                 <option value="">Select</option>
-                                                <option value="1">Yes</option>
-                                                <option value="0">No</option>
+                                                <?php foreach ($courseTypeRecords as $row) { ?>
+                                                    <option value="<?php echo $row['course_code'];?>"><?php echo $row['course_type_name'];?> - <?php echo $row['course_code'];?></option>
+                                               <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <div class="form-group">
+                                            <label for="notice_category">Notice Category</label>                                            
+                                            <select id="notice_category" name="notice_category" class="form-control" >
+                                                <option value="">Select</option>
+                                                <option value="Merit List">Merit List</option>
+                                                <option value="Admission Notice">Admission Notice</option>
+                                                <option value="General Notice">General Notice</option>
                                             </select>
                                         </div>
                                     </div>
@@ -294,6 +312,15 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             <input type="file" accept=".html, .htm" class="form-control-file rounded" id="page_link" name="page_link">
                                             <a id="page_link_path" target="_blank" style="display:none">View</a>
                                             <a id="page_link_path_download" target="_blank" style="display:none">Download</a>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 mb-3" id="notice_page_div" >
+                                        <div class="form-group"> 
+                                            <label for="attachments">Attachments</label>
+                                            <input type="file" multiple accept=".pdf" class="form-control-file rounded" id="attachments" name="attachments[]">
+                                            <a id="attachments_path" target="_blank" style="display:none">View</a>
+                                            <a id="attachments_path_download" target="_blank" style="display:none">Download</a>
                                         </div>
                                     </div>
 
