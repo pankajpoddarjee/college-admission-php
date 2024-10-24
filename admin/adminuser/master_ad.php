@@ -171,7 +171,19 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         </div>
                                     </div>
 
-                                  
+                                    <div class="col-md-4 mb-3">
+                                        <div class="form-group">
+                                            <label for="from_date">From Date:</label>
+                                            <input type="date" id="from_date" name="from_date"  class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 mb-3">
+                                        <div class="form-group">
+                                            <label for="to_date">To Date:</label>
+                                            <input type="date" id="to_date" name="to_date"  class="form-control">
+                                        </div>
+                                    </div>
 
                                    
                                     <div class="col-md-12 text-center">                                       
@@ -193,7 +205,19 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div> 
         <?php include("../footer_includes.php");?> 
         <script>
-            
+         const fromDateInput = document.getElementById('from_date');
+        const toDateInput = document.getElementById('to_date');
+
+        // Add an event listener to the 'from' date input
+        fromDateInput.addEventListener('change', function() {
+            const fromDate = new Date(this.value);
+            // Set the minimum date of 'to' date input to the selected 'from' date
+            toDateInput.min = this.value;
+            // If the 'to' date is before the 'from' date, reset it
+            if (toDateInput.value && new Date(toDateInput.value) < fromDate) {
+                toDateInput.value = '';
+            }
+        });    
         $('body').on('click', '#save-ad-button', function(event) {
             event.preventDefault();
             if (!verifyInput()) {
@@ -259,6 +283,18 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
             if ($.trim($("#alt").val()) == "") {
                 toastr.error("Enter text in Alt ");
                 $("#alt").focus();
+                return false;
+            }
+
+            if ($.trim($("#from_date").val()) == "") {
+                toastr.error("Enter text in From Date ");
+                $("#from_date").focus();
+                return false;
+            }
+
+            if ($.trim($("#to_date").val()) == "") {
+                toastr.error("Enter text in To Date ");
+                $("#to_date").focus();
                 return false;
             }
 

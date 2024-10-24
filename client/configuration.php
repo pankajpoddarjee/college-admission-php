@@ -11,6 +11,7 @@ define("VIEWPORT","width=device-width, initial-scale=1.0, user-scalable=0");//wi
 
 define("BASE_URL","http://localhost/college-admission");
 define("BASE_URL_ADMIN","http://localhost/college-admission/admin");
+define("BASE_URL_CLIENT","http://localhost/college-admission/client");
 define("BASE_URL_UPLOADS","http://localhost/college-admission/uploads");// local
 //define("BASE_URL","http://192.168.1.9/Journal");// WITH IPv4
 

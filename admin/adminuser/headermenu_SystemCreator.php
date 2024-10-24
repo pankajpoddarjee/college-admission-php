@@ -132,7 +132,7 @@
             </li>
             
 
-            <!-- <li>
+            <li>
                 <a href="#adSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa-solid fa-building-columns mr-2"></i>Ad Master</a>
                 <ul class="collapse list-unstyled" id="adSubmenu">
                     <li>
@@ -148,7 +148,7 @@
                         <a href="master_client.php"><i class="fa fa-angle-right mr-2"></i>Add / Modify Client</a>
                     </li>
                 </ul>
-            </li> -->
+            </li>
 
             <li>
                 <a href="report_problem.php"><i class="fa-solid fa-bug mr-2"></i>Bug Reporting</a>
