@@ -21,7 +21,7 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="<?php echo VIEWPORT;?>">
-        <title>Add / Modify ad | Admin - <?php echo COLLEGE_NAME; ?></title>
+        <title>Add / Modify Client | Admin - <?php echo COLLEGE_NAME; ?></title>
         <?php include("../head_includes.php");?>
     </head>
     <body>
@@ -113,7 +113,7 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title" id="addJournalModalLongTitle" style="font-family:Oswald">
-                                <i class="fa-solid fa-pen-to-square"></i> Add / Edit <span class="text-danger">Ad</span>
+                                <i class="fa-solid fa-pen-to-square"></i> Add / Edit <span class="text-danger">Client</span>
                             </h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>

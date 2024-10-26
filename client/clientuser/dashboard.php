@@ -9,7 +9,7 @@ include_once("../configuration.php");
 $userRecord = [];
 $user_id = isset($_SESSION['userid'])?$_SESSION['userid']:"";
 
-$userSql = "select users_admin.name,users_admin.email,users_admin.mobile,users_admin.designation,users_admin.is_active FROM users_admin WHERE users_admin.id = $user_id";
+$userSql = "select * FROM clients WHERE id = $user_id";
 
 $userQry = $dbConn->prepare($userSql);
 $userQry->execute();
@@ -48,17 +48,17 @@ $userRecord = $userQry->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 
                 <div class="col-md-2 col-6 mb-3 text-center" style="font-family:Inter; font-size:14px; color:#666">
-                	<?php echo !empty($userRecord[0]['name'])?$userRecord[0]['name']:""; ?>
+                	<?php echo !empty($userRecord[0]['company_name'])?$userRecord[0]['company_name']:""; ?>
                 </div>
                 
-                <div class="col-md-2 col-6 mb-3 text-center" style="font-family:Inter; font-size:14px; color:#666">
+                <!-- <div class="col-md-2 col-6 mb-3 text-center" style="font-family:Inter; font-size:14px; color:#666">
                 	<?php echo !empty($userRecord[0]['department_name'])?$userRecord[0]['department_name']:"N/A"; ?>
                 </div>
                 
                 <div class="col-md-2 col-6 mb-3 text-center" style="font-family:Inter; font-size:14px; color:#666">
                 	<?php echo !empty($userRecord[0]['designation'])?$userRecord[0]['designation']:"N/A"; ?>
                 </div>
-                
+                 -->
                 <div class="col-md-2 col-6 mb-3 text-center" style="font-family:Inter; font-size:14px; color:#666">
                 	<?php echo !empty($userRecord[0]['mobile'])?$userRecord[0]['mobile']:""; ?>
                 </div>

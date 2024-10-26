@@ -28,7 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $record=array();
         $record=[] ;
         //$strsql="select id,name,designation,department,mobile,email,password,usertype,is_active from users where email='".$_POST["username"]."'  and password='" .$_POST["password"]."'  and is_active=1 ";
-        $userPassword =    md5($_POST["password"]); 
+        //$userPassword =    md5($_POST["password"]); 
+        $userPassword =    $_POST["password"]; 
         $strsql='select * from clients where email=:username  and password=:password  and is_active=1' ;
 
         $stmt = $dbConn->prepare($strsql);
@@ -48,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $msg = "";
             $_SESSION['loggedin'] = true;
             $_SESSION['userid'] =$record["id"];
-            $_SESSION['user'] = $record["name"];
+            $_SESSION['user'] = $record["company_name"];
             //$_SESSION['department_id'] = $record["department"];
             //$_SESSION['usertypeid'] = $record[0]["typeid"];
             $_SESSION['usertype'] = 'client';

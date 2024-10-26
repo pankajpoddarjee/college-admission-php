@@ -17,11 +17,11 @@ include_once("../configuration.php");
 //$adminusername = $_SESSION['user'];
 
 $user_id = isset($_SESSION['userid'])?$_SESSION['userid']:"";
-$userQuery = $dbConn->prepare("select * from users_admin WHERE id=$user_id");
+$userQuery = $dbConn->prepare("select * from clients WHERE id=$user_id");
 $userQuery->execute();
 $userRecord = $userQuery->fetch(PDO::FETCH_ASSOC);
-$adminusername = $userRecord['name'];  
-$designation = $userRecord['designation'];
+$adminusername = $userRecord['company_name'];  
+$designation = "Client";
 /*
     $role =$_SESSION['usertype'];
 
