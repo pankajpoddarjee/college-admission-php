@@ -18,7 +18,9 @@
             <li>
                 <a href="dashboard.php"><i class="fa fa-tachometer mr-2"></i>Dashboard</a>
             </li> 
-          
+            <li>
+                <a href="ad_dashboard.php"><i class="fa fa-tachometer mr-2"></i>Ad Dashboard</a>
+            </li> 
 
           
         </ul>
