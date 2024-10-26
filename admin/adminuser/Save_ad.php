@@ -69,7 +69,9 @@ $created_at = date("Y-m-d H:i:s");
 $created_by = isset($_SESSION["userid"]) ? $_SESSION["userid"] : "";
 $updated_at = date("Y-m-d H:i:s");
 $updated_by = isset($_SESSION["userid"]) ? $_SESSION["userid"] : "";
-
+$from_date = $_POST["from_date"];
+$to_date = $_POST["to_date"];
+$location = isset($_POST["location"])?$_POST["location"]:"top";
 
 
 //print_r($_FILES);
@@ -129,12 +131,15 @@ if ($action == "edit" && !empty($record_id) && isset($record_id)) {
         
        
         $sql = 
-            "UPDATE ads SET client_id = :client_id,ad_link = :ad_link, alt = :alt , ad_image = :ad_image, updated_at = :updated_at,updated_by = :updated_by WHERE id = :id";
+            "UPDATE ads SET client_id = :client_id,ad_link = :ad_link, alt = :alt , ad_image = :ad_image,from_date = :from_date,to_date = :to_date,location = :location, updated_at = :updated_at,updated_by = :updated_by WHERE id = :id";
         $stmt = $dbConn->prepare($sql);
         $stmt->bindParam(":client_id", $client_id, PDO::PARAM_INT);
         $stmt->bindParam(":ad_link", $ad_link, PDO::PARAM_STR);
         $stmt->bindParam(":alt", $alt, PDO::PARAM_INT);
         $stmt->bindParam(":ad_image", $ad_image, PDO::PARAM_STR);
+        $stmt->bindParam(":from_date", $from_date, PDO::PARAM_STR);
+        $stmt->bindParam(":to_date", $to_date, PDO::PARAM_STR);
+        $stmt->bindParam(":location", $location, PDO::PARAM_STR);
         $stmt->bindParam(":updated_at", $updated_at, PDO::PARAM_STR);
         $stmt->bindParam(":updated_by", $updated_by, PDO::PARAM_STR);
         $stmt->bindParam(":id", $record_id, PDO::PARAM_INT);
@@ -156,11 +161,14 @@ if ($action == "edit" && !empty($record_id) && isset($record_id)) {
         
         $is_active = 1;
         $sql =
-            "INSERT INTO ads (client_id, ad_link,alt, created_at, created_by, is_active) VALUES (:client_id,:ad_link,:alt,:created_at,:created_by, :is_active)";
+            "INSERT INTO ads (client_id, ad_link,alt,from_date,to_date,location, created_at, created_by, is_active) VALUES (:client_id,:ad_link,:alt,:from_date,:to_date,:location,:created_at,:created_by, :is_active)";
         $stmt = $dbConn->prepare($sql);
         $stmt->bindParam(":client_id", $client_id, PDO::PARAM_INT);
         $stmt->bindParam(":ad_link", $ad_link, PDO::PARAM_STR);
         $stmt->bindParam(":alt", $alt, PDO::PARAM_INT);
+        $stmt->bindParam(":from_date", $from_date, PDO::PARAM_STR);
+        $stmt->bindParam(":to_date", $to_date, PDO::PARAM_STR);
+        $stmt->bindParam(":location", $location, PDO::PARAM_STR);
         $stmt->bindParam(":created_at", $created_at, PDO::PARAM_STR);
         $stmt->bindParam(":created_by", $created_by, PDO::PARAM_STR);
         $stmt->bindParam(":is_active", $is_active, PDO::PARAM_INT);
