@@ -66,6 +66,7 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <td class="align-middle">Ad ID </td>
                                         <td class="align-middle">Ad Link</td>
                                         <td class="align-middle">Company Name</td>
+                                        <td class="align-middle">Active Duration</td>
                                         <td class="align-middle">Alt</td>
                                         <td class="align-middle">Status</td>
                                         <td class="align-middle">Action</td>
@@ -83,6 +84,7 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <td class="align-middle text-left"> <?php echo $row['id'];?></td>
                                         <td class="align-middle text-left"> <?php echo $row['ad_link'];?></td>
                                         <td class="align-middle text-left"> <?php echo $row['company_name'];?></td>
+                                        <td class="align-middle text-left"> <?php echo date('d-F-Y',strtotime($row['from_date']));?> To <?php echo date('d-F-Y',strtotime($row['to_date']));?></td>
                                         <td class="align-middle text-left"><?php echo $row['alt'];?></td>
 
                                         <td class="align-middle text-center text-nowrap" style="font-family:Rubik">
