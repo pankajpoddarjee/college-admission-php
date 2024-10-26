@@ -380,6 +380,8 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         }
                         $('#client_id').val(data.record.client_id);
                         $('#alt').val(data.record.alt);
+                        $('#from_date').val(data.record.from_date);
+                        $('#to_date').val(data.record.to_date);
                       
 
                         $('#record_id').val(data.record.id);
