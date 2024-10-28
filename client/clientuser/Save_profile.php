@@ -25,8 +25,8 @@ include_once "../function.php";
 $statusarr =array();
 
 
-$name   				= sanitize_string($_POST["name"]);
-$designation			= sanitize_string($_POST["designation"]);
+$company_name   				= sanitize_string($_POST["company_name"]);
+$client_name			= sanitize_string($_POST["client_name"]);
 $mobile					= sanitize_string($_POST["mobile"]);
 $updated_at   			= date("Y-m-d H:i:s");
 $updated_by   			= isset($_SESSION['userid'])?$_SESSION['userid']:"";
@@ -35,7 +35,7 @@ $updated_by   			= isset($_SESSION['userid'])?$_SESSION['userid']:"";
 
 	$user_id = isset($_SESSION['userid'])?$_SESSION['userid']:"";
 	$userQuery="";
-	$userQuery = "UPDATE users_admin SET name = '$name', designation = '$designation',mobile = '$mobile',updated_at = '$updated_at', updated_by = '$updated_by' WHERE id = $user_id";
+	$userQuery = "UPDATE clients SET company_name = '$company_name', client_name = '$client_name',mobile = '$mobile',updated_at = '$updated_at', updated_by = '$updated_by' WHERE id = $user_id";
 	
 	$result =$dbConn->query($userQuery); 
 	$dbConn= NULL;

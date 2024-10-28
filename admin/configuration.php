@@ -9,9 +9,9 @@ error_reporting(E_ALL);
 define("BASE_TIME_ZONE","Asia/Calcutta");
 define("VIEWPORT","width=device-width, initial-scale=1.0, user-scalable=0");//width=device-width, initial-scale=1, shrink-to-fit=no (bootstrap 4)
 
-define("BASE_URL","http://localhost/college-admission");
-define("BASE_URL_ADMIN","http://localhost/college-admission/admin");
-define("BASE_URL_UPLOADS","http://localhost/college-admission/uploads");// local
+define("BASE_URL","http://office-5/college-admission");
+define("BASE_URL_ADMIN","http://office-5/college-admission/admin");
+define("BASE_URL_UPLOADS","http://office-5/college-admission/uploads");// local
 //define("BASE_URL","http://192.168.1.9/Journal");// WITH IPv4
 
 define("GOOGLE_FONT_1","https://fonts.googleapis.com/css?family=Poppins|Roboto|Rubik|Viga|Oswald|Inter&display=swap");

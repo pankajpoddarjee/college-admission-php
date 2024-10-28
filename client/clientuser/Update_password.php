@@ -45,7 +45,14 @@ $updated_by   		= isset($_SESSION['userid'])?$_SESSION['userid']:"";
 	$userRecord = $userQuery->fetch(PDO::FETCH_ASSOC);
 	$dbPassword = $userRecord['password']; 
 
-	if($dbPassword  != md5($old_password)){
+	// if($dbPassword  != md5($old_password)){
+	// 	$statusarr["status"]=0;
+	// 	$statusarr["msg"]="Your Old password is incorrect.";
+	// 	echo json_encode($statusarr); 
+	// 	return;
+	// }
+
+	if (!password_verify($old_password, $dbPassword)) {
 		$statusarr["status"]=0;
 		$statusarr["msg"]="Your Old password is incorrect.";
 		echo json_encode($statusarr); 
@@ -58,7 +65,8 @@ $updated_by   		= isset($_SESSION['userid'])?$_SESSION['userid']:"";
 		return;
 	}
 
-	$update_password = md5($password);
+	//$update_password = md5($password);
+	$update_password = !empty($password) ? password_hash($password, PASSWORD_DEFAULT):'';
 	$updateQuery = "UPDATE clients SET password = '$update_password',updated_at = '$updated_at  ', updated_by = '$updated_by' WHERE id = $user_id";
 	
 	$result =$dbConn->query($updateQuery); 

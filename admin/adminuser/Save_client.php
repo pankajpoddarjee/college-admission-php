@@ -129,7 +129,7 @@ if ($action == "edit" && !empty($record_id) && isset($record_id)) {
               
             }
         
-       
+            $password = !empty($_POST['password']) ? password_hash($_POST['password'], PASSWORD_DEFAULT) : $clientRec['password'];
         $sql = 
             "UPDATE clients SET client_name = :client_name, company_name = :company_name , company_logo = :company_logo, email = :email,password = :password,address = :address,business = :business,updated_at = :updated_at,updated_by = :updated_by WHERE id = :id";
         $stmt = $dbConn->prepare($sql);
@@ -160,6 +160,7 @@ if ($action == "edit" && !empty($record_id) && isset($record_id)) {
 } else {
         
         $is_active = 1;
+        $password = !empty($_POST['password']) ? password_hash($_POST['password'], PASSWORD_DEFAULT):'';
         $sql =
             "INSERT INTO clients (client_name,company_name,email,password,address,business, created_at, created_by, is_active) VALUES (:client_name,:company_name,:email,:password,:address,:business,:created_at,:created_by, :is_active)";
         $stmt = $dbConn->prepare($sql);

@@ -266,11 +266,17 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 return false;
             }
 
-            if ($.trim($("#password").val()) == "") {
-                toastr.error("Enter Password ");
-                $("#password").focus();
-                return false;
+            if ($.trim($("#record_id").val()) == "") {
+
+                if ($.trim($("#password").val()) == "") {
+                    toastr.error("Enter Password ");
+                    $("#password").focus();
+                    return false;
+                }
+
             }
+
+            
             
             if ($.trim($("#address").val()) == "") {
                 toastr.error("Enter Address ");
@@ -358,7 +364,7 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                         $('#company_name').val(data.record.company_name);
                         $('#email').val(data.record.email);
-                        $('#password').val(data.record.password);
+                       // $('#password').val(data.record.password);
                         $('#address').val(data.record.address);
                         $('#business').val(data.record.business);
                       

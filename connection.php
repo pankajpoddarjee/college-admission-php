@@ -11,21 +11,17 @@ Echo "Connection failed" . $e->getMessage();
 }
 ?><?php */?>
 
-<?php
+<?php 
+global $dbConn ;
+$dbHost='169.38.84.125';
+$dbName='CollegeAdmissionPortal';
+$dbUser='CA_SIPL';      //by default root is user name.  
+$dbPassword='Surya@2016';     //password is blank by default  
+try{  
+        $dbConn= new PDO("sqlsrv:server=$dbHost;Database=$dbName",$dbUser,$dbPassword); 
+    } catch(Exception $e){  
+    Echo "Connection failed" . $e->getMessage();  
+    }
 
-    $serverName = "169.38.84.125"; // or your server's IP or name
-    $connectionOptions = array(
-    "Database" => "CollegeAdmissionPortal",
-    "Uid" => "CA_SIPL",
-    "PWD" => "Surya@2016",
-    "TrustServerCertificate" => true // Disable certificate validation
-);
-
-try {
-    $dbConn = new PDO("sqlsrv:server=$serverName;Database=" . $connectionOptions['Database'] . ";TrustServerCertificate=true", $connectionOptions['Uid'], $connectionOptions['PWD']);
-    $dbConn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-   // echo "Connection successful!";
-} catch (PDOException $e) {
-    echo "Connection failed: " . $e->getMessage();
-}
+    //include_once("throttle_rate_limit.php");
 ?>

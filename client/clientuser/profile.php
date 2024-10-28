@@ -8,7 +8,7 @@ include_once("../function.php");
 include_once("../connection.php");
 include_once("../configuration.php");
 $user_id = isset($_SESSION['userid'])?$_SESSION['userid']:"";
-$userQuery = $dbConn->prepare("select * from users_admin WHERE id=$user_id");
+$userQuery = $dbConn->prepare("select * from clients WHERE id=$user_id");
 $userQuery->execute();
 $userRecord = $userQuery->fetch(PDO::FETCH_ASSOC);
 ?>
@@ -44,18 +44,25 @@ $userRecord = $userQuery->fetch(PDO::FETCH_ASSOC);
                     <form id="frm1" name="frm1" action="#" method="post"  onsubmit="return false;">
                         <div class="row">
                             
-                            
+                        
                             <div class="col-md-4 mb-3">
                                 <div class="form-group">
-                                    <label for="name">Name</label>
-                                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter Teacher Name" autocomplete="off" maxlength="75" value="<?php echo !empty($userRecord['name'])?$userRecord['name']:""; ?>">
+                                    <label for="name">Logo Image</label>
+                                    <img src="<?php echo BASE_URL_UPLOADS.'/client/'.$userRecord['company_logo'];?>" alt="" width="100" height="50">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <div class="form-group">
+                                    <label for="name">Company Name</label>
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter Teacher Name" autocomplete="off" maxlength="75" value="<?php echo !empty($userRecord['company_name'])?$userRecord['company_name']:""; ?>">
                                 </div>
                             </div>
                             
                             <div class="col-md-4 mb-3">
                                 <div class="form-group">
-                                    <label for="designation">Designation</label>
-                                    <input type="text" class="form-control" id="designation" name="designation" placeholder="Enter Designation" autocomplete="off" value="<?php echo !empty($userRecord['designation'])?$userRecord['designation']:""; ?>">
+                                    <label for="client_name">Client Name</label>
+                                    <input type="text" class="form-control" id="client_name" name="client_name" placeholder="Enter client_name" autocomplete="off" value="<?php echo !empty($userRecord['client_name'])?$userRecord['client_name']:""; ?>">
                                 </div>
                             </div>
                             
@@ -66,13 +73,21 @@ $userRecord = $userQuery->fetch(PDO::FETCH_ASSOC);
                                     <!--<small id="emailHelp" class="form-text text-muted">Note: Email Id. will be your Username.</small>-->
                                 </div>
                             </div>
-                            
+
                             <div class="col-md-4 mb-3">
+                                <div class="form-group">
+                                    <label for="address">Address</label>
+                                    <input type="text" class="form-control" id="address" name="address" placeholder="Enter Address Id." autocomplete="off" disabled value="<?php echo !empty($userRecord['address'])?$userRecord['address']:""; ?>">
+                                    <!--<small id="emailHelp" class="form-text text-muted">Note: Email Id. will be your Username.</small>-->
+                                </div>
+                            </div>
+                            
+                            <!-- <div class="col-md-4 mb-3">
                                 <div class="form-group">
                                     <label for="mobile">Mobile No.</label>
                                     <input type="text"  class="form-control" id="mobile" name="mobile" placeholder="Enter Mobile No." autocomplete="off"  maxlength="10" onKeyPress="inputNumber(event,this.value,false);" inputmode="numeric" value="<?php echo !empty($userRecord['mobile'])?$userRecord['mobile']:""; ?>">
                                 </div>
-                            </div>
+                            </div> -->
                             
                             <div class="col-md-12 text-center mb-5">
                                 <button  class="btn btn-danger btn-sm align-middle" id="submit" name="submit" onClick="submitdata();">Update Profile</button>

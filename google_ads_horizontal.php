@@ -22,6 +22,38 @@
 //print_r($add1);
 //echo $add1['id'];
 if(isset($add1['id'])){
+
+    // Get device details
+    $devideDetails = getBrowserAndPlatform();
+    $browser = $devideDetails['browser'];
+    $platform = $devideDetails['platform'];
+    $device = getDeviceType();
+    $ip_address = getUserIP();
+    $city = getUserCity($ip_address);
+    $clicked_at = date("Y-m-d H:i:s");
+    $ad_id = $add1['id'];
+    $insert_sql = "INSERT INTO ad_impressions (ad_id, browser, platform, device, ip_address, city, clicked_at) 
+                   VALUES (:ad_id, :browser, :platform, :device, :ip_address, :city, :clicked_at)";
+    try {
+        // Prepare statement
+        $stmt = $dbConn->prepare($insert_sql);
+        
+        // Bind parameters
+        $stmt->bindValue(':ad_id', $ad_id, PDO::PARAM_INT);
+        $stmt->bindValue(':browser', $browser, PDO::PARAM_STR);
+        $stmt->bindValue(':platform', $platform, PDO::PARAM_STR);
+        $stmt->bindValue(':device', $device, PDO::PARAM_STR);
+        $stmt->bindValue(':ip_address', $ip_address, PDO::PARAM_STR);
+        $stmt->bindValue(':city', $city, PDO::PARAM_STR);
+        $stmt->bindValue(':clicked_at', $clicked_at, PDO::PARAM_STR);
+
+        // Execute the statement
+        $stmt->execute();
+         
+    } catch (PDOException $e) {
+        echo "Error preparing statement: " . $e->getMessage(); // Provide specific error
+    }
+
 ?>
 <div class="text-center">
 <a class="ad" onclick="recordAdClick(<?php echo $add1['id']; ?>)" href="<?php echo $add1['ad_link']; ?>" target="_blank"><img class="img-fluid" src="<?php echo BASE_URL_UPLOADS.'/ad/'.$add1['ad_image'];?>" alt="<?php echo $add1['alt']; ?>"></a>
