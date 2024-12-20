@@ -1,0 +1,236 @@
+
+.section_2 { background:#eff3f7; padding-top:10px; padding-bottom:10px; margin:0 }
+
+.thumbnail { padding:0; border:0}
+.thumbnail a { margin:0; padding:0; cursor: pointer; color:#1781d2; transition: 300ms ease-in-out; text-decoration:none; font-weight:lighter }
+.thumbnail a:hover { color:#333 }
+.thumbnail a img { opacity:1.0; transition: 300ms ease-in-out; padding:0; margin:0; width:100% }
+.thumbnail a:hover img { -webkit-filter: grayscale(100%); filter: grayscale(100%); }
+.thumbnail a div { width:100%; margin:0; padding:5px; text-align:left; line-height:16px; font-family:'Abel', sans-serif; font-size:14px; text-decoration:none; opacity:1.0; font-weight: normal }
+.thumbnail a div img { text-align:left; opacity:1.0; float:left; margin:0 7px 0 0; padding:0 5px 0 0; border-right:1px solid #ccc; background:#FFF; width:50px}
+
+.btn-admission { margin-bottom:5px}
+.btn-admission a { background:#d43737; color:#FFF; display:block; text-decoration:none; text-align:left; padding:15px 10px 10px 10px; border-radius:4px; font-size:24px; transition:ease-in-out 300ms; font-family:'Abel', sans-serif; text-transform:uppercase;
+}
+.btn-admission a img { width:40px; text-align:left; padding-right:10px; border-right:1px solid #fff; margin-right:10px }
+.btn-admission a:hover { text-decoration:none; text-shadow:0 1px 1px #000; background:#323b48 }
+
+.btn-apply { margin-bottom:5px}
+.btn-apply a { background:#0096ff; color:#FFF; display:block; text-decoration:none; text-align:left; padding:15px 10px 10px 10px; border-radius:4px; font-size:24px; transition:ease-in-out 300ms; font-family: 'Abel', sans-serif; text-transform:uppercase
+}
+.btn-apply a img { width:40px; text-align:left; padding-right:10px; border-right:1px solid #fff; margin-right:10px }
+.btn-apply a:hover { text-decoration:none; text-shadow:0 1px 1px #000; background:#323b48 }
+
+.btn-merit { margin-bottom:5px}
+.btn-merit a { background:#ff9900; color:#FFF; display:block; text-decoration:none; text-align:left; padding:15px 10px 10px 10px; border-radius:4px; font-size:24px; transition:ease-in-out 300ms; font-family: 'Abel', sans-serif; text-transform:uppercase
+}
+.btn-merit a img { width:40px; text-align:left; padding-right:10px; border-right:1px solid #fff; margin-right:10px }
+.btn-merit a:hover { text-decoration:none; text-shadow:0 1px 1px #000; background:#323b48 }
+
+.btn-notice { margin-bottom:5px}
+.btn-notice a { background:#ed6755; color:#FFF; display:block; text-decoration:none; text-align:left; padding:12px 10px; border-radius:4px; font-size:24px; transition:ease-in-out 300ms; font-family: 'Abel', sans-serif; text-transform:uppercase
+}
+.btn-notice a img { width:35px; text-align:left; padding-right:10px; border-right:1px solid #fff; margin-right:10px }
+.btn-notice a:hover { text-decoration:none; text-shadow:0 1px 1px #000; background:#323b48 }
+
+.college-content-bg { background:#FFF; padding:15px; border-radius:3px; box-shadow:0 0 5px #e1e1e1; color:#303745; font-family:'Abel', sans-serif; font-size:16px; text-align:justify; margin-bottom:15px; font-weight: lighter}
+
+/*.college-content-bg ul { text-align:left; margin:0; padding:0; list-style:none }
+.college-content-bg ul li { margin:0 0 20px 0; font-weight:bold; font-size:14px }
+.college-content-bg ul li .lihead { margin:0 0 20px 0; font-family: 'Abel', sans-serif; font-size:18px; font-weight:normal; color:#ff4e00 }*/
+
+.college-content-label { color:#359334; font-family:'Abel', sans-serif; font-size:22px; text-transform:uppercase; border-bottom:1px solid #ccc; padding-bottom:15px; margin-bottom:15px; letter-spacing:1px }
+.college-content-label span { border-bottom:1px solid #359334; padding-bottom:13px }
+
+.college-content-label1 { color:#359334; font-family:'Abel', sans-serif; font-size:22px; text-transform:uppercase; border-bottom:1px solid #ccc; padding-bottom:15px; margin-bottom:15px; letter-spacing:1px }
+.college-content-label1 span { border-bottom:1px solid #359334; padding-bottom:16px }
+.college-content-label1 a { color:#d43737; font-family:'Abel', sans-serif; font-size:14px; text-transform:uppercase; border-bottom:none; padding-bottom:15px; margin-bottom:15px; letter-spacing: normal }
+.college-content-label1 a:hover { color:#000; text-decoration:none }
+
+.college-content-sublabel { color:#000; font-family:'Abel', sans-serif; font-size:20px; padding:12px 10px; margin:0 0 7px 0; background:#ededed }
+
+.college-content-bg table { font-weight:normal; margin:5px 0 0 0; text-align:left; border-collapse:collapse; line-height:18px; font-size:16px; font-family:'Abel', sans-serif }
+.college-content-bg table a { font-size:16px; font-family:'Abel', sans-serif }
+.college-content-bg table th { font-weight: bold; text-align:center; padding:12px; background:#f5f5f5 }
+.college-content-bg table td { padding:12px }
+.college-content-bg table .td1 { padding:12px; width: 25% }
+.college-content-bg table .tr1 { font-weight: bold; text-align:center; padding:12px; background:#f5f5f5 }
+
+
+.college-content-course { text-align:justify; line-height:20px }
+.college-content-course ul { text-align:justify; list-style:none; padding:0; margin:0 }
+.college-content-course ul li /*{ padding:0; margin:0 0 3px 0 }
+.college-content-course ul li a*/ { padding:5px 7px; margin:0 0 3px 0; text-decoration:none; display:block; transition: 300ms ease-in-out; background: none; text-transform: none; line-height:none; text-align:left; border:1px solid #e0e0e0; border-radius:3px }
+/*.college-content-course ul li a:hover { color:#000; border:1px solid #ccc; background:#f5f5f5 }*/
+.college-content-course ul li span { font-size:12px; color:#666; text-transform:none }
+
+
+.college-content-department {}
+.college-content-department ul { list-style-type: none; margin: 0; padding: 0; overflow: hidden }
+.college-content-department li { float: left; display: block; text-align: center; padding:10px; margin:0 4px 5px 0; text-decoration: none; border:1px solid #ccc; border-radius:3px; width:13%;}
+.college-content-department li i { font-size:24px; opacity:0.8 }
+
+
+
+.college-content-facilities {}
+.college-content-facilities ul { list-style-type: none; margin: 0; padding: 0; overflow: hidden;  }
+.college-content-facilities li { float: left; display: block; text-align: center; padding:0; margin:0 0 5px 0; text-decoration: none; border:none; border-radius:3px; width:11.1%; height:120px; /*-webkit-filter: hue-rotate(90deg); filter: hue-rotate(90deg);*/ font-size:12px; line-height:18px; text-wrap:normal }
+.college-content-facilities li img { background:#f5f5f5; padding:18px 20px; opacity:0.8 }
+
+
+.college-content-collegenotice {}
+.collegenotice { border:1px solid #efefef; background:#f8f8f8; margin-bottom:10px }
+.college-content-collegenotice .caption { font-size:12px; padding:7px 10px; text-align:left; line-height:18px; height:88px }
+.college-content-collegenotice .caption span { font-size:12px; color:#666 }
+.college-content-collegenotice .caption a { color:#d43737; text-decoration:none; font-weight: lighter; font-size:15px }
+.college-content-collegenotice .caption a:hover { color:#000 }
+.badge { background:none !important; text-transform:none !important; font-weight:normal !important; color:#333; font-size:16px }
+.all a { transition:300ms ease-in-out; text-transform:uppercase; text-align:right; font-size:12px; padding:0; margin:0 }
+.all a:hover { color:#000; text-decoration:none }
+
+
+.college-content-address { }
+ul.address { list-style-type: none; margin: 0; padding: 0; overflow: hidden }
+ul.address li {float: left; display: inline-block; text-align: center; padding:10px; margin:0 4px 5px 0; text-decoration: none; border:1px solid #ccc; border-radius:3px; width:49.5%; line-height:18px }
+.college-content-address span { color:#666; margin-top:7px; font-size:14px }
+ul.address li i { font-size:27px }
+
+
+.college-page-link a { color:#d43737; border-bottom:none; padding-bottom:15px; margin-bottom:15px; letter-spacing: normal }
+.college-page-link a:hover { color:#000; text-decoration:none }
+ul.college-page-img { list-style:none; padding:0; margin:0; text-align:left }
+ul.college-page-img li { display:inline-block; margin:0 3px 7px 0; border:1px solid #eaeaea; padding:3px }
+ul.college-page-img li img { width:53.5px }
+
+
+.list-group a { color:#d43737; text-decoration:none }
+.list-group a span { font-size:12px; color:#666 }
+
+
+.college-content-admission-sublabel { color:#000; text-align:left; background:#ededed; padding:0; font-family:'Abel', sans-serif; font-size:17px;; padding-top:3px; border-bottom:1px solid #999 }
+/*.college-content-admission-sublabel span { background:#FFF; padding:12px 10px; margin:15px 0 7px 0}*/
+html { scroll-behavior: smooth }
+.college-content-admission-sublabel ul { text-align:center; margin:0; padding:0; list-style:none }
+.college-content-admission-sublabel ul li { display:inline-block; text-align:center; padding:0 5px; margin:0 }
+.college-content-admission-sublabel ul li a { color:#666; font-family:'Abel', sans-serif; text-decoration:none }
+.college-content-admission-sublabel ul li a:hover { color:#d43737 }
+.college-content-admission-sublabel ul li.active { background:#FFF; padding:10px 15px; border-radius:4px 4px 0 0; color:#d43737; border:1px solid #999; border-bottom:none; margin-bottom:-1px; font-weight:bold }
+
+.shortname { display:none }
+
+
+.notification li a { padding:12px 0 12px 50px; background:url(../images/notification_small.jpg) left center no-repeat; border-bottom:1px dashed #999; text-align:left; transition: 300ms ease-in-out; color:#cc0000; text-decoration:none; display:block; line-height:18px }
+.notification li a:hover { background: #f5f5f5 url(../images/notification_small.jpg) left center no-repeat; color:#000 }
+.notification div { font-size:12px; color:#666; font-family:Verdana, Geneva, sans-serif }
+
+.pagination li { display:inline-block; padding:5px }
+.pagination li a { text-decoration:none; color:#900 }
+ul.list { list-style:none; text-align:left; margin:0; padding:0 }
+ul.pagination { list-style:none; text-align: right; margin:0; padding:0 }
+
+.latest-update-scroller { display: block }
+
+ul.normal_list { margin:0; padding:0; text-align:left; list-style:none }
+ul.normal_list li { padding:12px 0 12px 50px; background:url(../images/ca_logo.png) left center no-repeat; border-bottom:1px dashed #999; text-align:left; transition: 300ms ease-in-out; color:#000; text-decoration:none; display:block; line-height:18px }
+ul.normal_list li:hover { background: #f5f5f5 url(../images/ca_logo.png) left center no-repeat; color:#000 }
+ul.normal_list li div { font-size:12px; color:#666; font-family:Verdana, Geneva, sans-serif }
+
+
+
+
+/*===================== Extra small devices (portrait phones, less than 576px) ==============================*/
+@media (max-width: 575.98px) and (orientation : portrait) {
+.section_2  { }
+.thumbnail { margin:0 0 3px 0; padding:0 }
+.thumbnail a { margin:0; padding:0; cursor: pointer; color:#1781d2; transition: 300ms ease-in-out; text-decoration:none; font-weight:lighter }
+.thumbnail a:hover { color:#333; text-decoration:none }
+.thumbnail a img { opacity:1.0; transition: 300ms ease-in-out; padding:0; margin:0; display:none; width:100% }
+.thumbnail a:hover img { -webkit-filter: grayscale(100%); filter: grayscale(100%); }
+.thumbnail a div { width:100%; margin:0; padding:5px; text-align:left; font-family: Verdana, Geneva, sans-serif; font-size:12px; text-decoration:none; opacity:1.0; font-weight: normal }
+.thumbnail a div img { text-align:left; opacity:1.0; float:left; margin:0 7px 0 0; padding:0 5px 0 0; border-right:1px solid #ccc; background:#FFF; width:auto; display:block}
+
+.college-content-bg { background:#FFF; padding:15px; border-radius:3px; box-shadow:0 0 5px #e1e1e1; color:#303745; text-align: justify; margin-bottom:15px; font-weight:lighter; font-size:15px }
+
+.college-content-bg table a { font-size:15px; font-family:'Abel', sans-serif }
+
+.college-content-label { color:#359334; font-family:'Abel', sans-serif; font-size:18px; text-transform:uppercase; border-bottom:1px solid #ccc; padding-bottom:13px; margin-bottom:15px; letter-spacing: normal }
+
+.college-content-label1 { color:#359334; font-family:'Abel', sans-serif; font-size:18px; text-transform:uppercase; border-bottom:1px solid #ccc; padding-bottom:15px; margin-bottom:15px; letter-spacing: normal }
+.college-content-label1 span { border-bottom:1px solid #359334; padding-bottom:17px }
+
+.college-content-facilities li { float: left; display: block; text-align: center; padding:0; margin:0 0 5px 0; text-decoration: none; border-radius:3px; width:33.3% }
+
+.college-content-department li { float: left; display: block; text-align: center; padding:10px; margin:0 4px 5px 0; text-decoration: none; border:1px solid #ccc; border-radius:3px; width:48.5%}
+
+
+.college-page-link a i { display:none }
+
+.college-content-bg table { color:#4d586c; font-family: 'Abel', sans-serif; font-size:14px; font-weight:normal; margin:5px 0 0 0; text-align:left; border-collapse:collapse; line-height:18px }
+.college-content-bg table th { color:#4d586c; font-family: Arial, Helvetica, sans-serif; font-size:14px; font-weight: bold; text-align:center; padding:7px; background:#f5f5f5 }
+.college-content-bg table td { padding:7px }
+.college-content-bg table .td1 { padding:7px; width: 25% }
+.college-content-bg table .td2 { padding:7px; display:block; width:100%; border:none }
+.college-content-bg table .tr1 { color:#4d586c; font-family: Arial, Helvetica, sans-serif; font-size:14px; font-weight: bold; text-align:center; padding:7px; background:#f5f5f5 }
+
+ul.address { list-style-type: none; margin: 0; padding: 0; overflow: hidden }
+ul.address li {float:none; display: block; text-align: center; padding:10px; margin:0 0 5px 0; text-decoration: none; border:1px solid #ccc; border-radius:3px; width:100%; }
+ul.address li i { font-size:27px }
+
+.collegenotice { border:1px solid #efefef; background:#f8f8f8; margin-bottom:5px }
+.college-content-collegenotice .caption { font-size:12px; padding:7px; text-align:left; line-height:18px; height: auto }
+.college-content-collegenotice .collegenotice img { display: none }
+.college-content-collegenotice .caption span { font-size:12px; color:#666 }
+.college-content-collegenotice .caption a { color:#d43737; text-decoration:none; font-weight: lighter }
+.college-content-collegenotice .caption a:hover { color:#000 }
+
+.college-content-admission-sublabel { color:#000; text-align:left; background:#ededed; padding:0; font-family:'Abel', sans-serif; font-size:17px;; padding-top:3px }
+.college-content-admission-sublabel ul { text-align:center; margin:0; padding:0; list-style:none }
+.college-content-admission-sublabel ul li {display:inline-block; text-align:center; padding:0 5px; margin:0 }
+.college-content-admission-sublabel ul li a { color:#666; font-family:'Abel', sans-serif; text-decoration:none }
+.college-content-admission-sublabel ul li a:hover { color:#d43737 }
+.college-content-admission-sublabel ul li.active { background:#FFF; padding:5px 10px; border-radius:0; color:#d43737 }
+
+.shortname { display:block }
+.fullname { display: none }
+
+.notification li a { padding:12px 0 12px 0; background: none; border-bottom:1px dashed #999; text-align:left; transition: 300ms ease-in-out; color:#cc0000; text-decoration:none; display:block; line-height:18px }
+.notification li a:hover { background: #f5f5f5; color:#000 }
+.notification div { font-size:11px; color:#999; font-family:Verdana, Geneva, sans-serif }
+
+.pagination li { display:inline-block; padding:5px }
+.pagination li a { text-decoration:none; color:#900 }
+ul.list { list-style:none; text-align:left; margin:0; padding:0 }
+ul.pagination { list-style:none; text-align: right; margin:0; padding:0 }
+
+.latest-update-scroller { display:none }
+
+}
+
+
+
+
+/*===================== Small devices (landscape phones, 576px and up) ==============================*/
+@media (min-width: 576px) and (max-width: 767.98px) and (orientation : landscape) { 
+.section_2  {  }
+.col1 { padding:5px 15px 5px 15px }
+.col2 { padding:0 15px 5px 15px }
+.col3 { padding:0 15px }
+}
+
+
+
+/*===================== Medium devices (tablets, 768px and up) ==============================*/
+@media (min-width: 768px) and (max-width: 991.98px) {
+.section_2  {  }
+}
+
+
+
+/*===================== Large devices (desktops, 992px and up) ==============================*/
+@media (min-width: 992px) and (max-width: 1199.98px) { ... }
+
+
+
+/*===================== Extra large devices (large desktops, 1200px and up) ==============================*/
+@media (min-width: 1200px) { ... }
+}

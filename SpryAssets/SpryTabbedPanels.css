@@ -1,0 +1,16 @@
+.TabbedPanels{overflow:hidden;margin:0px;padding:0px;clear:none;width:100%}
+.TabbedPanelsTabGroup{margin:0px;padding:0px}
+.TabbedPanelsTab{position:relative;top:1px;float:none;display:inline-block;padding:4px 10px;margin:0;list-style:none;border-bottom:solid 1px #666;-moz-user-select:none;-khtml-user-select:none;cursor:pointer;font-family:'Abel', sans-serif;font-size:20px;transition:300ms ease-in-out;color:#666}
+.TabbedPanelsTabHover{color:#239700;background:none;border-bottom:1px solid #239700; font-weight:bold}
+.TabbedPanelsTabSelected{color:#239700;border-bottom:1px solid #239700; font-weight:bold}
+.TabbedPanelsTab a{color:black;text-decoration:none}
+.TabbedPanelsContentGroup{clear:both;}
+.TabbedPanelsContent{overflow:hidden;padding:25px 0}
+.TabbedPanelsContentVisible{}
+@media (max-width:575.98px){.TabbedPanelsTab{font-size:16px}
+}
+@media (min-width:576px) and (max-width:767.98px){...}
+@media (min-width:768px) and (max-width:991.98px){...}
+@media (min-width:992px) and (max-width:1199.98px){...}
+@media (min-width:1200px){...}
+}
